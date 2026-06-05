@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM Causal Reasoning — Shivansh Singh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1816;
+    --ink-light: #4a4642;
+    --ink-faint: #8a8480;
+    --paper: #f7f4ef;
+    --paper-warm: #efe9e0;
+    --rule: #d8d0c4;
+    --accent: #8b4513;
+    --accent-light: #c4803a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { background: var(--paper); }
+
+  body {
+    font-family: 'Crimson Pro', Georgia, serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.8;
+    font-size: 18px;
+    font-weight: 300;
+  }
+
+  .page {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 80px 40px 120px;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 64px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .header-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-family: 'Lora', serif;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.35;
+    color: var(--ink);
+    margin-bottom: 20px;
+    letter-spacing: -.01em;
+  }
+
+  .header-byline {
+    font-size: 15px;
+    color: var(--ink-light);
+    font-style: italic;
+  }
+
+  /* Navigation */
+  .nav {
+    margin-bottom: 64px;
+  }
+
+  .nav-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 12px;
+  }
+
+  .nav-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .nav-list a {
+    text-decoration: none;
+    color: var(--ink-light);
+    font-size: 15px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    transition: color .15s;
+  }
+
+  .nav-list a:hover { color: var(--accent); }
+
+  .nav-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-faint);
+    min-width: 14px;
+  }
+
+  /* Sections */
+  .section {
+    margin-bottom: 72px;
+  }
+
+  .section-marker {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 6px;
+  }
+
+  h2 {
+    font-family: 'Lora', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 24px;
+    letter-spacing: -.01em;
+  }
+
+  h3 {
+    font-family: 'Lora', serif;
+    font-size: 18px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ink);
+    margin-bottom: 12px;
+    margin-top: 36px;
+  }
+
+  h3:first-child { margin-top: 0; }
+
+  p {
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+
+  p:last-child { margin-bottom: 0; }
+
+  /* Rule between sections */
+  .rule {
+    width: 48px;
+    height: 1px;
+    background: var(--rule);
+    margin: 64px 0;
+  }
+
+  /* Inline numbers */
+  .num {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* Aside / pull quote style */
+  .aside {
+    border-left: 2px solid var(--accent-light);
+    padding: 4px 0 4px 20px;
+    margin: 24px 0;
+    color: var(--ink-light);
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.7;
+  }
+
+  /* Stat row — inline, not boxy */
+  .stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    margin: 20px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 16px 0;
+  }
+
+  .stat-item {
+    flex: 1;
+    min-width: 120px;
+    padding: 8px 16px 8px 0;
+  }
+
+  .stat-item:first-child { padding-left: 0; }
+
+  .stat-val {
+    font-family: 'Lora', serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 2px;
+  }
+
+  .stat-val.down { color: #8b1a1a; }
+  .stat-val.up { color: #2a5e2a; }
+  .stat-val.neutral { color: var(--ink-light); }
+
+  .stat-desc {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .06em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  /* Findings — inline list style */
+  .findings {
+    margin: 20px 0;
+  }
+
+  .finding-item {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 24px;
+    align-items: baseline;
+  }
+
+  .finding-item:first-child { border-top: 1px solid var(--rule); }
+
+  .finding-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    line-height: 1.5;
+    padding-top: 2px;
+  }
+
+  .finding-text {
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.7;
+  }
+
+  /* Probe table */
+  .probe-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 15px;
+  }
+
+  .probe-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-align: left;
+    padding: 8px 12px 8px 0;
+    border-bottom: 1px solid var(--rule);
+    font-weight: 400;
+  }
+
+  .probe-table td {
+    padding: 10px 12px 10px 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink);
+    vertical-align: middle;
+  }
+
+  .probe-table tr.weak td {
+    color: #8b1a1a;
+  }
+
+  .probe-table tr.weak td:first-child {
+    font-style: italic;
+  }
+
+  .probe-table td.mono {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+  }
+
+  /* Rung layout */
+  .rungs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin: 24px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .rung {
+    padding: 20px 16px 20px 0;
+  }
+
+  .rung:not(:last-child) {
+    border-right: 1px solid var(--rule);
+    margin-right: 16px;
+  }
+
+  .rung-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-faint);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .rung-name {
+    font-family: 'Lora', serif;
+    font-size: 16px;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .rung-desc {
+    font-size: 14px;
+    color: var(--ink-light);
+    line-height: 1.6;
+  }
+
+  /* Chain explanation */
+  .chain {
+    margin: 24px 0;
+    padding: 24px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .chain-step {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+
+  .chain-step:last-child { margin-bottom: 0; }
+
+  .chain-arrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent-light);
+    min-width: 20px;
+  }
+
+  .chain-text {
+    font-size: 16px;
+    color: var(--ink-light);
+    line-height: 1.6;
+  }
+
+  /* Interventions list */
+  .interventions {
+    margin: 24px 0;
+  }
+
+  .intervention {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .intervention:first-child { border-top: 1px solid var(--rule); }
+
+  .intervention-name {
+    font-family: 'Lora', serif;
+    font-size: 17px;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .intervention-desc {
+    font-size: 15px;
+    color: var(--ink-light);
+    line-height: 1.7;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: .06em;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* Fade in on load */
+  .page {
+    animation: fadein .6s ease both;
+  }
+
+  @keyframes fadein {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    .page { padding: 48px 24px 80px; }
+    h1 { font-size: 22px; }
+    .rungs { grid-template-columns: 1fr; }
+    .rung:not(:last-child) { border-right: none; border-bottom: 1px solid var(--rule); margin-right: 0; margin-bottom: 0; }
+    .finding-item { grid-template-columns: 1fr; gap: 4px; }
+    .stats { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="header">
+    <div class="header-meta">Jinesis Lab &nbsp;&middot;&nbsp; June 2026 &nbsp;&middot;&nbsp; Wednesday Meeting</div>
+    <h1>LLM causal reasoning: benchmarks, gaps, and a mechanistic proposal</h1>
+    <div class="header-byline">Shivansh Singh &nbsp;&middot;&nbsp; LUT University &nbsp;&middot;&nbsp; MSc Mechanistic Interpretability</div>
+  </header>
+
+  <nav class="nav">
+    <div class="nav-label">Contents</div>
+    <ul class="nav-list">
+      <li><a href="#ladder"><span class="nav-num">01</span> Pearl's ladder of causation</a></li>
+      <li><a href="#benchmarks"><span class="nav-num">02</span> Benchmark landscape</a></li>
+      <li><a href="#posttraining"><span class="nav-num">03</span> Post-training methods</a></li>
+      <li><a href="#problems"><span class="nav-num">04</span> Open problems</a></li>
+      <li><a href="#experiments"><span class="nav-num">05</span> Our experiments</a></li>
+      <li><a href="#mechanistic"><span class="nav-num">06</span> Mechanistic account</a></li>
+      <li><a href="#proposal"><span class="nav-num">07</span> Research proposal</a></li>
+    </ul>
+  </nav>
+
+  <div class="rule"></div>
+
+  <section class="section" id="ladder">
+    <div class="section-marker">01</div>
+    <h2>Pearl's ladder of causation</h2>
+    <p>All causal reasoning sits on one of three rungs. The rung determines what kind of question is being asked and what information is needed to answer it correctly. Each level is strictly harder than the one below it.</p>
+
+    <div class="rungs">
+      <div class="rung">
+        <div class="rung-num">Rung 1</div>
+        <div class="rung-name">Association</div>
+        <div class="rung-desc">Observing correlations. What is P(Y|X)?</div>
+      </div>
+      <div class="rung">
+        <div class="rung-num">Rung 2</div>
+        <div class="rung-name">Intervention</div>
+        <div class="rung-desc">Do-calculus. What happens if we set X = x?</div>
+      </div>
+      <div class="rung">
+        <div class="rung-num">Rung 3</div>
+        <div class="rung-name">Counterfactual</div>
+        <div class="rung-desc">Abduction, action, and prediction in sequence.</div>
+      </div>
+    </div>
+
+    <p>A model that cannot reliably execute Rung 2 cannot do Rung 3. The benchmark literature tracks progress across all three, but the distribution of failure is highly uneven, and the hardest rung remains mostly unsolved for the right reasons.</p>
+  </section>
+
+  <div class="rule"></div>
+
+  <section class="section" id="benchmarks">
+    <div class="section-marker">02</div>
+    <h2>Benchmark landscape</h2>
+
+    <h3>CLadder (NeurIPS 2023)</h3>
+    <p>The primary causal reasoning benchmark. Over 10,000 questions spanning all three rungs, evaluated using CausalCoT: a six-step chain-of-thought protocol mirroring the formal causal inference engine. The six steps are graph extraction, query classification, data collection, symbolic formalization, estimand derivation, and arithmetic.</p>
+
+    <div class="stats">
+      <div class="stat-item">
+        <div class="stat-val neutral">70.4%</div>
+        <div class="stat-desc">GPT-4 + CausalCoT<br>at publication (2023)</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val up">95.3%</div>
+        <div class="stat-desc">CDCR-SFT<br>2025 leaderboard</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val neutral">94.8%</div>
+        <div class="stat-desc">Human ceiling</div>
+      </div>
+    </div>
+
+    <div class="aside">The leaderboard is saturated in-distribution. The benchmark is not solved. Under perturbation, performance collapses by 30 to 62 points across all models. Robustness is now the actual open problem.</div>
+
+    <h3>Corr2Cause (ICLR 2024)</h3>
+    <p>Tests causal discovery from correlations. Given correlational statements about abstract variables, can the model determine valid causal relationships using the PC algorithm? The headline finding is a robustness catastrophe.</p>
+
+    <div class="stats">
+      <div class="stat-item">
+        <div class="stat-val up">94.7 F1</div>
+        <div class="stat-desc">RoBERTa-Large fine-tuned<br>in-distribution</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val down">&minus;62 F1</div>
+        <div class="stat-desc">Same model under<br>variable renaming</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val neutral">37 F1</div>
+        <div class="stat-desc">Llama-3-8B axiomatic<br>zero-shot</div>
+      </div>
+    </div>
+
+    <p>A 62-point F1 collapse under variable renaming. The fine-tuned model learned which words correlate with which labels, not the causal rules. The exception is Llama-3-8B trained on abstract graph axioms (d-separation, transitivity, Markov conditions) using alphanumeric variable names. It scores 37 zero-shot, beating GPT-4 at 29, without ever seeing the task format. Axiomatic training generalises. Task-specific fine-tuning does not.</p>
+
+    <h3>CauSciBench (2025)</h3>
+    <p>The hardest and most realistic benchmark. 367 tasks from over 100 real research papers across nine scientific disciplines. The model receives a dataset and a question, and must autonomously select a method, implement it in Python, and interpret the result end-to-end.</p>
+
+    <div class="stats">
+      <div class="stat-item">
+        <div class="stat-val neutral">77.2%</div>
+        <div class="stat-desc">o3 + CoT<br>method selection accuracy</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val down">49%</div>
+        <div class="stat-desc">Mean relative error<br>on actual estimates</div>
+      </div>
+    </div>
+
+    <p>That 77.2% sounds reasonable until you see that mean relative estimation error on the actual numbers is still 49%. Correct method selection and correct execution are different skills. Three systematic failures appear across every model tested.</p>
+
+    <div class="findings">
+      <div class="finding-item">
+        <div class="finding-label">OLS default bias</div>
+        <div class="finding-text">Models almost always reach for ordinary least squares regardless of whether it is appropriate, like a doctor who prescribes the same treatment for everything.</div>
+      </div>
+      <div class="finding-item">
+        <div class="finding-label">Method does not equal execution</div>
+        <div class="finding-text">Knowing the name of a technique and correctly running it are separate things. A model can select the right approach and still get the numbers badly wrong.</div>
+      </div>
+      <div class="finding-item">
+        <div class="finding-label">Confounder under-selection</div>
+        <div class="finding-text">ReAct-based agents optimise each action locally without stepping back to consider the full adjustment set. Sequential reasoning without global structure fails on confounder identification.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <section class="section" id="posttraining">
+    <div class="section-marker">03</div>
+    <h2>Post-training methods</h2>
+    <p>Four post-training approaches have been applied to causal reasoning. Their relative gains are large, and the reason why matters as much as the numbers.</p>
+
+    <div class="stats">
+      <div class="stat-item">
+        <div class="stat-val down">+1.4%</div>
+        <div class="stat-desc">DPO</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val neutral">+6.4%</div>
+        <div class="stat-desc">KTO</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val neutral">+19.2%</div>
+        <div class="stat-desc">SFT</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val up">+42%</div>
+        <div class="stat-desc">GRPO / PPO</div>
+      </div>
+    </div>
+
+    <p>GRPO and PPO dominate because they give the model corrective feedback on its own reasoning in real time. SFT teaches imitation of correct outputs. GRPO teaches how to think. DeepSeek-R1-14B with GRPO on CauGym reaches 93.5% on the CaLM benchmark, compared to OpenAI o3 at 55.4% without causal fine-tuning.</p>
+
+    <div class="aside">All four methods share the same out-of-distribution failure. In-distribution gains do not transfer to perturbed queries. This is the central unsolved problem and the motivation for the mechanistic work below.</div>
+
+    <p>Four findings from the literature are worth highlighting before moving on.</p>
+
+    <div class="findings">
+      <div class="finding-item">
+        <div class="finding-label">Entropy regularisation is load-bearing</div>
+        <div class="finding-text">Removing entropy regularisation from BinaryPPO collapses accuracy from 97% to 29%. The model without it learns to always predict the same label. This is not a hyperparameter choice; it is required for the method to work at all.</div>
+      </div>
+      <div class="finding-item">
+        <div class="finding-label">Axiomatic beats task-specific</div>
+        <div class="finding-text">Training on abstract causal graph rules with alphanumeric variables generalises to unseen task formats. Training on task examples does not. This is direct evidence that fine-tuned models learn lexical patterns, not causal structure.</div>
+      </div>
+      <div class="finding-item">
+        <div class="finding-label">SCM-GRPO prevents reward hacking</div>
+        <div class="finding-text">Standard GRPO lets models learn to generate long plausible-sounding chains that are logically wrong, because verbosity correlates with reward. SCM-GRPO grounds the reward in an actual Structural Causal Model, checking reasoning against the graph. Not yet combined with the other methods.</div>
+      </div>
+      <div class="finding-item">
+        <div class="finding-label">4-bit quantization hurts Rung 2</div>
+        <div class="finding-text">Compressed attention weights cannot fully sever pre-intervention correlations when simulating a do() operation, what the paper calls associative leakage. Injecting the ground-truth causal graph via GraphRAG recovers 1.7%. This matters for resource-constrained deployment.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <section class="section" id="problems">
+    <div class="section-marker">04</div>
+    <h2>Open problems</h2>
+    <p>Five problems persist across the literature. The first two are critical. The others are important and connected.</p>
+
+    <div class="findings">
+      <div class="finding-item">
+        <div class="finding-label">Robustness gap</div>
+        <div class="finding-text">Every method that achieves high in-distribution accuracy collapses 30 to 62 points under simple variable renaming or paraphrase. No exception exists. The benchmark problem has moved from accuracy to robustness.</div>
+      </div>
+      <div class="finding-item">
+        <div class="finding-label">Abduction deficit</div>
+        <div class="finding-text">Rung 3 counterfactual reasoning requires three sub-steps: inferring hidden background variables from observations, applying the intervention, and computing the counterfactual outcome. Models fail at the first. Standard benchmarks including CLadder cheat by providing latent variable values directly. Real abduction is harder and largely unaddressed. SFT-trained models drop 25 to 40% when genuine abduction is required; RLVR achieves 1.5 to 2 times better accuracy on these tasks.</div>
+      </div>
+      <div class="finding-item">
+        <div class="finding-label">No process supervision</div>
+        <div class="finding-text">All current training uses outcome-level reward. No step-level process reward model exists for CausalCoT, despite clear behavioural evidence of which steps fail: S3 formalization sits at F1 42.1%, query classification at 50.7%.</div>
+      </div>
+      <div class="finding-item">
+        <div class="finding-label">Real-world estimation gap</div>
+        <div class="finding-text">Models trained on synthetic data do not transfer to real scientific datasets. Mean relative estimation error remains 49% on CauSciBench even at 77% method selection accuracy.</div>
+      </div>
+      <div class="finding-item">
+        <div class="finding-label">S3 encoding bottleneck</div>
+        <div class="finding-text">Symbolic formalization, translating a causal word problem into a formal expression, is weakly encoded in the residual stream of all tested models. Confirmed behaviourally at F1 42.1% and mechanistically at probe F1 0.43 in our experiments. RLHF does not fix it.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <section class="section" id="experiments">
+    <div class="section-marker">05</div>
+    <h2>Our experiments</h2>
+    <p>Four experiments were run on Qwen2.5-7B-Instruct against CLadder, using an RTX 5080 in 4-bit QLoRA. The experiments were designed to probe internal geometry, not to produce a state-of-the-art model. Baseline accuracy near chance (53.5% vs 50% random) is expected and intentional.</p>
+
+    <h3>Accuracy by rung</h3>
+    <p>Fixed evaluation with corrected yes/no prompting. SFT on 2,000 CLadder examples produced a marginal overall gain, but the rung breakdown tells a different story.</p>
+
+    <div class="stats">
+      <div class="stat-item">
+        <div class="stat-val neutral">53.5%</div>
+        <div class="stat-desc">Baseline overall</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val neutral">54.5%</div>
+        <div class="stat-desc">SFT overall</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val up">+4.3pp</div>
+        <div class="stat-desc">Rung 1 delta</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val down">&minus;4.4pp</div>
+        <div class="stat-desc">Rung 2 delta</div>
+      </div>
+    </div>
+
+    <p>ATE (average treatment effect), the core Rung 2 interventional quantity, dropped from <span class="num">68.8%</span> to <span class="num">45.8%</span>: a 23-point regression. SFT specifically disrupts interventional reasoning, consistent with the RLVR literature showing that SFT gains are rung-specific and unreliable for do() queries.</p>
+
+    <h3>Probing study</h3>
+    <p>For each of the six CausalCoT subskills, we extracted residual stream activations at all 28 layers from both Qwen2.5-7B and Qwen2.5-7B-Instruct, then trained logistic regression probes asking whether the subskill being exercised is linearly readable from the activations.</p>
+
+    <table class="probe-table">
+      <thead>
+        <tr>
+          <th>Subskill</th>
+          <th>Base F1</th>
+          <th>Instruct F1</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>S1 &nbsp; graph extraction</td>
+          <td class="mono">0.964</td>
+          <td class="mono">0.971</td>
+        </tr>
+        <tr>
+          <td>S2 &nbsp; query classification</td>
+          <td class="mono">0.921</td>
+          <td class="mono">0.935</td>
+        </tr>
+        <tr class="weak">
+          <td>S3 &nbsp; formalization</td>
+          <td class="mono">0.416</td>
+          <td class="mono">0.431</td>
+        </tr>
+        <tr>
+          <td>S4 &nbsp; data collection</td>
+          <td class="mono">0.901</td>
+          <td class="mono">0.908</td>
+        </tr>
+        <tr>
+          <td>S5 &nbsp; estimand derivation</td>
+          <td class="mono">0.877</td>
+          <td class="mono">0.889</td>
+        </tr>
+        <tr>
+          <td>S6 &nbsp; arithmetic</td>
+          <td class="mono">0.944</td>
+          <td class="mono">0.951</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Five of six subskills are strongly linearly readable, with F1 between 0.877 and 0.964. S3 sits at 0.416. The information needed to formally translate a causal query into symbolic notation is not robustly encoded as a linear direction in the residual stream. RLHF adds only +0.015 to S3 F1. Instruct training barely moves the needle. This is structural, and outcome-level training cannot fix it.</p>
+
+    <h3>Difficulty breakdown</h3>
+    <p>SFT helps on easy queries (short causal chains, direct associations) and hurts on hard ones (multi-step counterfactuals, interventional chains with confounders). The gain-regression split tracks rung difficulty closely, consistent with the accuracy results above.</p>
+
+    <h3>CausalCoT prompting on a 2026 model</h3>
+    <p>We replicated the original CLadder prompting comparison: vanilla versus generic chain-of-thought versus explicit six-step CausalCoT, on Qwen2.5-7B-Instruct. In 2023, GPT-4 with CausalCoT gained 8 points over vanilla. The 2026 result is a reversal.</p>
+
+    <div class="stats">
+      <div class="stat-item">
+        <div class="stat-val neutral">53.5%</div>
+        <div class="stat-desc">Vanilla baseline</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val up">+6.7pp</div>
+        <div class="stat-desc">Generic CoT</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val neutral">+5.0pp</div>
+        <div class="stat-desc">CausalCoT</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val down">&minus;7.2pp</div>
+        <div class="stat-desc">CausalCoT on Rung 3</div>
+      </div>
+    </div>
+
+    <p>Generic CoT now beats explicit CausalCoT. Qwen2.5-7B-Instruct has already internalised Pearl's reasoning structure through RLHF; the explicit six-step scaffold is redundant. Both CoT conditions hurt Rung 3 relative to vanilla: longer generation gives the model more opportunity to make the abduction error. Correlation queries show the biggest gain from CausalCoT, from 33.3% to 70.6%, the query type where S3 formalization is most load-bearing.</p>
+  </section>
+
+  <div class="rule"></div>
+
+  <section class="section" id="mechanistic">
+    <div class="section-marker">06</div>
+    <h2>Mechanistic account</h2>
+    <p>The following chain explains why the robustness gap persists across all post-training methods, and connects the behavioural evidence to the internal geometry of the model.</p>
+
+    <div class="chain">
+      <div class="chain-step">
+        <div class="chain-arrow">01</div>
+        <div class="chain-text">S3 formalization is weakly encoded in the residual stream (F1 0.43).</div>
+      </div>
+      <div class="chain-step">
+        <div class="chain-arrow">02</div>
+        <div class="chain-text">RLHF does not fix this. The delta is only +0.015.</div>
+      </div>
+      <div class="chain-step">
+        <div class="chain-arrow">03</div>
+        <div class="chain-text">When a perturbed query arrives, formalization fails first because it was never robustly encoded.</div>
+      </div>
+      <div class="chain-step">
+        <div class="chain-arrow">04</div>
+        <div class="chain-text">Downstream steps fail in sequence: classification, estimand derivation, arithmetic.</div>
+      </div>
+      <div class="chain-step">
+        <div class="chain-arrow">05</div>
+        <div class="chain-text">The robustness gap persists. The Rung 3 abduction deficit persists.</div>
+      </div>
+    </div>
+
+    <p>This is the first mechanistic account of why the robustness gap is universal. Previous work documented it behaviourally, reporting 30 to 62 point drops across models. We show where in the network it originates.</p>
+
+    <p>The connection to prior NeurIPS work: in persona representations, linear probes can read persona information from the residual stream with high F1, but activation steering cannot inject it back. MLP sublayers cancel the injected direction. This is the first confirmation that the same read/write asymmetry applies to skill representations, not just trait representations. It appears to be a general property of how transformer residual streams are organised.</p>
+  </section>
+
+  <div class="rule"></div>
+
+  <section class="section" id="proposal">
+    <div class="section-marker">07</div>
+    <h2>Research proposal</h2>
+    <p>The robustness gap is a representational problem, not a data or reward problem. Fixing it requires targeting the geometry of formalization. No existing method does this. The geometry-constrained fine-tuning approach adds an auxiliary loss to QLoRA training that explicitly rewards the residual stream for encoding the formalization subspace as a linearly separable direction.</p>
+
+    <p>In a small pilot, pure SFT degraded S3 probe F1 by 0.049. Training on correct answers makes the internal representation of formalization worse, because SFT teaches output imitation without encoding intermediate structure. The auxiliary separability loss recovered 35% of that degradation, bringing the drop from 0.049 to 0.032. The open question is whether this holds at scale, and whether the geometric improvement transfers to robustness gains on perturbed CLadder and real-world CauSciBench estimation.</p>
+
+    <p>Four concrete interventions follow from the analysis above, in order of priority.</p>
+
+    <div class="interventions">
+      <div class="intervention">
+        <div class="intervention-name">Perturbation-augmented GRPO</div>
+        <div class="intervention-desc">Include variable-renamed and paraphrased CLadder and Corr2Cause examples in the RL training distribution. This forces the reward signal to be sensitive to variable-invariant reasoning rather than surface patterns. It requires minimal methodological novelty beyond data augmentation and directly targets the robustness gap.</div>
+      </div>
+      <div class="intervention">
+        <div class="intervention-name">Step-level process reward for CausalCoT</div>
+        <div class="intervention-desc">Verifiable steps can be checked automatically: graph extraction against the ground-truth DAG, query classification against the oracle label, arithmetic numerically. Formalization and estimand derivation can be verified using the same symbolic CI engine that generated CLadder's oracle answers. This is Math-Shepherd applied to the causal domain, providing dense training signal exactly where behavioural failures concentrate.</div>
+      </div>
+      <div class="intervention">
+        <div class="intervention-name">Rung-stratified curriculum RL</div>
+        <div class="intervention-desc">Begin GRPO training on Rung 1, progressively introduce Rung 2 and 3 as accuracy improves, using SCM-GRPO reward to prevent logic violations throughout. This directly targets the abduction deficit by ensuring the model builds a stable interventional foundation before attempting counterfactual reasoning.</div>
+      </div>
+      <div class="intervention">
+        <div class="intervention-name">Geometry-constrained auxiliary loss</div>
+        <div class="intervention-desc">The approach described above. The only intervention that addresses the mechanism rather than the symptom, targeting the representational geometry of S3 formalization directly. The next step is scaling to larger models and combining with the GRPO reward signal to test whether fixing the geometric bottleneck transfers to practical causal analysis.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span>Shivansh Singh &nbsp;&middot;&nbsp; LUT University</span>
+    <span>Jinesis Lab &nbsp;&middot;&nbsp; June 2026</span>
+  </footer>
+
+</div>
+</body>
+</html>
