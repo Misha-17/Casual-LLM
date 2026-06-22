@@ -20,6 +20,11 @@
     --accent-light: #c4803a;
     --green: #2a5e2a;
     --red: #8b1a1a;
+    --blue: #1a3a5c;
+    --gemini: #1a5c3a;
+    --claude: #6b3a1a;
+    --gpt: #1a3a5c;
+    --llama: #5c1a4a;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -35,7 +40,7 @@
   }
 
   .page {
-    max-width: 680px;
+    max-width: 720px;
     margin: 0 auto;
     padding: 80px 40px 120px;
     animation: fadein .6s ease both;
@@ -185,6 +190,110 @@
     line-height: 1.4;
   }
 
+  /* ── Leaderboard ── */
+  .leaderboard { margin: 28px 0; }
+
+  .lb-header {
+    display: grid;
+    grid-template-columns: 28px 1fr 90px 72px 72px 72px;
+    gap: 0 12px;
+    padding: 0 0 8px 0;
+    border-bottom: 1px solid var(--ink-faint);
+    align-items: end;
+  }
+  .lb-header-cell {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-align: right;
+  }
+  .lb-header-cell:nth-child(2) { text-align: left; }
+
+  .lb-row {
+    display: grid;
+    grid-template-columns: 28px 1fr 90px 72px 72px 72px;
+    gap: 0 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: center;
+    transition: background .1s;
+  }
+  .lb-row:hover { background: var(--paper-warm); margin: 0 -12px; padding: 14px 12px; }
+  .lb-row.winner { background: var(--paper-warm); margin: 0 -12px; padding: 14px 12px; }
+
+  .lb-rank {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    text-align: center;
+  }
+  .lb-rank.gold { color: var(--accent); font-weight: 500; }
+
+  .lb-model-name {
+    font-family: 'Lora', serif;
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .lb-model-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--ink-faint);
+    letter-spacing: .06em;
+    margin-top: 2px;
+  }
+  .tier-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 2px 5px;
+    margin-left: 6px;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+    border: 1px solid currentColor;
+    opacity: 0.6;
+  }
+  .tier-frontier { color: var(--blue); }
+  .tier-mid { color: var(--accent); }
+  .tier-open { color: var(--green); }
+
+  .lb-acc {
+    font-family: 'Lora', serif;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: right;
+    color: var(--ink);
+  }
+  .lb-acc.best { color: var(--green); }
+
+  .lb-rung {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    text-align: right;
+    color: var(--ink-light);
+  }
+
+  /* Bar inside leaderboard */
+  .lb-bar-col { padding-right: 4px; }
+  .lb-bar-track {
+    width: 100%;
+    height: 4px;
+    background: var(--rule);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 2px;
+  }
+  .lb-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width .6s ease;
+  }
+
   /* ── Findings ── */
   .findings { margin: 20px 0; }
   .finding-item {
@@ -276,7 +385,7 @@
     line-height: 1.5;
   }
 
-  /* ── New finding badge ── */
+  /* ── new badge ── */
   .new-badge {
     display: inline-block;
     font-family: 'DM Mono', monospace;
@@ -290,6 +399,17 @@
     vertical-align: middle;
     position: relative;
     top: -2px;
+  }
+
+  /* ── model color dots ── */
+  .dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
   }
 
   /* ── Footer ── */
@@ -307,6 +427,54 @@
     gap: 8px;
   }
 
+  /* ── Query type grid ── */
+  .query-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin: 20px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .query-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .query-item:nth-child(odd) { padding-right: 20px; border-right: 1px solid var(--rule); }
+  .query-item:nth-child(even) { padding-left: 20px; }
+  .query-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 6px;
+  }
+  .query-bars { display: flex; flex-direction: column; gap: 3px; }
+  .query-bar-row { display: flex; align-items: center; gap: 6px; }
+  .query-bar-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    color: var(--ink-faint);
+    width: 18px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .query-bar-track {
+    flex: 1;
+    height: 5px;
+    background: var(--rule);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .query-bar-fill { height: 100%; border-radius: 2px; }
+  .query-bar-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    color: var(--ink-faint);
+    width: 32px;
+    flex-shrink: 0;
+  }
+
   @media (max-width: 600px) {
     .page { padding: 48px 24px 80px; }
     h1 { font-size: 22px; }
@@ -315,6 +483,14 @@
     .finding-item { grid-template-columns: 1fr; gap: 4px; }
     .stats { flex-direction: column; }
     .chart-wrap { padding: 16px; }
+    .lb-header, .lb-row { grid-template-columns: 24px 1fr 70px 0 0 0; }
+    .lb-header .lb-header-cell:nth-child(4),
+    .lb-header .lb-header-cell:nth-child(5),
+    .lb-header .lb-header-cell:nth-child(6),
+    .lb-row .lb-rung { display: none; }
+    .query-grid { grid-template-columns: 1fr; }
+    .query-item:nth-child(odd) { border-right: none; padding-right: 0; }
+    .query-item:nth-child(even) { padding-left: 0; }
   }
 </style>
 </head>
@@ -330,16 +506,170 @@
   <nav class="nav">
     <div class="nav-label">Contents</div>
     <ul class="nav-list">
+      <li><a href="#leaderboard"><span class="nav-num">00</span> CLadder leaderboard <span class="new-badge">new</span></a></li>
       <li><a href="#ladder"><span class="nav-num">01</span> Pearl's ladder of causation</a></li>
       <li><a href="#benchmarks"><span class="nav-num">02</span> Benchmark landscape</a></li>
       <li><a href="#posttraining"><span class="nav-num">03</span> Post-training methods</a></li>
       <li><a href="#problems"><span class="nav-num">04</span> Open problems</a></li>
       <li><a href="#experiments"><span class="nav-num">05</span> Our experiments</a></li>
       <li><a href="#mechanistic"><span class="nav-num">06</span> Mechanistic account</a></li>
-      <li><a href="#lirefs"><span class="nav-num">07</span> LiReF experiments <span class="new-badge">new</span></a></li>
+      <li><a href="#lirefs"><span class="nav-num">07</span> LiReF experiments</a></li>
       <li><a href="#proposal"><span class="nav-num">08</span> Research proposal</a></li>
     </ul>
   </nav>
+
+  <div class="rule"></div>
+
+  <!-- 00 LEADERBOARD -->
+  <section class="section" id="leaderboard">
+    <div class="section-marker">00 &nbsp;&middot;&nbsp; New results</div>
+    <h2>CLadder v1 leaderboard</h2>
+    <p>Four models evaluated on the full CLadder v1 benchmark (n&nbsp;=&nbsp;31,024, seed&nbsp;42). Gemini 3 Flash leads overall despite being a mid-tier model, outperforming GPT-5.4 by 6.8 points. Claude Sonnet 4.6 ranks second. Llama 4 Maverick trails by a significant margin at 60.96%.</p>
+
+    <div class="leaderboard">
+      <div class="lb-header">
+        <div class="lb-header-cell">#</div>
+        <div class="lb-header-cell">Model</div>
+        <div class="lb-header-cell" style="text-align:right">Overall</div>
+        <div class="lb-header-cell">R1 Assoc.</div>
+        <div class="lb-header-cell">R2 Interv.</div>
+        <div class="lb-header-cell">R3 Count.</div>
+      </div>
+
+      <!-- Gemini -->
+      <div class="lb-row winner">
+        <div class="lb-rank gold">1</div>
+        <div>
+          <div class="lb-model-name">
+            <span class="dot" style="background:#2a5e2a"></span>Gemini 3 Flash
+            <span class="tier-badge tier-mid">mid</span>
+          </div>
+          <div class="lb-model-sub">google/gemini-3-flash-preview &nbsp;&middot;&nbsp; n=31,023</div>
+          <div class="lb-bar-track" style="margin-top:6px; width:90%">
+            <div class="lb-bar-fill" style="width:83.47%; background:#2a5e2a88"></div>
+          </div>
+        </div>
+        <div class="lb-acc best">83.47%</div>
+        <div class="lb-rung">80.83%</div>
+        <div class="lb-rung">90.52%</div>
+        <div class="lb-rung">79.46%</div>
+      </div>
+
+      <!-- Claude -->
+      <div class="lb-row">
+        <div class="lb-rank">2</div>
+        <div>
+          <div class="lb-model-name">
+            <span class="dot" style="background:#8b4513"></span>Claude Sonnet 4.6
+            <span class="tier-badge tier-mid">mid</span>
+          </div>
+          <div class="lb-model-sub">anthropic/claude-sonnet-4.6 &nbsp;&middot;&nbsp; n=30,873 (151 null)</div>
+          <div class="lb-bar-track" style="margin-top:6px; width:90%">
+            <div class="lb-bar-fill" style="width:78.97%; background:#8b451388"></div>
+          </div>
+        </div>
+        <div class="lb-acc">78.97%</div>
+        <div class="lb-rung">78.67%</div>
+        <div class="lb-rung">81.42%</div>
+        <div class="lb-rung">77.03%</div>
+      </div>
+
+      <!-- GPT -->
+      <div class="lb-row">
+        <div class="lb-rank">3</div>
+        <div>
+          <div class="lb-model-name">
+            <span class="dot" style="background:#1a3a5c"></span>GPT-5.4
+            <span class="tier-badge tier-frontier">frontier</span>
+          </div>
+          <div class="lb-model-sub">openai/gpt-5.4 &nbsp;&middot;&nbsp; n=31,024</div>
+          <div class="lb-bar-track" style="margin-top:6px; width:90%">
+            <div class="lb-bar-fill" style="width:76.63%; background:#1a3a5c88"></div>
+          </div>
+        </div>
+        <div class="lb-acc">76.63%</div>
+        <div class="lb-rung">77.41%</div>
+        <div class="lb-rung">82.85%</div>
+        <div class="lb-rung">70.28%</div>
+      </div>
+
+      <!-- Llama -->
+      <div class="lb-row">
+        <div class="lb-rank">4</div>
+        <div>
+          <div class="lb-model-name">
+            <span class="dot" style="background:#5c1a4a"></span>Llama 4 Maverick
+            <span class="tier-badge tier-open">open</span>
+          </div>
+          <div class="lb-model-sub">meta-llama/llama-4-maverick &nbsp;&middot;&nbsp; n=31,024</div>
+          <div class="lb-bar-track" style="margin-top:6px; width:90%">
+            <div class="lb-bar-fill" style="width:60.96%; background:#5c1a4a88"></div>
+          </div>
+        </div>
+        <div class="lb-acc" style="color:var(--red)">60.96%</div>
+        <div class="lb-rung">57.57%</div>
+        <div class="lb-rung">61.57%</div>
+        <div class="lb-rung">63.48%</div>
+      </div>
+    </div>
+
+    <div class="aside">Gemini 3 Flash achieves a perfect 100% on collider bias queries and 90.52% on Rung 2 intervention. GPT-5.4, despite being frontier-tier, ranks third overall and scores lowest on Rung 3 counterfactual reasoning at 70.28%.</div>
+
+    <h3>Overall accuracy</h3>
+    <div class="chart-wrap">
+      <div class="chart-title">Overall CLadder accuracy by model</div>
+      <canvas id="chartOverall" height="160"></canvas>
+      <div class="chart-note">All models tested on full CLadder v1 (n=31,024). Human ceiling: 94.8%. CDCR-SFT 2025 SOTA: 95.3%.</div>
+    </div>
+
+    <h3>Accuracy by rung</h3>
+    <div class="chart-wrap">
+      <div class="chart-title">Accuracy across Pearl's three rungs</div>
+      <canvas id="chartRungsAll" height="200"></canvas>
+      <div class="chart-note">Rung 2 (intervention) is the strongest rung for most models. GPT-5.4 shows the sharpest Rung 3 drop (−12.6pp vs Rung 2). Llama 4 Maverick is the only model where Rung 3 beats Rung 1.</div>
+    </div>
+
+    <h3>Query type breakdown</h3>
+    <p>Each CLadder query type exercises a different causal reasoning subskill. Some patterns are surprising: Gemini achieves a perfect 100% on collider bias, while Llama's backadj score of 36.57% is far below chance. Llama scores well on collider bias (94.32%) despite struggling elsewhere.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">Accuracy by query type, all four models</div>
+      <canvas id="chartQueryType" height="280"></canvas>
+      <div class="chart-note">ate = average treatment effect; backadj = backdoor adjustment; ett = effect of treatment on treated; nde/nie = natural direct/indirect effect; exp_away = explaining away.</div>
+    </div>
+
+    <h3>Commonsense vs anti-commonsense</h3>
+    <p>A consistent robustness signal: all models do better on anti-commonsense questions than on commonsense ones, which is counterintuitive. This likely reflects a bias toward correct causal reasoning when surface associations are misleading, since the model cannot rely on heuristics and must reason properly.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">Accuracy by question property</div>
+      <canvas id="chartProperty" height="180"></canvas>
+      <div class="chart-note">Anticommonsense &gt; commonsense for three of four models. Noncommonsense (no real-world correlation) is the hardest category for most models.</div>
+    </div>
+
+    <div class="findings">
+      <div class="finding-item">
+        <div class="finding-label">Gemini surprise</div>
+        <div class="finding-text">Gemini 3 Flash is a mid-tier model that outperforms the frontier-tier GPT-5.4 by 6.84 points overall. This gap is largest on Rung 2 (7.67pp) and Rung 3 (9.18pp).</div>
+      </div>
+      <div class="finding-item">
+        <div class="finding-label">Yes-rate asymmetry</div>
+        <div class="finding-text">Llama says yes 60.1% of the time, the highest yes-rate in the group. This aligns with the yes-reflex finding: instruction tuning installs a default-yes mode at rates up to 74% in Llama models.</div>
+      </div>
+      <div class="finding-item">
+        <div class="finding-label">Collider ceiling</div>
+        <div class="finding-text">Gemini reaches 100% on collider bias. Claude is also strong at 86.36%. GPT-5.4 scores 75.19% and Llama 94.32%, suggesting the task is well-solved by most models except GPT-5.4.</div>
+      </div>
+      <div class="finding-item">
+        <div class="finding-label">Backadj floor</div>
+        <div class="finding-text">Backdoor adjustment is the hardest query type for Llama (36.57%), Claude (71.94%), and GPT-5.4 (78.08%). Gemini (89.59%) is a clear outlier on this subskill.</div>
+      </div>
+      <div class="finding-item">
+        <div class="finding-label">NIE weakness</div>
+        <div class="finding-text">Natural indirect effect is the weakest query type for GPT-5.4 (60.75%) and Claude (75.04%). Both Gemini (75.90%) and Claude struggle here relative to their overall averages.</div>
+      </div>
+    </div>
+  </section>
 
   <div class="rule"></div>
 
@@ -461,7 +791,7 @@
     </div>
 
     <div class="chart-wrap">
-      <div class="chart-title">Accuracy by rung: baseline vs SFT</div>
+      <div class="chart-title">Accuracy by rung: baseline vs SFT (Qwen2.5-7B-Instruct)</div>
       <canvas id="chartRung" height="180"></canvas>
       <div class="chart-note">ATE (average treatment effect) dropped from 68.8% to 45.8%: a 23-point regression. Random chance = 50%.</div>
     </div>
@@ -530,9 +860,9 @@
 
   <div class="rule"></div>
 
-  <!-- 07 NEW -->
+  <!-- 07 -->
   <section class="section" id="lirefs">
-    <div class="section-marker">07 &nbsp;&middot;&nbsp; New results</div>
+    <div class="section-marker">07</div>
     <h2>LiReF experiments: predicting and rescuing fragile items</h2>
 
     <p>Hong et al. (ACL 2025) identified a single linear direction in the residual stream that governs whether a model is in reasoning mode versus memorization mode. They call this the LiReF direction, extracted via difference-in-means between reasoning-intensive and memory-intensive questions. Their paper noted applying LiReFs to perturbational robustness as open future work. These experiments close that gap on CLadder.</p>
@@ -628,7 +958,6 @@
 </div><!-- .page -->
 
 <script>
-// ── Shared chart defaults ──────────────────────────────────────────────
 const INK       = '#1a1816';
 const INK_LIGHT = '#4a4642';
 const INK_FAINT = '#8a8480';
@@ -638,9 +967,13 @@ const ACCENT_L  = '#c4803a';
 const GREEN     = '#2a5e2a';
 const RED       = '#8b1a1a';
 const PAPER_W   = '#efe9e0';
+const MONO      = "'DM Mono', monospace";
 
-const MONO = "'DM Mono', monospace";
-const SERIF = "'Lora', serif";
+// Model colors
+const C_GEMINI = '#2a5e2a';
+const C_CLAUDE = '#8b4513';
+const C_GPT    = '#1a3a5c';
+const C_LLAMA  = '#5c1a4a';
 
 function baseOpts(extras) {
   return Object.assign({
@@ -680,219 +1013,257 @@ function baseOpts(extras) {
   }, extras || {});
 }
 
-// ── Chart 1: Rung accuracy ──────────────────────────────────────────────
-new Chart(document.getElementById('chartRung'), {
+// Chart 0: Overall accuracy
+new Chart(document.getElementById('chartOverall'), {
   type: 'bar',
   data: {
-    labels: ['Rung 1\nAssociation', 'Rung 2\nIntervention', 'Rung 3\nCounterfactual'],
-    datasets: [
-      {
-        label: 'Baseline',
-        data: [43.6, 59.8, 58.1],
-        backgroundColor: INK_FAINT + '55',
-        borderColor: INK_FAINT,
-        borderWidth: 1,
-      },
-      {
-        label: 'SFT fine-tuned',
-        data: [47.9, 55.4, 60.1],
-        backgroundColor: [GREEN + '55', RED + '55', GREEN + '55'],
-        borderColor: [GREEN, RED, GREEN],
-        borderWidth: 1,
-      }
-    ]
-  },
-  options: baseOpts({
-    plugins: {
-      legend: { labels: { font: { family: MONO, size: 10 }, color: INK_FAINT, boxWidth: 10 }},
-      tooltip: { backgroundColor:'#fff', borderColor:RULE, borderWidth:1,
-        titleColor:INK, bodyColor:INK_LIGHT,
-        titleFont:{family:MONO,size:10}, bodyFont:{family:MONO,size:10} },
-      annotation: {}
-    },
-    scales: {
-      x: { ticks: { font:{family:MONO,size:10}, color:INK_FAINT },
-           grid: { color:RULE }, border:{dash:[4,4],color:RULE} },
-      y: { min: 30, max: 75,
-           ticks: { font:{family:MONO,size:10}, color:INK_FAINT,
-                    callback: v => v + '%' },
-           grid: { color:RULE }, border:{dash:[4,4],color:RULE} }
-    }
-  })
-});
-
-// ── Chart 2: Probe F1 ──────────────────────────────────────────────────
-new Chart(document.getElementById('chartProbe'), {
-  type: 'bar',
-  data: {
-    labels: ['S1\nGraph', 'S2\nQuery', 'S3\nForm.', 'S4\nData', 'S5\nEstimand', 'S6\nArith.'],
-    datasets: [
-      {
-        label: 'Base model',
-        data: [0.964, 0.921, 0.416, 0.901, 0.877, 0.944],
-        backgroundColor: INK_FAINT + '44',
-        borderColor: INK_FAINT,
-        borderWidth: 1,
-      },
-      {
-        label: 'Instruct model',
-        data: [0.971, 0.935, 0.431, 0.908, 0.889, 0.951],
-        backgroundColor: d => {
-          const idx = d.dataIndex;
-          return idx === 2 ? RED + '55' : ACCENT_L + '55';
-        },
-        borderColor: d => {
-          const idx = d.dataIndex;
-          return idx === 2 ? RED : ACCENT_L;
-        },
-        borderWidth: 1,
-      }
-    ]
-  },
-  options: baseOpts({
-    plugins: {
-      legend: { labels: { font:{family:MONO,size:10}, color:INK_FAINT, boxWidth:10 }},
-      tooltip: { backgroundColor:'#fff', borderColor:RULE, borderWidth:1,
-        titleColor:INK, bodyColor:INK_LIGHT,
-        titleFont:{family:MONO,size:10}, bodyFont:{family:MONO,size:10} }
-    },
-    scales: {
-      x: { ticks:{font:{family:MONO,size:9},color:INK_FAINT},
-           grid:{color:RULE}, border:{dash:[4,4],color:RULE} },
-      y: { min: 0.3, max: 1.05,
-           ticks:{font:{family:MONO,size:10},color:INK_FAINT,
-                  callback: v => v.toFixed(2)},
-           grid:{color:RULE}, border:{dash:[4,4],color:RULE} }
-    }
-  })
-});
-
-// ── Chart 3: AUC per layer ──────────────────────────────────────────────
-const aucData = [0.489,0.502,0.501,0.527,0.541,0.542,0.542,0.527,0.512,0.506,
-                 0.534,0.516,0.493,0.458,0.442,0.435,0.479,0.493,0.517,0.521,
-                 0.504,0.491,0.557,0.551,0.577,0.557,0.567,0.678];
-const layerLabels = aucData.map((_,i) => i === 27 ? 'L27*' : (i % 4 === 0 ? 'L'+i : ''));
-
-new Chart(document.getElementById('chartAUC'), {
-  type: 'line',
-  data: {
-    labels: aucData.map((_,i) => i),
-    datasets: [
-      {
-        label: 'AUC',
-        data: aucData,
-        borderColor: ACCENT,
-        backgroundColor: ACCENT + '15',
-        borderWidth: 2,
-        pointRadius: aucData.map((_,i) => i === 27 ? 6 : 0),
-        pointBackgroundColor: aucData.map((_,i) => i === 27 ? ACCENT : 'transparent'),
-        tension: 0.3,
-        fill: true,
-      },
-      {
-        label: 'Chance (0.5)',
-        data: aucData.map(() => 0.5),
-        borderColor: RULE,
-        borderWidth: 1,
-        borderDash: [6,4],
-        pointRadius: 0,
-        fill: false,
-      }
-    ]
-  },
-  options: baseOpts({
-    plugins: {
-      legend: { labels: { font:{family:MONO,size:10}, color:INK_FAINT, boxWidth:10 }},
-      tooltip: { backgroundColor:'#fff', borderColor:RULE, borderWidth:1,
-        titleColor:INK, bodyColor:INK_LIGHT,
-        titleFont:{family:MONO,size:10}, bodyFont:{family:MONO,size:10},
-        callbacks: { title: ctx => 'Layer ' + ctx[0].label,
-                     label: ctx => 'AUC = ' + ctx.parsed.y.toFixed(3) } }
-    },
-    scales: {
-      x: { title: { display:true, text:'Layer', font:{family:MONO,size:9}, color:INK_FAINT },
-           ticks: { font:{family:MONO,size:9}, color:INK_FAINT,
-                    callback: (_,i) => i % 4 === 0 || i === 27 ? i : '' },
-           grid: {color:RULE}, border:{dash:[4,4],color:RULE} },
-      y: { min: 0.38, max: 0.72,
-           ticks: { font:{family:MONO,size:10}, color:INK_FAINT,
-                    callback: v => v.toFixed(2) },
-           grid: {color:RULE}, border:{dash:[4,4],color:RULE} }
-    }
-  })
-});
-
-// ── Chart 4: Commitment groups ──────────────────────────────────────────
-new Chart(document.getElementById('chartCommit'), {
-  type: 'bar',
-  data: {
-    labels: ['Early committed\n(yes-reflex, layers 13-14)', 'Late committed\n(layers 22-28)'],
+    labels: ['Gemini 3 Flash', 'Claude Sonnet 4.6', 'GPT-5.4', 'Llama 4 Maverick'],
     datasets: [{
-      label: 'Fragility rate',
-      data: [5.0, 16.9],
-      backgroundColor: [GREEN + '55', RED + '55'],
-      borderColor: [GREEN, RED],
+      label: 'Overall accuracy',
+      data: [83.47, 78.97, 76.63, 60.96],
+      backgroundColor: [C_GEMINI+'88', C_CLAUDE+'88', C_GPT+'88', C_LLAMA+'88'],
+      borderColor:     [C_GEMINI, C_CLAUDE, C_GPT, C_LLAMA],
       borderWidth: 1.5,
-      barThickness: 60,
     }]
   },
   options: baseOpts({
     indexAxis: 'y',
     plugins: {
       legend: { display: false },
-      tooltip: { backgroundColor:'#fff', borderColor:RULE, borderWidth:1,
+      tooltip: {
+        backgroundColor:'#fff', borderColor:RULE, borderWidth:1,
         titleColor:INK, bodyColor:INK_LIGHT,
         titleFont:{family:MONO,size:10}, bodyFont:{family:MONO,size:10},
-        callbacks: { label: ctx => ctx.parsed.x.toFixed(1) + '% fragile' } }
+        callbacks: { label: ctx => ctx.parsed.x.toFixed(2) + '%' }
+      }
     },
     scales: {
-      x: { min:0, max:22,
-           ticks:{font:{family:MONO,size:10},color:INK_FAINT,
-                  callback: v => v+'%'},
-           grid:{color:RULE}, border:{dash:[4,4],color:RULE} },
-      y: { ticks:{font:{family:MONO,size:10},color:INK_LIGHT},
-           grid:{display:false}, border:{display:false} }
+      x: {
+        min: 50, max: 90,
+        ticks: { font:{family:MONO,size:10}, color:INK_FAINT, callback: v => v+'%' },
+        grid: { color:RULE }, border:{dash:[4,4],color:RULE}
+      },
+      y: {
+        ticks: { font:{family:MONO,size:10}, color:INK_LIGHT },
+        grid: { display:false }, border:{display:false}
+      }
     }
   })
 });
 
-// ── Chart 5: Rescue vs damage ──────────────────────────────────────────
-new Chart(document.getElementById('chartRescue'), {
+// Chart 1: Rungs across all models
+new Chart(document.getElementById('chartRungsAll'), {
   type: 'bar',
   data: {
-    labels: ['All layers\nalpha = 1', 'Layers 22-27\nalpha = 16'],
+    labels: ['Rung 1 — Association', 'Rung 2 — Intervention', 'Rung 3 — Counterfactual'],
     datasets: [
-      {
-        label: 'Fragile items rescued',
-        data: [17.9, 14.4],
-        backgroundColor: GREEN + '66',
-        borderColor: GREEN,
-        borderWidth: 1.5,
-      },
-      {
-        label: 'Robust items damaged',
-        data: [4.9, 2.1],
-        backgroundColor: RED + '55',
-        borderColor: RED,
-        borderWidth: 1.5,
-      }
+      { label: 'Gemini 3 Flash',   data: [80.83, 90.52, 79.46], backgroundColor: C_GEMINI+'77', borderColor: C_GEMINI, borderWidth:1.5 },
+      { label: 'Claude Sonnet 4.6',data: [78.67, 81.42, 77.03], backgroundColor: C_CLAUDE+'77', borderColor: C_CLAUDE, borderWidth:1.5 },
+      { label: 'GPT-5.4',          data: [77.41, 82.85, 70.28], backgroundColor: C_GPT+'77',    borderColor: C_GPT,    borderWidth:1.5 },
+      { label: 'Llama 4 Maverick', data: [57.57, 61.57, 63.48], backgroundColor: C_LLAMA+'77',  borderColor: C_LLAMA,  borderWidth:1.5 },
     ]
   },
   options: baseOpts({
     plugins: {
       legend: { labels:{font:{family:MONO,size:10},color:INK_FAINT,boxWidth:10} },
-      tooltip: { backgroundColor:'#fff', borderColor:RULE, borderWidth:1,
+      tooltip: {
+        backgroundColor:'#fff', borderColor:RULE, borderWidth:1,
         titleColor:INK, bodyColor:INK_LIGHT,
         titleFont:{family:MONO,size:10}, bodyFont:{family:MONO,size:10},
-        callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(1) + '%' } }
+        callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(2) + '%' }
+      }
     },
     scales: {
-      x: { ticks:{font:{family:MONO,size:10},color:INK_LIGHT},
-           grid:{display:false}, border:{display:false} },
-      y: { min:0, max:25,
-           ticks:{font:{family:MONO,size:10},color:INK_FAINT,
-                  callback: v => v+'%'},
+      x: { ticks:{font:{family:MONO,size:10},color:INK_FAINT}, grid:{color:RULE}, border:{dash:[4,4],color:RULE} },
+      y: { min:50, max:95,
+           ticks:{font:{family:MONO,size:10},color:INK_FAINT, callback:v=>v+'%'},
            grid:{color:RULE}, border:{dash:[4,4],color:RULE} }
+    }
+  })
+});
+
+// Chart 2: Query type breakdown
+const queryLabels = ['ATE','backadj','collider bias','correlation','det-counterfact.','ETT','exp away','marginal','NDE','NIE'];
+new Chart(document.getElementById('chartQueryType'), {
+  type: 'bar',
+  data: {
+    labels: queryLabels,
+    datasets: [
+      { label: 'Gemini 3 Flash',   data: [90.44,89.59,100.0,71.94,74.18,85.40,92.42,87.55,81.53,75.90], backgroundColor: C_GEMINI+'77', borderColor:C_GEMINI, borderWidth:1.5 },
+      { label: 'Claude Sonnet 4.6',data: [91.44,71.94,86.36,76.90,78.58,77.77,87.50,79.32,75.07,75.04], backgroundColor: C_CLAUDE+'77', borderColor:C_CLAUDE, borderWidth:1.5 },
+      { label: 'GPT-5.4',          data: [89.10,78.08,75.19,68.68,65.22,80.21,94.13,83.45,71.70,60.75], backgroundColor: C_GPT+'77',    borderColor:C_GPT,    borderWidth:1.5 },
+      { label: 'Llama 4 Maverick', data: [85.66,36.57,94.32,59.23,60.72,65.07,68.56,54.94,68.12,61.93], backgroundColor: C_LLAMA+'77',  borderColor:C_LLAMA,  borderWidth:1.5 },
+    ]
+  },
+  options: baseOpts({
+    plugins: {
+      legend: { labels:{font:{family:MONO,size:10},color:INK_FAINT,boxWidth:10} },
+      tooltip: {
+        backgroundColor:'#fff', borderColor:RULE, borderWidth:1,
+        titleColor:INK, bodyColor:INK_LIGHT,
+        titleFont:{family:MONO,size:10}, bodyFont:{family:MONO,size:10},
+        callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(2) + '%' }
+      }
+    },
+    scales: {
+      x: { ticks:{font:{family:MONO,size:9},color:INK_FAINT, maxRotation:35, minRotation:25}, grid:{color:RULE}, border:{dash:[4,4],color:RULE} },
+      y: { min:30, max:105,
+           ticks:{font:{family:MONO,size:10},color:INK_FAINT, callback:v=>v+'%'},
+           grid:{color:RULE}, border:{dash:[4,4],color:RULE} }
+    }
+  })
+});
+
+// Chart 3: Property breakdown
+new Chart(document.getElementById('chartProperty'), {
+  type: 'bar',
+  data: {
+    labels: ['Anticommonsense', 'Commonsense', 'Noncommonsense'],
+    datasets: [
+      { label: 'Gemini 3 Flash',   data: [84.46,83.60,82.32], backgroundColor: C_GEMINI+'77', borderColor:C_GEMINI, borderWidth:1.5 },
+      { label: 'Claude Sonnet 4.6',data: [80.15,79.31,77.44], backgroundColor: C_CLAUDE+'77', borderColor:C_CLAUDE, borderWidth:1.5 },
+      { label: 'GPT-5.4',          data: [78.50,77.51,73.85], backgroundColor: C_GPT+'77',    borderColor:C_GPT,    borderWidth:1.5 },
+      { label: 'Llama 4 Maverick', data: [61.56,62.26,59.03], backgroundColor: C_LLAMA+'77',  borderColor:C_LLAMA,  borderWidth:1.5 },
+    ]
+  },
+  options: baseOpts({
+    plugins: {
+      legend: { labels:{font:{family:MONO,size:10},color:INK_FAINT,boxWidth:10} },
+      tooltip: {
+        backgroundColor:'#fff', borderColor:RULE, borderWidth:1,
+        titleColor:INK, bodyColor:INK_LIGHT,
+        titleFont:{family:MONO,size:10}, bodyFont:{family:MONO,size:10},
+        callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(2) + '%' }
+      }
+    },
+    scales: {
+      x: { ticks:{font:{family:MONO,size:10},color:INK_FAINT}, grid:{color:RULE}, border:{dash:[4,4],color:RULE} },
+      y: { min:50, max:92,
+           ticks:{font:{family:MONO,size:10},color:INK_FAINT, callback:v=>v+'%'},
+           grid:{color:RULE}, border:{dash:[4,4],color:RULE} }
+    }
+  })
+});
+
+// Chart: Rung accuracy Qwen SFT
+new Chart(document.getElementById('chartRung'), {
+  type: 'bar',
+  data: {
+    labels: ['Rung 1\nAssociation', 'Rung 2\nIntervention', 'Rung 3\nCounterfactual'],
+    datasets: [
+      { label: 'Baseline', data: [43.6, 59.8, 58.1], backgroundColor: INK_FAINT+'55', borderColor: INK_FAINT, borderWidth: 1 },
+      { label: 'SFT fine-tuned', data: [47.9, 55.4, 60.1],
+        backgroundColor: [GREEN+'55', RED+'55', GREEN+'55'],
+        borderColor: [GREEN, RED, GREEN], borderWidth: 1 }
+    ]
+  },
+  options: baseOpts({
+    plugins: {
+      legend: { labels:{font:{family:MONO,size:10},color:INK_FAINT,boxWidth:10} },
+      tooltip: { backgroundColor:'#fff', borderColor:RULE, borderWidth:1, titleColor:INK, bodyColor:INK_LIGHT, titleFont:{family:MONO,size:10}, bodyFont:{family:MONO,size:10} }
+    },
+    scales: {
+      x: { ticks:{font:{family:MONO,size:10},color:INK_FAINT}, grid:{color:RULE}, border:{dash:[4,4],color:RULE} },
+      y: { min:30, max:75, ticks:{font:{family:MONO,size:10},color:INK_FAINT, callback:v=>v+'%'}, grid:{color:RULE}, border:{dash:[4,4],color:RULE} }
+    }
+  })
+});
+
+// Chart: Probe F1
+new Chart(document.getElementById('chartProbe'), {
+  type: 'bar',
+  data: {
+    labels: ['S1\nGraph', 'S2\nQuery', 'S3\nForm.', 'S4\nData', 'S5\nEstimand', 'S6\nArith.'],
+    datasets: [
+      { label: 'Base model',    data: [0.964,0.921,0.416,0.901,0.877,0.944], backgroundColor: INK_FAINT+'44', borderColor:INK_FAINT, borderWidth:1 },
+      { label: 'Instruct model',data: [0.971,0.935,0.431,0.908,0.889,0.951],
+        backgroundColor: ['','',(RED+'55'),'','',''].map((v,i)=>i===2?RED+'55':ACCENT_L+'55'),
+        borderColor: ['','','','','',''].map((_,i)=>i===2?RED:ACCENT_L), borderWidth:1 }
+    ]
+  },
+  options: baseOpts({
+    plugins: {
+      legend:{labels:{font:{family:MONO,size:10},color:INK_FAINT,boxWidth:10}},
+      tooltip:{backgroundColor:'#fff',borderColor:RULE,borderWidth:1,titleColor:INK,bodyColor:INK_LIGHT,titleFont:{family:MONO,size:10},bodyFont:{family:MONO,size:10}}
+    },
+    scales: {
+      x:{ticks:{font:{family:MONO,size:9},color:INK_FAINT},grid:{color:RULE},border:{dash:[4,4],color:RULE}},
+      y:{min:0.3,max:1.05,ticks:{font:{family:MONO,size:10},color:INK_FAINT,callback:v=>v.toFixed(2)},grid:{color:RULE},border:{dash:[4,4],color:RULE}}
+    }
+  })
+});
+
+// Chart: AUC per layer
+const aucData=[0.489,0.502,0.501,0.527,0.541,0.542,0.542,0.527,0.512,0.506,0.534,0.516,0.493,0.458,0.442,0.435,0.479,0.493,0.517,0.521,0.504,0.491,0.557,0.551,0.577,0.557,0.567,0.678];
+new Chart(document.getElementById('chartAUC'), {
+  type: 'line',
+  data: {
+    labels: aucData.map((_,i)=>i),
+    datasets: [
+      { label:'AUC', data:aucData, borderColor:ACCENT, backgroundColor:ACCENT+'15', borderWidth:2,
+        pointRadius:aucData.map((_,i)=>i===27?6:0), pointBackgroundColor:aucData.map((_,i)=>i===27?ACCENT:'transparent'),
+        tension:0.3, fill:true },
+      { label:'Chance (0.5)', data:aucData.map(()=>0.5), borderColor:RULE, borderWidth:1, borderDash:[6,4], pointRadius:0, fill:false }
+    ]
+  },
+  options: baseOpts({
+    plugins: {
+      legend:{labels:{font:{family:MONO,size:10},color:INK_FAINT,boxWidth:10}},
+      tooltip:{backgroundColor:'#fff',borderColor:RULE,borderWidth:1,titleColor:INK,bodyColor:INK_LIGHT,titleFont:{family:MONO,size:10},bodyFont:{family:MONO,size:10},
+        callbacks:{title:ctx=>'Layer '+ctx[0].label, label:ctx=>'AUC = '+ctx.parsed.y.toFixed(3)}}
+    },
+    scales: {
+      x:{title:{display:true,text:'Layer',font:{family:MONO,size:9},color:INK_FAINT},
+         ticks:{font:{family:MONO,size:9},color:INK_FAINT,callback:(_,i)=>i%4===0||i===27?i:''},
+         grid:{color:RULE},border:{dash:[4,4],color:RULE}},
+      y:{min:0.38,max:0.72,ticks:{font:{family:MONO,size:10},color:INK_FAINT,callback:v=>v.toFixed(2)},grid:{color:RULE},border:{dash:[4,4],color:RULE}}
+    }
+  })
+});
+
+// Chart: Commitment groups
+new Chart(document.getElementById('chartCommit'), {
+  type: 'bar',
+  data: {
+    labels: ['Early committed (yes-reflex, layers 13-14)', 'Late committed (layers 22-28)'],
+    datasets: [{ label:'Fragility rate', data:[5.0,16.9],
+      backgroundColor:[GREEN+'55',RED+'55'], borderColor:[GREEN,RED], borderWidth:1.5, barThickness:60 }]
+  },
+  options: baseOpts({
+    indexAxis:'y',
+    plugins: {
+      legend:{display:false},
+      tooltip:{backgroundColor:'#fff',borderColor:RULE,borderWidth:1,titleColor:INK,bodyColor:INK_LIGHT,
+        titleFont:{family:MONO,size:10},bodyFont:{family:MONO,size:10},
+        callbacks:{label:ctx=>ctx.parsed.x.toFixed(1)+'% fragile'}}
+    },
+    scales: {
+      x:{min:0,max:22,ticks:{font:{family:MONO,size:10},color:INK_FAINT,callback:v=>v+'%'},grid:{color:RULE},border:{dash:[4,4],color:RULE}},
+      y:{ticks:{font:{family:MONO,size:10},color:INK_LIGHT},grid:{display:false},border:{display:false}}
+    }
+  })
+});
+
+// Chart: Rescue vs damage
+new Chart(document.getElementById('chartRescue'), {
+  type: 'bar',
+  data: {
+    labels: ['All layers\nalpha = 1', 'Layers 22-27\nalpha = 16'],
+    datasets: [
+      { label:'Fragile items rescued', data:[17.9,14.4], backgroundColor:GREEN+'66', borderColor:GREEN, borderWidth:1.5 },
+      { label:'Robust items damaged',  data:[4.9,2.1],   backgroundColor:RED+'55',   borderColor:RED,   borderWidth:1.5 }
+    ]
+  },
+  options: baseOpts({
+    plugins: {
+      legend:{labels:{font:{family:MONO,size:10},color:INK_FAINT,boxWidth:10}},
+      tooltip:{backgroundColor:'#fff',borderColor:RULE,borderWidth:1,titleColor:INK,bodyColor:INK_LIGHT,
+        titleFont:{family:MONO,size:10},bodyFont:{family:MONO,size:10},
+        callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toFixed(1)+'%'}}
+    },
+    scales: {
+      x:{ticks:{font:{family:MONO,size:10},color:INK_LIGHT},grid:{display:false},border:{display:false}},
+      y:{min:0,max:25,ticks:{font:{family:MONO,size:10},color:INK_FAINT,callback:v=>v+'%'},grid:{color:RULE},border:{dash:[4,4],color:RULE}}
     }
   })
 });
