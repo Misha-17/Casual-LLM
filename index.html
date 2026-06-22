@@ -524,7 +524,7 @@
   <section class="section" id="leaderboard">
     <div class="section-marker">00 &nbsp;&middot;&nbsp; New results</div>
     <h2>CLadder v1 leaderboard</h2>
-    <p>Five models evaluated on the full CLadder v1 benchmark (n&nbsp;=&nbsp;31,024, seed&nbsp;42). Gemini 3 Flash leads overall despite being a mid-tier model, outperforming GPT-5.4 by 6.8 points. Claude Sonnet 4.6 ranks second. DeepSeek V3.2 and Llama 4 Maverick occupy the bottom two positions, separated by just 1.4 points.</p>
+    <p>Six models evaluated on the full CLadder v1 benchmark (n&nbsp;=&nbsp;31,024, seed&nbsp;42). Gemini 3 Flash leads overall despite being a mid-tier model. GPT-5.5 enters as the strongest frontier model at 80.00%, ranking second overall. DeepSeek V3.2 and Llama 4 Maverick occupy the bottom two positions, separated by just 1.4 points.</p>
 
     <div class="leaderboard">
       <div class="lb-header">
@@ -555,9 +555,28 @@
         <div class="lb-rung">79.46%</div>
       </div>
 
-      <!-- Claude -->
+      <!-- GPT-5.5 -->
       <div class="lb-row">
         <div class="lb-rank">2</div>
+        <div>
+          <div class="lb-model-name">
+            <span class="dot" style="background:#0f2a4a"></span>GPT-5.5
+            <span class="tier-badge tier-frontier">frontier</span>
+          </div>
+          <div class="lb-model-sub">openai/gpt-5.5 &nbsp;&middot;&nbsp; n=31,024</div>
+          <div class="lb-bar-track" style="margin-top:6px; width:90%">
+            <div class="lb-bar-fill" style="width:80.00%; background:#0f2a4a88"></div>
+          </div>
+        </div>
+        <div class="lb-acc">80.00%</div>
+        <div class="lb-rung">79.29%</div>
+        <div class="lb-rung">84.35%</div>
+        <div class="lb-rung">76.69%</div>
+      </div>
+
+      <!-- Claude -->
+      <div class="lb-row">
+        <div class="lb-rank">3</div>
         <div>
           <div class="lb-model-name">
             <span class="dot" style="background:#8b4513"></span>Claude Sonnet 4.6
@@ -576,7 +595,7 @@
 
       <!-- GPT -->
       <div class="lb-row">
-        <div class="lb-rank">3</div>
+        <div class="lb-rank">4</div>
         <div>
           <div class="lb-model-name">
             <span class="dot" style="background:#1a3a5c"></span>GPT-5.4
@@ -595,7 +614,7 @@
 
       <!-- DeepSeek V3.2 -->
       <div class="lb-row">
-        <div class="lb-rank">4</div>
+        <div class="lb-rank">5</div>
         <div>
           <div class="lb-model-name">
             <span class="dot" style="background:#1a5c52"></span>DeepSeek V3.2
@@ -614,7 +633,7 @@
 
       <!-- Llama -->
       <div class="lb-row">
-        <div class="lb-rank">5</div>
+        <div class="lb-rank">6</div>
         <div>
           <div class="lb-model-name">
             <span class="dot" style="background:#5c1a4a"></span>Llama 4 Maverick
@@ -632,7 +651,7 @@
       </div>
     </div>
 
-    <div class="aside">Gemini 3 Flash achieves a perfect 100% on collider bias queries and 90.52% on Rung 2 intervention. GPT-5.4, despite being frontier-tier, ranks third overall and scores lowest on Rung 3 counterfactual reasoning at 70.28%.</div>
+    <div class="aside">GPT-5.5 is the strongest frontier model at 80.00%, beating Gemini 3 Flash by just 3.47pp but outperforming its cheaper sibling GPT-5.4 by 3.37pp. Its collider bias score of 56.63% is the lowest in the group by a wide margin, a striking weak spot for an otherwise strong model.</div>
 
     <h3>Overall accuracy</h3>
     <div class="chart-wrap">
@@ -645,7 +664,7 @@
     <div class="chart-wrap">
       <div class="chart-title">Accuracy across Pearl's three rungs</div>
       <canvas id="chartRungsAll" height="200"></canvas>
-      <div class="chart-note">Rung 2 (intervention) is the strongest rung for most models. GPT-5.4 shows the sharpest Rung 3 drop (−12.6pp vs Rung 2). DeepSeek V3.2 is the flattest model across rungs (61.57 / 61.38 / 63.87). Llama 4 Maverick and DeepSeek V3.2 are the only models where Rung 3 beats Rung 1.</div>
+      <div class="chart-note">Rung 2 (intervention) is the strongest rung for most models. GPT-5.5 leads Rung 2 at 84.35%. GPT-5.4 shows the sharpest Rung 3 drop. DeepSeek V3.2 is the flattest model across rungs (61.57 / 61.38 / 63.87).</div>
     </div>
 
     <h3>Query type breakdown</h3>
@@ -668,20 +687,20 @@
 
     <div class="findings">
       <div class="finding-item">
-        <div class="finding-label">Gemini surprise</div>
-        <div class="finding-text">Gemini 3 Flash is a mid-tier model that outperforms the frontier-tier GPT-5.4 by 6.84 points overall. This gap is largest on Rung 2 (7.67pp) and Rung 3 (9.18pp).</div>
+        <div class="finding-label">Gemini still leads</div>
+        <div class="finding-text">Gemini 3 Flash remains the top model at 83.47%, now ahead of frontier-tier GPT-5.5 (80.00%) by 3.47pp. A mid-tier model leading two frontier models is a notable result.</div>
+      </div>
+      <div class="finding-item">
+        <div class="finding-label">GPT-5.5 collider failure</div>
+        <div class="finding-text">GPT-5.5 scores only 56.63% on collider bias, the lowest in the group and just above chance. Every other model scores above 75% on this query type. This is the sharpest single-model, single-query-type anomaly in the leaderboard.</div>
       </div>
       <div class="finding-item">
         <div class="finding-label">Yes-rate spread</div>
-        <div class="finding-text">Llama says yes 60.1% of the time, the highest yes-rate in the group. DeepSeek V3.2 sits at the opposite extreme at 40.0%, the lowest. Both correlate with known instruction-tuning biases in their respective model families.</div>
-      </div>
-      <div class="finding-item">
-        <div class="finding-label">Collider ceiling</div>
-        <div class="finding-text">Gemini reaches 100% on collider bias. Claude is strong at 86.36%. DeepSeek V3.2 scores 80.30% and GPT-5.4 75.19%, while Llama (94.32%) is a surprising outlier given its weak overall performance.</div>
+        <div class="finding-text">Llama says yes 60.1% of the time, the highest yes-rate in the group. DeepSeek V3.2 sits at the opposite extreme at 40.0%. GPT-5.5 is the most balanced at 48.26%.</div>
       </div>
       <div class="finding-item">
         <div class="finding-label">Backadj floor</div>
-        <div class="finding-text">Backdoor adjustment is the hardest query type for both Llama (36.57%) and DeepSeek V3.2 (38.29%), both well below chance. Claude (71.94%) and GPT-5.4 (78.08%) are also weak here. Gemini (89.59%) is the clear outlier.</div>
+        <div class="finding-text">Backdoor adjustment remains the hardest query type for Llama (36.57%) and DeepSeek V3.2 (38.29%), both well below chance. GPT-5.5 (83.03%) and Gemini (89.59%) are strong here while Claude (71.94%) and GPT-5.4 (78.08%) are middling.</div>
       </div>
       <div class="finding-item">
         <div class="finding-label">Flat rung profile</div>
@@ -992,6 +1011,7 @@ const MONO      = "'DM Mono', monospace";
 const C_GEMINI = '#2a5e2a';
 const C_CLAUDE = '#8b4513';
 const C_GPT    = '#1a3a5c';
+const C_GPT55  = '#0f2a4a';
 const C_LLAMA  = '#5c1a4a';
 const C_DS     = '#1a5c52';
 
@@ -1037,12 +1057,12 @@ function baseOpts(extras) {
 new Chart(document.getElementById('chartOverall'), {
   type: 'bar',
   data: {
-    labels: ['Gemini 3 Flash', 'Claude Sonnet 4.6', 'GPT-5.4', 'DeepSeek V3.2', 'Llama 4 Maverick'],
+    labels: ['Gemini 3 Flash', 'GPT-5.5', 'Claude Sonnet 4.6', 'GPT-5.4', 'DeepSeek V3.2', 'Llama 4 Maverick'],
     datasets: [{
       label: 'Overall accuracy',
-      data: [83.47, 78.97, 76.63, 62.33, 60.96],
-      backgroundColor: [C_GEMINI+'88', C_CLAUDE+'88', C_GPT+'88', C_DS+'88', C_LLAMA+'88'],
-      borderColor:     [C_GEMINI, C_CLAUDE, C_GPT, C_DS, C_LLAMA],
+      data: [83.47, 80.00, 78.97, 76.63, 62.33, 60.96],
+      backgroundColor: [C_GEMINI+'88', C_GPT55+'88', C_CLAUDE+'88', C_GPT+'88', C_DS+'88', C_LLAMA+'88'],
+      borderColor:     [C_GEMINI, C_GPT55, C_CLAUDE, C_GPT, C_DS, C_LLAMA],
       borderWidth: 1.5,
     }]
   },
@@ -1078,6 +1098,7 @@ new Chart(document.getElementById('chartRungsAll'), {
     labels: ['Rung 1 — Association', 'Rung 2 — Intervention', 'Rung 3 — Counterfactual'],
     datasets: [
       { label: 'Gemini 3 Flash',   data: [80.83, 90.52, 79.46], backgroundColor: C_GEMINI+'77', borderColor: C_GEMINI, borderWidth:1.5 },
+      { label: 'GPT-5.5',          data: [79.29, 84.35, 76.69], backgroundColor: C_GPT55+'77',  borderColor: C_GPT55,  borderWidth:1.5 },
       { label: 'Claude Sonnet 4.6',data: [78.67, 81.42, 77.03], backgroundColor: C_CLAUDE+'77', borderColor: C_CLAUDE, borderWidth:1.5 },
       { label: 'GPT-5.4',          data: [77.41, 82.85, 70.28], backgroundColor: C_GPT+'77',    borderColor: C_GPT,    borderWidth:1.5 },
       { label: 'DeepSeek V3.2',    data: [61.57, 61.38, 63.87], backgroundColor: C_DS+'77',     borderColor: C_DS,     borderWidth:1.5 },
@@ -1111,6 +1132,7 @@ new Chart(document.getElementById('chartQueryType'), {
     labels: queryLabels,
     datasets: [
       { label: 'Gemini 3 Flash',   data: [90.44,89.59,100.0,71.94,74.18,85.40,92.42,87.55,81.53,75.90], backgroundColor: C_GEMINI+'77', borderColor:C_GEMINI, borderWidth:1.5 },
+      { label: 'GPT-5.5',          data: [89.10,83.03,56.63,72.92,67.89,82.70,94.89,83.33,85.04,73.90], backgroundColor: C_GPT55+'77',  borderColor:C_GPT55,  borderWidth:1.5 },
       { label: 'Claude Sonnet 4.6',data: [91.44,71.94,86.36,76.90,78.58,77.77,87.50,79.32,75.07,75.04], backgroundColor: C_CLAUDE+'77', borderColor:C_CLAUDE, borderWidth:1.5 },
       { label: 'GPT-5.4',          data: [89.10,78.08,75.19,68.68,65.22,80.21,94.13,83.45,71.70,60.75], backgroundColor: C_GPT+'77',    borderColor:C_GPT,    borderWidth:1.5 },
       { label: 'DeepSeek V3.2',    data: [84.96,38.29,80.30,58.91,63.40,62.16,81.25,61.87,73.24,61.81], backgroundColor: C_DS+'77',     borderColor:C_DS,     borderWidth:1.5 },
@@ -1143,6 +1165,7 @@ new Chart(document.getElementById('chartProperty'), {
     labels: ['Anticommonsense', 'Commonsense', 'Noncommonsense'],
     datasets: [
       { label: 'Gemini 3 Flash',   data: [84.46,83.60,82.32], backgroundColor: C_GEMINI+'77', borderColor:C_GEMINI, borderWidth:1.5 },
+      { label: 'GPT-5.5',          data: [82.38,79.82,77.76], backgroundColor: C_GPT55+'77',  borderColor:C_GPT55,  borderWidth:1.5 },
       { label: 'Claude Sonnet 4.6',data: [80.15,79.31,77.44], backgroundColor: C_CLAUDE+'77', borderColor:C_CLAUDE, borderWidth:1.5 },
       { label: 'GPT-5.4',          data: [78.50,77.51,73.85], backgroundColor: C_GPT+'77',    borderColor:C_GPT,    borderWidth:1.5 },
       { label: 'DeepSeek V3.2',    data: [62.33,63.44,61.19], backgroundColor: C_DS+'77',     borderColor:C_DS,     borderWidth:1.5 },
