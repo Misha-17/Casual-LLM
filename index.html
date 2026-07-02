@@ -523,8 +523,8 @@
   <!-- 00 LEADERBOARD -->
   <section class="section" id="leaderboard">
     <div class="section-marker">00 &nbsp;&middot;&nbsp; New results</div>
-    <h2>CLadder v1 leaderboard</h2>
-    <p>Seven models evaluated on the full CLadder v1 benchmark (n&nbsp;=&nbsp;31,024, seed&nbsp;42). Claude Opus 4.8 leads at 81.48%, narrowly ahead of Gemini 3 Flash. The top four models are separated by just 5 points. DeepSeek V3.2 and Llama 4 Maverick occupy the bottom two positions.</p>
+    <h2>CLadder v1.5 leaderboard</h2>
+    <p>Seven models evaluated on CLadder v1.5 (n&nbsp;=&nbsp;10,112) via the OpenRouter API, with extended thinking enabled wherever a model supports it. GPT-5.5 leads at 95.09% with high reasoning effort, followed closely by Grok 4.20 and Claude Opus 4.8. GPT-5.4 Nano, run without reasoning, trails the field at 54.80%, barely above chance on a binary task.</p>
 
     <div class="leaderboard">
       <div class="lb-header">
@@ -536,64 +536,64 @@
         <div class="lb-header-cell">R3 Count.</div>
       </div>
 
-      <!-- Claude Opus 4.8 -->
+      <!-- GPT-5.5 -->
       <div class="lb-row winner">
         <div class="lb-rank gold">1</div>
-        <div>
-          <div class="lb-model-name">
-            <span class="dot" style="background:#5c2a0f"></span>Claude Opus 4.8
-            <span class="tier-badge tier-frontier">frontier</span>
-          </div>
-          <div class="lb-model-sub">anthropic/claude-opus-4.8 &nbsp;&middot;&nbsp; n=31,023 (1 null)</div>
-          <div class="lb-bar-track" style="margin-top:6px; width:90%">
-            <div class="lb-bar-fill" style="width:81.48%; background:#5c2a0f88"></div>
-          </div>
-        </div>
-        <div class="lb-acc best">81.48%</div>
-        <div class="lb-rung">78.24%</div>
-        <div class="lb-rung">90.58%</div>
-        <div class="lb-rung">76.16%</div>
-      </div>
-
-      <!-- Gemini -->
-      <div class="lb-row">
-        <div class="lb-rank">2</div>
-        <div>
-          <div class="lb-model-name">
-            <span class="dot" style="background:#2a5e2a"></span>Gemini 3 Flash
-            <span class="tier-badge tier-mid">mid</span>
-          </div>
-          <div class="lb-model-sub">google/gemini-3-flash-preview &nbsp;&middot;&nbsp; n=31,023</div>
-          <div class="lb-bar-track" style="margin-top:6px; width:90%">
-            <div class="lb-bar-fill" style="width:83.47%; background:#2a5e2a88"></div>
-          </div>
-        </div>
-        <div class="lb-acc">83.47%</div>
-        <div class="lb-rung">80.83%</div>
-        <div class="lb-rung">90.52%</div>
-        <div class="lb-rung">79.46%</div>
-      </div>
-
-      <!-- GPT-5.5 -->
-      <div class="lb-row">
-        <div class="lb-rank">3</div>
         <div>
           <div class="lb-model-name">
             <span class="dot" style="background:#0f2a4a"></span>GPT-5.5
             <span class="tier-badge tier-frontier">frontier</span>
           </div>
-          <div class="lb-model-sub">openai/gpt-5.5 &nbsp;&middot;&nbsp; n=31,024</div>
+          <div class="lb-model-sub">openai/gpt-5.5 &nbsp;&middot;&nbsp; reasoning: high effort</div>
           <div class="lb-bar-track" style="margin-top:6px; width:90%">
-            <div class="lb-bar-fill" style="width:80.00%; background:#0f2a4a88"></div>
+            <div class="lb-bar-fill" style="width:95.09%; background:#0f2a4a88"></div>
           </div>
         </div>
-        <div class="lb-acc">80.00%</div>
-        <div class="lb-rung">79.29%</div>
-        <div class="lb-rung">84.35%</div>
-        <div class="lb-rung">76.69%</div>
+        <div class="lb-acc best">95.09%</div>
+        <div class="lb-rung">97.78%</div>
+        <div class="lb-rung">96.64%</div>
+        <div class="lb-rung">91.17%</div>
       </div>
 
-      <!-- Claude -->
+      <!-- Grok 4.20 -->
+      <div class="lb-row">
+        <div class="lb-rank">2</div>
+        <div>
+          <div class="lb-model-name">
+            <span class="dot" style="background:#701a1a"></span>Grok 4.20
+            <span class="tier-badge tier-frontier">frontier</span>
+          </div>
+          <div class="lb-model-sub">xai/grok-4.20 &nbsp;&middot;&nbsp; reasoning: enabled</div>
+          <div class="lb-bar-track" style="margin-top:6px; width:90%">
+            <div class="lb-bar-fill" style="width:93.26%; background:#701a1a88"></div>
+          </div>
+        </div>
+        <div class="lb-acc">93.26%</div>
+        <div class="lb-rung">96.77%</div>
+        <div class="lb-rung">94.46%</div>
+        <div class="lb-rung">89.32%</div>
+      </div>
+
+      <!-- Claude Opus 4.8 -->
+      <div class="lb-row">
+        <div class="lb-rank">3</div>
+        <div>
+          <div class="lb-model-name">
+            <span class="dot" style="background:#5c2a0f"></span>Claude Opus 4.8
+            <span class="tier-badge tier-frontier">frontier</span>
+          </div>
+          <div class="lb-model-sub">anthropic/claude-opus-4.8 &nbsp;&middot;&nbsp; reasoning: budget 16k</div>
+          <div class="lb-bar-track" style="margin-top:6px; width:90%">
+            <div class="lb-bar-fill" style="width:91.39%; background:#5c2a0f88"></div>
+          </div>
+        </div>
+        <div class="lb-acc">91.39%</div>
+        <div class="lb-rung">92.88%</div>
+        <div class="lb-rung">94.46%</div>
+        <div class="lb-rung">87.59%</div>
+      </div>
+
+      <!-- Claude Sonnet 4.6 -->
       <div class="lb-row">
         <div class="lb-rank">4</div>
         <div>
@@ -601,129 +601,129 @@
             <span class="dot" style="background:#8b4513"></span>Claude Sonnet 4.6
             <span class="tier-badge tier-mid">mid</span>
           </div>
-          <div class="lb-model-sub">anthropic/claude-sonnet-4.6 &nbsp;&middot;&nbsp; n=30,873 (151 null)</div>
+          <div class="lb-model-sub">anthropic/claude-sonnet-4.6 &nbsp;&middot;&nbsp; reasoning: budget 8k</div>
           <div class="lb-bar-track" style="margin-top:6px; width:90%">
-            <div class="lb-bar-fill" style="width:78.97%; background:#8b451388"></div>
+            <div class="lb-bar-fill" style="width:91.09%; background:#8b451388"></div>
           </div>
         </div>
-        <div class="lb-acc">78.97%</div>
-        <div class="lb-rung">78.67%</div>
-        <div class="lb-rung">81.42%</div>
-        <div class="lb-rung">77.03%</div>
-      </div>
-
-      <!-- GPT -->
-      <div class="lb-row">
-        <div class="lb-rank">5</div>
-        <div>
-          <div class="lb-model-name">
-            <span class="dot" style="background:#1a3a5c"></span>GPT-5.4
-            <span class="tier-badge tier-frontier">frontier</span>
-          </div>
-          <div class="lb-model-sub">openai/gpt-5.4 &nbsp;&middot;&nbsp; n=31,024</div>
-          <div class="lb-bar-track" style="margin-top:6px; width:90%">
-            <div class="lb-bar-fill" style="width:76.63%; background:#1a3a5c88"></div>
-          </div>
-        </div>
-        <div class="lb-acc">76.63%</div>
-        <div class="lb-rung">77.41%</div>
-        <div class="lb-rung">82.85%</div>
-        <div class="lb-rung">70.28%</div>
+        <div class="lb-acc">91.09%</div>
+        <div class="lb-rung">97.31%</div>
+        <div class="lb-rung">84.78%</div>
+        <div class="lb-rung">91.16%</div>
       </div>
 
       <!-- DeepSeek V3.2 -->
       <div class="lb-row">
-        <div class="lb-rank">6</div>
+        <div class="lb-rank">5</div>
         <div>
           <div class="lb-model-name">
             <span class="dot" style="background:#1a5c52"></span>DeepSeek V3.2
             <span class="tier-badge" style="color:#1a5c52">open</span>
           </div>
-          <div class="lb-model-sub">deepseek/deepseek-v3.2 &nbsp;&middot;&nbsp; n=31,024</div>
+          <div class="lb-model-sub">deepseek/deepseek-v3.2 &nbsp;&middot;&nbsp; reasoning: enabled</div>
           <div class="lb-bar-track" style="margin-top:6px; width:90%">
-            <div class="lb-bar-fill" style="width:62.33%; background:#1a5c5288"></div>
+            <div class="lb-bar-fill" style="width:90.91%; background:#1a5c5288"></div>
           </div>
         </div>
-        <div class="lb-acc">62.33%</div>
-        <div class="lb-rung">61.57%</div>
-        <div class="lb-rung">61.38%</div>
-        <div class="lb-rung">63.87%</div>
+        <div class="lb-acc">90.91%</div>
+        <div class="lb-rung">97.15%</div>
+        <div class="lb-rung">92.75%</div>
+        <div class="lb-rung">83.99%</div>
       </div>
 
-      <!-- Llama -->
+      <!-- Gemini 2.5 Flash -->
+      <div class="lb-row">
+        <div class="lb-rank">6</div>
+        <div>
+          <div class="lb-model-name">
+            <span class="dot" style="background:#2a5e2a"></span>Gemini 2.5 Flash
+            <span class="tier-badge tier-mid">mid</span>
+          </div>
+          <div class="lb-model-sub">google/gemini-2.5-flash &nbsp;&middot;&nbsp; reasoning: enabled</div>
+          <div class="lb-bar-track" style="margin-top:6px; width:90%">
+            <div class="lb-bar-fill" style="width:85.43%; background:#2a5e2a88"></div>
+          </div>
+        </div>
+        <div class="lb-acc">85.43%</div>
+        <div class="lb-rung">96.70%</div>
+        <div class="lb-rung">83.26%</div>
+        <div class="lb-rung">77.85%</div>
+      </div>
+
+      <!-- GPT-5.4 Nano -->
       <div class="lb-row">
         <div class="lb-rank">7</div>
         <div>
           <div class="lb-model-name">
-            <span class="dot" style="background:#5c1a4a"></span>Llama 4 Maverick
-            <span class="tier-badge tier-open">open</span>
+            <span class="dot" style="background:#1a3a5c"></span>GPT-5.4 Nano
+            <span class="tier-badge tier-open">no reasoning</span>
           </div>
-          <div class="lb-model-sub">meta-llama/llama-4-maverick &nbsp;&middot;&nbsp; n=31,024</div>
+          <div class="lb-model-sub">openai/gpt-5.4-nano &nbsp;&middot;&nbsp; reasoning: none</div>
           <div class="lb-bar-track" style="margin-top:6px; width:90%">
-            <div class="lb-bar-fill" style="width:60.96%; background:#5c1a4a88"></div>
+            <div class="lb-bar-fill" style="width:54.80%; background:#1a3a5c88"></div>
           </div>
         </div>
-        <div class="lb-acc" style="color:var(--red)">60.96%</div>
-        <div class="lb-rung">57.57%</div>
-        <div class="lb-rung">61.57%</div>
-        <div class="lb-rung">63.48%</div>
+        <div class="lb-acc" style="color:var(--red)">54.80%</div>
+        <div class="lb-rung">54.34%</div>
+        <div class="lb-rung">58.14%</div>
+        <div class="lb-rung">52.40%</div>
       </div>
     </div>
 
-    <div class="aside">Claude Opus 4.8 leads on Rung 2 at 90.58%, matching Gemini's overall score on that rung. Gemini 3 Flash remains the only mid-tier model in the top four, sitting above GPT-5.5 and Claude Sonnet 4.6 despite costing a fraction of the frontier models. GPT-5.5 still shows the anomalous collider bias score of 56.63%.</div>
+    <div class="aside">Reasoning is the main driver here, not raw model tier. GPT-5.4 Nano, run without extended thinking, scores 54.80%: barely above chance on a binary task and roughly 40 points behind every reasoning-enabled model. Claude Sonnet 4.6 posts the strongest Rung 3 (counterfactual) score in the field at 91.16%, ahead of every frontier model including GPT-5.5.</div>
 
     <h3>Overall accuracy</h3>
     <div class="chart-wrap">
-      <div class="chart-title">Overall CLadder accuracy by model</div>
+      <div class="chart-title">Overall CLadder v1.5 accuracy by model</div>
       <canvas id="chartOverall" height="160"></canvas>
-      <div class="chart-note">All models tested on full CLadder v1 (n=31,024). Human ceiling: 94.8%. CDCR-SFT 2025 SOTA: 95.3%.</div>
+      <div class="chart-note">n = 10,112 items per model. Dashed line marks chance (50%) on this binary task. Reasoning-enabled models cluster between 85% and 95%; the non-reasoning baseline sits 30+ points below the next-lowest model.</div>
     </div>
 
     <h3>Accuracy by rung</h3>
     <div class="chart-wrap">
       <div class="chart-title">Accuracy across Pearl's three rungs</div>
       <canvas id="chartRungsAll" height="200"></canvas>
-      <div class="chart-note">Rung 2 (intervention) is the strongest rung for most models. GPT-5.5 leads Rung 2 at 84.35%. GPT-5.4 shows the sharpest Rung 3 drop. DeepSeek V3.2 is the flattest model across rungs (61.57 / 61.38 / 63.87).</div>
+      <div class="chart-note">Rung 3 (counterfactual) is where the field separates most: GPT-5.4 Nano drops to 52.40% while Claude Sonnet 4.6 holds 91.16%, the best Rung 3 score of any model. Sonnet's Rung 2 score (84.78%) is comparatively its weakest rung.</div>
     </div>
 
-    <h3>Query type breakdown</h3>
-    <p>Each CLadder query type exercises a different causal reasoning subskill. Some patterns are surprising: Gemini achieves a perfect 100% on collider bias, while both Llama (36.57%) and DeepSeek V3.2 (38.29%) score far below chance on backadj. DeepSeek V3.2 has the lowest yes_rate in the group at 40.0%.</p>
+    <h3>Failure pattern analysis</h3>
+    <p>Reasoning traces of wrong answers were checked for three recurring patterns: the final answer contradicting a correct reasoning trace ("answer flip"), a correct causal graph with the wrong sign on the effect ("direction error"), and confusing collider conditioning with confounder adjustment on backdoor items ("backadj confusion"). GPT-5.4 Nano shows none of these patterns simply because it produces no reasoning trace to check.</p>
 
     <div class="chart-wrap">
-      <div class="chart-title">Accuracy by query type, all four models</div>
-      <canvas id="chartQueryType" height="280"></canvas>
-      <div class="chart-note">ate = average treatment effect; backadj = backdoor adjustment; ett = effect of treatment on treated; nde/nie = natural direct/indirect effect; exp_away = explaining away.</div>
+      <div class="chart-title">Failure pattern counts, wrong answers with reasoning traces</div>
+      <canvas id="chartFailurePatterns" height="220"></canvas>
+      <div class="chart-note">Gemini 2.5 Flash flips a correct trace into a wrong final answer in 18.2% of its wrong answers (265 of 1,456); Claude Sonnet 4.6 flips in 12.9% (115 of 892). Sonnet shows more direction errors (163 vs 12); Gemini shows more backadj confusion (178 vs 34).</div>
     </div>
 
-    <h3>Commonsense vs anti-commonsense</h3>
-    <p>A consistent robustness signal: all models do better on anti-commonsense questions than on commonsense ones, which is counterintuitive. This likely reflects a bias toward correct causal reasoning when surface associations are misleading, since the model cannot rely on heuristics and must reason properly.</p>
+    <h3>Forced thinking experiment</h3>
+    <p>Claude Opus 4.8 skipped extended thinking on 4,608 of 10,105 items when reasoning was left optional. Rerunning those items with a forced minimum thinking budget of 1,024 tokens raised accuracy on that subset from 88.60% to 90.23%, a gain of 1.63pp. Of the items that changed, 114 flipped from wrong to correct and 39 flipped from correct to wrong, a rescue-to-break ratio of roughly 2.9:1.</p>
 
     <div class="chart-wrap">
-      <div class="chart-title">Accuracy by question property</div>
-      <canvas id="chartProperty" height="180"></canvas>
-      <div class="chart-note">Anticommonsense &gt; commonsense for three of four models. Noncommonsense (no real-world correlation) is the hardest category for most models.</div>
+      <div class="chart-title">Accuracy change from forced thinking, by query type (Opus 4.8)</div>
+      <canvas id="chartForcedThinking" height="240"></canvas>
+      <div class="chart-note">Hardest query types gain the most: correlation +6.1pp, nde +3.4pp, nie +3.0pp. The two easiest query types, marginal and collider_bias, see small regressions from forced thinking, consistent with extra deliberation occasionally talking the model out of an already-correct answer.</div>
     </div>
 
     <div class="findings">
       <div class="finding-item">
-        <div class="finding-label">Opus leads, Gemini surprises</div>
-        <div class="finding-text">Claude Opus 4.8 leads at 81.48% but Gemini 3 Flash sits just 1.99pp behind despite being a mid-tier model. Gemini outperforms GPT-5.5 (80.00%) and Claude Sonnet 4.6 (78.97%), both of which are higher-tier models.</div>
+        <div class="finding-label">Reasoning is the gap</div>
+        <div class="finding-text">GPT-5.4 Nano, run without extended thinking, scores 54.80%, about 40 points below every reasoning-enabled model and barely above chance on a binary task. Model tier matters far less than whether reasoning was switched on.</div>
       </div>
       <div class="finding-item">
-        <div class="finding-label">GPT-5.5 collider failure</div>
-        <div class="finding-text">GPT-5.5 scores only 56.63% on collider bias, the lowest in the group and just above chance. Every other model scores above 75%. Claude Opus 4.8 scores 96.02% on the same query type, the highest single query-type score in the leaderboard.</div>
+        <div class="finding-label">GPT-5.5 leads, narrowly</div>
+        <div class="finding-text">GPT-5.5 tops the field at 95.09% with high reasoning effort, 1.83pp ahead of Grok 4.20 and 3.70pp ahead of Claude Opus 4.8. The top three are frontier reasoning models within 4 points of each other.</div>
       </div>
       <div class="finding-item">
-        <div class="finding-label">Rung 2 separates the top</div>
-        <div class="finding-text">Claude Opus 4.8 (90.58%) and Gemini (90.52%) are nearly tied on Rung 2, both well above GPT-5.5 (84.35%) and Claude Sonnet (81.42%). Intervention reasoning is where the top models differentiate.</div>
+        <div class="finding-label">Sonnet's Rung 3 strength</div>
+        <div class="finding-text">Claude Sonnet 4.6 posts 91.16% on Rung 3 (counterfactual), the best counterfactual score of any model in the leaderboard, ahead of GPT-5.5 (91.17% is close, effectively tied) and well ahead of its own Rung 2 score (84.78%), its weakest rung.</div>
       </div>
       <div class="finding-item">
-        <div class="finding-label">Backadj floor</div>
-        <div class="finding-text">Llama (36.57%) and DeepSeek V3.2 (38.29%) both score well below chance on backdoor adjustment. Claude Opus 4.8 (87.69%) and Gemini (89.59%) are the strongest here.</div>
+        <div class="finding-label">Answer-flip and S3</div>
+        <div class="finding-text">Gemini 2.5 Flash flips a correct reasoning trace into a wrong final answer 18.2% of the time, versus 12.9% for Claude Sonnet 4.6. This is consistent with the S3 formalization bottleneck: the trace gets the estimand right, but the residual stream fails to hold that structure through to the output token.</div>
       </div>
       <div class="finding-item">
-        <div class="finding-label">Yes-rate calibration</div>
-        <div class="finding-text">Claude Opus 4.8 has the most balanced yes-rate at 50.06%, almost exactly calibrated. Models closer to 50% tend to score higher, with Llama (60.1%) and DeepSeek (40.0%) at the extremes and the bottom of the leaderboard.</div>
+        <div class="finding-label">Forced thinking rescues Opus</div>
+        <div class="finding-text">Forcing a minimum thinking budget on Opus 4.8's null-reasoning items raised accuracy from 88.60% to 90.23% (+1.63pp), rescuing 114 items for every 39 it broke. The hardest query type, correlation, gained the most (+6.1pp).</div>
       </div>
     </div>
   </section>
@@ -1034,6 +1034,7 @@ const C_GPT    = '#1a3a5c';
 const C_GPT55  = '#0f2a4a';
 const C_LLAMA  = '#5c1a4a';
 const C_DS     = '#1a5c52';
+const C_GROK   = '#701a1a';
 
 function baseOpts(extras) {
   return Object.assign({
@@ -1077,12 +1078,12 @@ function baseOpts(extras) {
 new Chart(document.getElementById('chartOverall'), {
   type: 'bar',
   data: {
-    labels: ['Claude Opus 4.8', 'Gemini 3 Flash', 'GPT-5.5', 'Claude Sonnet 4.6', 'GPT-5.4', 'DeepSeek V3.2', 'Llama 4 Maverick'],
+    labels: ['GPT-5.5', 'Grok 4.20', 'Claude Opus 4.8', 'Claude Sonnet 4.6', 'DeepSeek V3.2', 'Gemini 2.5 Flash', 'GPT-5.4 Nano'],
     datasets: [{
       label: 'Overall accuracy',
-      data: [81.48, 83.47, 80.00, 78.97, 76.63, 62.33, 60.96],
-      backgroundColor: [C_OPUS+'88', C_GEMINI+'88', C_GPT55+'88', C_CLAUDE+'88', C_GPT+'88', C_DS+'88', C_LLAMA+'88'],
-      borderColor:     [C_OPUS, C_GEMINI, C_GPT55, C_CLAUDE, C_GPT, C_DS, C_LLAMA],
+      data: [95.09, 93.26, 91.39, 91.09, 90.91, 85.43, 54.80],
+      backgroundColor: [C_GPT55+'88', C_GROK+'88', C_OPUS+'88', C_CLAUDE+'88', C_DS+'88', C_GEMINI+'88', C_GPT+'88'],
+      borderColor:     [C_GPT55, C_GROK, C_OPUS, C_CLAUDE, C_DS, C_GEMINI, C_GPT],
       borderWidth: 1.5,
     }]
   },
@@ -1099,7 +1100,7 @@ new Chart(document.getElementById('chartOverall'), {
     },
     scales: {
       x: {
-        min: 50, max: 90,
+        min: 45, max: 100,
         ticks: { font:{family:MONO,size:10}, color:INK_FAINT, callback: v => v+'%' },
         grid: { color:RULE }, border:{dash:[4,4],color:RULE}
       },
@@ -1117,13 +1118,13 @@ new Chart(document.getElementById('chartRungsAll'), {
   data: {
     labels: ['Rung 1 — Association', 'Rung 2 — Intervention', 'Rung 3 — Counterfactual'],
     datasets: [
-      { label: 'Claude Opus 4.8',  data: [78.24, 90.58, 76.16], backgroundColor: C_OPUS+'77',   borderColor: C_OPUS,   borderWidth:1.5 },
-      { label: 'Gemini 3 Flash',   data: [80.83, 90.52, 79.46], backgroundColor: C_GEMINI+'77', borderColor: C_GEMINI, borderWidth:1.5 },
-      { label: 'GPT-5.5',          data: [79.29, 84.35, 76.69], backgroundColor: C_GPT55+'77',  borderColor: C_GPT55,  borderWidth:1.5 },
-      { label: 'Claude Sonnet 4.6',data: [78.67, 81.42, 77.03], backgroundColor: C_CLAUDE+'77', borderColor: C_CLAUDE, borderWidth:1.5 },
-      { label: 'GPT-5.4',          data: [77.41, 82.85, 70.28], backgroundColor: C_GPT+'77',    borderColor: C_GPT,    borderWidth:1.5 },
-      { label: 'DeepSeek V3.2',    data: [61.57, 61.38, 63.87], backgroundColor: C_DS+'77',     borderColor: C_DS,     borderWidth:1.5 },
-      { label: 'Llama 4 Maverick', data: [57.57, 61.57, 63.48], backgroundColor: C_LLAMA+'77',  borderColor: C_LLAMA,  borderWidth:1.5 },
+      { label: 'GPT-5.5',          data: [97.78, 96.64, 91.17], backgroundColor: C_GPT55+'77',  borderColor: C_GPT55,  borderWidth:1.5 },
+      { label: 'Grok 4.20',        data: [96.77, 94.46, 89.32], backgroundColor: C_GROK+'77',   borderColor: C_GROK,   borderWidth:1.5 },
+      { label: 'Claude Opus 4.8',  data: [92.88, 94.46, 87.59], backgroundColor: C_OPUS+'77',   borderColor: C_OPUS,   borderWidth:1.5 },
+      { label: 'Claude Sonnet 4.6',data: [97.31, 84.78, 91.16], backgroundColor: C_CLAUDE+'77', borderColor: C_CLAUDE, borderWidth:1.5 },
+      { label: 'DeepSeek V3.2',    data: [97.15, 92.75, 83.99], backgroundColor: C_DS+'77',     borderColor: C_DS,     borderWidth:1.5 },
+      { label: 'Gemini 2.5 Flash', data: [96.70, 83.26, 77.85], backgroundColor: C_GEMINI+'77', borderColor: C_GEMINI, borderWidth:1.5 },
+      { label: 'GPT-5.4 Nano',     data: [54.34, 58.14, 52.40], backgroundColor: C_GPT+'77',    borderColor: C_GPT,    borderWidth:1.5 },
     ]
   },
   options: baseOpts({
@@ -1138,27 +1139,23 @@ new Chart(document.getElementById('chartRungsAll'), {
     },
     scales: {
       x: { ticks:{font:{family:MONO,size:10},color:INK_FAINT}, grid:{color:RULE}, border:{dash:[4,4],color:RULE} },
-      y: { min:50, max:95,
+      y: { min:45, max:100,
            ticks:{font:{family:MONO,size:10},color:INK_FAINT, callback:v=>v+'%'},
            grid:{color:RULE}, border:{dash:[4,4],color:RULE} }
     }
   })
 });
 
-// Chart 2: Query type breakdown
-const queryLabels = ['ATE','backadj','collider bias','correlation','det-counterfact.','ETT','exp away','marginal','NDE','NIE'];
-new Chart(document.getElementById('chartQueryType'), {
+// Chart 2: Failure pattern counts
+const failureLabels = ['Final answer flip', 'Direction error', 'Backadj confusion'];
+new Chart(document.getElementById('chartFailurePatterns'), {
   type: 'bar',
   data: {
-    labels: queryLabels,
+    labels: failureLabels,
     datasets: [
-      { label: 'Claude Opus 4.8',  data: [93.16,87.69,96.02,65.64,75.05,75.21,87.88,88.49,83.15,75.08], backgroundColor: C_OPUS+'77',   borderColor:C_OPUS,   borderWidth:1.5 },
-      { label: 'Gemini 3 Flash',   data: [90.44,89.59,100.0,71.94,74.18,85.40,92.42,87.55,81.53,75.90], backgroundColor: C_GEMINI+'77', borderColor:C_GEMINI, borderWidth:1.5 },
-      { label: 'GPT-5.5',          data: [89.10,83.03,56.63,72.92,67.89,82.70,94.89,83.33,85.04,73.90], backgroundColor: C_GPT55+'77',  borderColor:C_GPT55,  borderWidth:1.5 },
-      { label: 'Claude Sonnet 4.6',data: [91.44,71.94,86.36,76.90,78.58,77.77,87.50,79.32,75.07,75.04], backgroundColor: C_CLAUDE+'77', borderColor:C_CLAUDE, borderWidth:1.5 },
-      { label: 'GPT-5.4',          data: [89.10,78.08,75.19,68.68,65.22,80.21,94.13,83.45,71.70,60.75], backgroundColor: C_GPT+'77',    borderColor:C_GPT,    borderWidth:1.5 },
-      { label: 'DeepSeek V3.2',    data: [84.96,38.29,80.30,58.91,63.40,62.16,81.25,61.87,73.24,61.81], backgroundColor: C_DS+'77',     borderColor:C_DS,     borderWidth:1.5 },
-      { label: 'Llama 4 Maverick', data: [85.66,36.57,94.32,59.23,60.72,65.07,68.56,54.94,68.12,61.93], backgroundColor: C_LLAMA+'77',  borderColor:C_LLAMA,  borderWidth:1.5 },
+      { label: 'Claude Sonnet 4.6', data: [115, 163, 34],  backgroundColor: C_CLAUDE+'77', borderColor:C_CLAUDE, borderWidth:1.5 },
+      { label: 'Gemini 2.5 Flash',  data: [265, 12, 178],  backgroundColor: C_GEMINI+'77', borderColor:C_GEMINI, borderWidth:1.5 },
+      { label: 'GPT-5.4 Nano',      data: [0, 0, 0],       backgroundColor: C_GPT+'77',    borderColor:C_GPT,    borderWidth:1.5 },
     ]
   },
   options: baseOpts({
@@ -1168,47 +1165,47 @@ new Chart(document.getElementById('chartQueryType'), {
         backgroundColor:'#fff', borderColor:RULE, borderWidth:1,
         titleColor:INK, bodyColor:INK_LIGHT,
         titleFont:{family:MONO,size:10}, bodyFont:{family:MONO,size:10},
-        callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(2) + '%' }
+        callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y + ' items' }
+      }
+    },
+    scales: {
+      x: { ticks:{font:{family:MONO,size:10},color:INK_FAINT}, grid:{color:RULE}, border:{dash:[4,4],color:RULE} },
+      y: { min:0, max:280,
+           ticks:{font:{family:MONO,size:10},color:INK_FAINT},
+           grid:{color:RULE}, border:{dash:[4,4],color:RULE} }
+    }
+  })
+});
+
+// Chart 3: Forced thinking delta by query type (Opus 4.8)
+const ftLabels = ['correlation','nde','nie','det-CF','backadj','ett','ate','marginal','collider_bias'];
+const ftDeltas  = [6.1, 3.4, 3.0, 2.8, 1.7, 1.6, 0.1, -0.5, -0.6];
+new Chart(document.getElementById('chartForcedThinking'), {
+  type: 'bar',
+  data: {
+    labels: ftLabels,
+    datasets: [{
+      label: 'Accuracy delta',
+      data: ftDeltas,
+      backgroundColor: ftDeltas.map(v => v >= 0 ? GREEN+'77' : RED+'55'),
+      borderColor: ftDeltas.map(v => v >= 0 ? GREEN : RED),
+      borderWidth: 1.5,
+    }]
+  },
+  options: baseOpts({
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor:'#fff', borderColor:RULE, borderWidth:1,
+        titleColor:INK, bodyColor:INK_LIGHT,
+        titleFont:{family:MONO,size:10}, bodyFont:{family:MONO,size:10},
+        callbacks: { label: ctx => (ctx.parsed.y >= 0 ? '+' : '') + ctx.parsed.y.toFixed(1) + 'pp' }
       }
     },
     scales: {
       x: { ticks:{font:{family:MONO,size:9},color:INK_FAINT, maxRotation:35, minRotation:25}, grid:{color:RULE}, border:{dash:[4,4],color:RULE} },
-      y: { min:30, max:105,
-           ticks:{font:{family:MONO,size:10},color:INK_FAINT, callback:v=>v+'%'},
-           grid:{color:RULE}, border:{dash:[4,4],color:RULE} }
-    }
-  })
-});
-
-// Chart 3: Property breakdown
-new Chart(document.getElementById('chartProperty'), {
-  type: 'bar',
-  data: {
-    labels: ['Anticommonsense', 'Commonsense', 'Noncommonsense'],
-    datasets: [
-      { label: 'Claude Opus 4.8',  data: [82.61,82.31,79.49], backgroundColor: C_OPUS+'77',   borderColor:C_OPUS,   borderWidth:1.5 },
-      { label: 'Gemini 3 Flash',   data: [84.46,83.60,82.32], backgroundColor: C_GEMINI+'77', borderColor:C_GEMINI, borderWidth:1.5 },
-      { label: 'GPT-5.5',          data: [82.38,79.82,77.76], backgroundColor: C_GPT55+'77',  borderColor:C_GPT55,  borderWidth:1.5 },
-      { label: 'Claude Sonnet 4.6',data: [80.15,79.31,77.44], backgroundColor: C_CLAUDE+'77', borderColor:C_CLAUDE, borderWidth:1.5 },
-      { label: 'GPT-5.4',          data: [78.50,77.51,73.85], backgroundColor: C_GPT+'77',    borderColor:C_GPT,    borderWidth:1.5 },
-      { label: 'DeepSeek V3.2',    data: [62.33,63.44,61.19], backgroundColor: C_DS+'77',     borderColor:C_DS,     borderWidth:1.5 },
-      { label: 'Llama 4 Maverick', data: [61.56,62.26,59.03], backgroundColor: C_LLAMA+'77',  borderColor:C_LLAMA,  borderWidth:1.5 },
-    ]
-  },
-  options: baseOpts({
-    plugins: {
-      legend: { labels:{font:{family:MONO,size:10},color:INK_FAINT,boxWidth:10} },
-      tooltip: {
-        backgroundColor:'#fff', borderColor:RULE, borderWidth:1,
-        titleColor:INK, bodyColor:INK_LIGHT,
-        titleFont:{family:MONO,size:10}, bodyFont:{family:MONO,size:10},
-        callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(2) + '%' }
-      }
-    },
-    scales: {
-      x: { ticks:{font:{family:MONO,size:10},color:INK_FAINT}, grid:{color:RULE}, border:{dash:[4,4],color:RULE} },
-      y: { min:50, max:92,
-           ticks:{font:{family:MONO,size:10},color:INK_FAINT, callback:v=>v+'%'},
+      y: { min:-2, max:7,
+           ticks:{font:{family:MONO,size:10},color:INK_FAINT, callback:v=>(v>=0?'+':'')+v+'pp'},
            grid:{color:RULE}, border:{dash:[4,4],color:RULE} }
     }
   })
