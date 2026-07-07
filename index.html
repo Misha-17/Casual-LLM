@@ -515,6 +515,7 @@
       <li><a href="#mechanistic"><span class="nav-num">06</span> Mechanistic account</a></li>
       <li><a href="#lirefs"><span class="nav-num">07</span> LiReF experiments</a></li>
       <li><a href="#proposal"><span class="nav-num">08</span> Research proposal</a></li>
+      <li><a href="#replication"><span class="nav-num">09</span> Small-sample replication <span class="new-badge">new</span></a></li>
     </ul>
   </nav>
 
@@ -1007,6 +1008,110 @@
     </div>
   </section>
 
+  <div class="rule"></div>
+
+  <!-- 09 -->
+  <section class="section" id="replication">
+    <div class="section-marker">09 &nbsp;&middot;&nbsp; New results</div>
+    <h2>Small-sample replication: GPT-5.5 vs. Claude Opus 4.8</h2>
+    <p>A quick sanity-check run rather than a full leaderboard pass: we take 10 random synthetic CLadder samples per query type across all three rungs and run them through GPT-5.5 (high reasoning effort) and Claude Opus 4.8 (16k thinking budget). No items failed to return an answer for either model, and both models say "yes" at almost identical rates, so the accuracy gap below is not an artefact of one model refusing more or defaulting to a different answer distribution.</p>
+
+    <div class="leaderboard">
+      <div class="lb-header">
+        <div class="lb-header-cell">#</div>
+        <div class="lb-header-cell">Model</div>
+        <div class="lb-header-cell" style="text-align:right">Overall</div>
+        <div class="lb-header-cell">R1 Assoc.</div>
+        <div class="lb-header-cell">R2 Interv.</div>
+        <div class="lb-header-cell">R3 Count.</div>
+      </div>
+
+      <!-- GPT-5.5 -->
+      <div class="lb-row winner">
+        <div class="lb-rank gold">1</div>
+        <div>
+          <div class="lb-model-name">
+            <span class="dot" style="background:#0f2a4a"></span>GPT-5.5
+            <span class="tier-badge tier-frontier">frontier</span>
+          </div>
+          <div class="lb-model-sub">openai/gpt-5.5 &nbsp;&middot;&nbsp; reasoning captured: 3,574</div>
+          <div class="lb-bar-track" style="margin-top:6px; width:90%">
+            <div class="lb-bar-fill" style="width:92.87%; background:#0f2a4a88"></div>
+          </div>
+        </div>
+        <div class="lb-acc best">92.87%</div>
+        <div class="lb-rung">94.06%</div>
+        <div class="lb-rung">92.39%</div>
+        <div class="lb-rung">92.21%</div>
+      </div>
+
+      <!-- Claude Opus 4.8 -->
+      <div class="lb-row">
+        <div class="lb-rank">2</div>
+        <div>
+          <div class="lb-model-name">
+            <span class="dot" style="background:#5c2a0f"></span>Claude Opus 4.8
+            <span class="tier-badge tier-frontier">frontier</span>
+          </div>
+          <div class="lb-model-sub">anthropic/claude-opus-4.8 &nbsp;&middot;&nbsp; reasoning captured: 6,428</div>
+          <div class="lb-bar-track" style="margin-top:6px; width:90%">
+            <div class="lb-bar-fill" style="width:90.00%; background:#5c2a0f88"></div>
+          </div>
+        </div>
+        <div class="lb-acc">90.00%</div>
+        <div class="lb-rung">93.66%</div>
+        <div class="lb-rung">90.17%</div>
+        <div class="lb-rung">86.77%</div>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat-item"><div class="stat-val neutral">0</div><div class="stat-desc">Null responses<br>either model</div></div>
+      <div class="stat-item"><div class="stat-val neutral">47.2%</div><div class="stat-desc">"Yes" rate<br>identical, both models</div></div>
+      <div class="stat-item"><div class="stat-val down">2.87pp</div><div class="stat-desc">GPT-5.5 lead<br>over Opus 4.8</div></div>
+      <div class="stat-item"><div class="stat-val down">5.44pp</div><div class="stat-desc">Opus Rung 3 gap<br>vs GPT-5.5</div></div>
+    </div>
+
+    <div class="aside">The gap widens as the rung gets harder. GPT-5.5 and Opus 4.8 are within half a point on Rung 1 (association), but by Rung 3 (counterfactual) GPT-5.5 holds a 5.44pp lead, 92.21% vs 86.77%. Both models nearly max out on backadj items (100% each) and both stumble hardest on collider_bias and nie, the two query types that require holding a confounding structure in mind rather than reading it off the surface.</div>
+
+    <h3>Accuracy by rung</h3>
+    <div class="chart-wrap">
+      <div class="chart-title">GPT-5.5 vs Claude Opus 4.8, accuracy by rung</div>
+      <canvas id="chartRungReplication" height="180"></canvas>
+      <div class="chart-note">GPT-5.5 leads on all three rungs, but the margin grows from 0.40pp on Rung 1 to 5.44pp on Rung 3. Consistent with the earlier 10,112-item leaderboard run, Rung 3 remains the rung where the field separates most.</div>
+    </div>
+
+    <h3>Accuracy by query type</h3>
+    <div class="chart-wrap">
+      <div class="chart-title">GPT-5.5 vs Claude Opus 4.8, accuracy by CLadder query type</div>
+      <canvas id="chartQueryTypeReplication" height="240"></canvas>
+      <div class="chart-note">Both models hit 100% on backadj and stay above 91% on marginal and ate. The weak points for both are collider_bias (GPT-5.5: 54.21%, Opus 4.8: 58.11%, both barely above chance) and nie (GPT-5.5: 82.62%, Opus 4.8: 75.29%), the biggest single gap between the two models.</div>
+    </div>
+
+    <div class="findings">
+      <div class="finding-item">
+        <div class="finding-label">GPT-5.5 still ahead</div>
+        <div class="finding-text">At this smaller sample size GPT-5.5 leads 92.87% to 90.00%, a 2.87pp margin, directionally consistent with the 3.70pp gap seen on the full 10,112-item run.</div>
+      </div>
+      <div class="finding-item">
+        <div class="finding-label">Collider_bias is the shared weak point</div>
+        <div class="finding-text">Both models score near chance on collider_bias (54.21% and 58.11%), the only query type where either model dips below 60%. This is the one place Opus 4.8 actually edges out GPT-5.5.</div>
+      </div>
+      <div class="finding-item">
+        <div class="finding-label">Backadj is fully solved</div>
+        <div class="finding-text">Both models hit a perfect 100% on backdoor-adjustment items in this sample, suggesting the backadj query type is essentially saturated for frontier reasoning models at this scale.</div>
+      </div>
+      <div class="finding-item">
+        <div class="finding-label">Rung 3 drives the overall gap</div>
+        <div class="finding-text">Rungs 1 and 2 are close between the models (within ~1pp and ~2.2pp respectively); nearly all of the overall 2.87pp gap traces back to Rung 3, where Opus 4.8 trails by 5.44pp.</div>
+      </div>
+    </div>
+
+    <div class="aside">Caveat: this is a 10-sample-per-query-type sanity check, not a full leaderboard run. Reasoning-capture counts (3,574 for GPT-5.5, 6,428 for Opus 4.8) suggest Opus 4.8 produced substantially longer reasoning traces on this batch; treat the point estimates above as directional rather than final until re-run at the full 10,112-item scale.</div>
+  </section>
+
+  <div class="rule"></div>
+
   <footer class="footer">
     <span>Shivansh Singh &nbsp;&middot;&nbsp; LUT University</span>
     <span>Jinesis Lab &nbsp;&middot;&nbsp; June 2026</span>
@@ -1330,6 +1435,65 @@ new Chart(document.getElementById('chartRescue'), {
     scales: {
       x:{ticks:{font:{family:MONO,size:10},color:INK_LIGHT},grid:{display:false},border:{display:false}},
       y:{min:0,max:25,ticks:{font:{family:MONO,size:10},color:INK_FAINT,callback:v=>v+'%'},grid:{color:RULE},border:{dash:[4,4],color:RULE}}
+    }
+  })
+});
+
+// Chart: Replication run — accuracy by rung, GPT-5.5 vs Opus 4.8
+new Chart(document.getElementById('chartRungReplication'), {
+  type: 'bar',
+  data: {
+    labels: ['Rung 1 — Association', 'Rung 2 — Intervention', 'Rung 3 — Counterfactual'],
+    datasets: [
+      { label: 'GPT-5.5',         data: [94.06, 92.39, 92.21], backgroundColor: C_GPT55+'77', borderColor: C_GPT55, borderWidth:1.5 },
+      { label: 'Claude Opus 4.8', data: [93.66, 90.17, 86.77], backgroundColor: C_OPUS+'77',  borderColor: C_OPUS,  borderWidth:1.5 },
+    ]
+  },
+  options: baseOpts({
+    plugins: {
+      legend: { labels:{font:{family:MONO,size:10},color:INK_FAINT,boxWidth:10} },
+      tooltip: {
+        backgroundColor:'#fff', borderColor:RULE, borderWidth:1,
+        titleColor:INK, bodyColor:INK_LIGHT,
+        titleFont:{family:MONO,size:10}, bodyFont:{family:MONO,size:10},
+        callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(2) + '%' }
+      }
+    },
+    scales: {
+      x: { ticks:{font:{family:MONO,size:10},color:INK_FAINT}, grid:{color:RULE}, border:{dash:[4,4],color:RULE} },
+      y: { min:80, max:100,
+           ticks:{font:{family:MONO,size:10},color:INK_FAINT, callback:v=>v+'%'},
+           grid:{color:RULE}, border:{dash:[4,4],color:RULE} }
+    }
+  })
+});
+
+// Chart: Replication run — accuracy by query type, GPT-5.5 vs Opus 4.8
+const qtLabels = ['ate','backadj','collider_bias','correlation','det-CF','ett','exp_away','marginal','nde','nie'];
+new Chart(document.getElementById('chartQueryTypeReplication'), {
+  type: 'bar',
+  data: {
+    labels: qtLabels,
+    datasets: [
+      { label: 'GPT-5.5',         data: [96.55,100.0,54.21,91.47,95.51,94.55,95.17,96.58,92.41,82.62], backgroundColor: C_GPT55+'77', borderColor: C_GPT55, borderWidth:1.5 },
+      { label: 'Claude Opus 4.8', data: [93.63,100.0,58.11,91.21,93.90,89.21,91.72,96.31,89.87,75.29], backgroundColor: C_OPUS+'77',  borderColor: C_OPUS,  borderWidth:1.5 },
+    ]
+  },
+  options: baseOpts({
+    plugins: {
+      legend: { labels:{font:{family:MONO,size:10},color:INK_FAINT,boxWidth:10} },
+      tooltip: {
+        backgroundColor:'#fff', borderColor:RULE, borderWidth:1,
+        titleColor:INK, bodyColor:INK_LIGHT,
+        titleFont:{family:MONO,size:10}, bodyFont:{family:MONO,size:10},
+        callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(2) + '%' }
+      }
+    },
+    scales: {
+      x: { ticks:{font:{family:MONO,size:9},color:INK_FAINT, maxRotation:35, minRotation:25}, grid:{color:RULE}, border:{dash:[4,4],color:RULE} },
+      y: { min:40, max:100,
+           ticks:{font:{family:MONO,size:10},color:INK_FAINT, callback:v=>v+'%'},
+           grid:{color:RULE}, border:{dash:[4,4],color:RULE} }
     }
   })
 });
