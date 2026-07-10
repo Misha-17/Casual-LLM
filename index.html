@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LLM Causal Reasoning: Shivansh Singh</title>
+<title>LLM Causal Reasoning Benchmarks</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
@@ -21,10 +21,6 @@
     --green: #2a5e2a;
     --red: #8b1a1a;
     --blue: #1a3a5c;
-    --gemini: #1a5c3a;
-    --claude: #6b3a1a;
-    --gpt: #1a3a5c;
-    --llama: #5c1a4a;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -39,22 +35,48 @@
     font-weight: 300;
   }
 
-  .page {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 80px 40px 120px;
-    animation: fadein .6s ease both;
-  }
+  /* ── Layout: sidebar + content ── */
+  .layout { display: flex; max-width: 1180px; margin: 0 auto; }
 
-  @keyframes fadein {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
+  .sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 48px 20px 48px 32px;
+    border-right: 1px solid var(--rule);
   }
+  .sidebar-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 18px;
+  }
+  .sidebar-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+  .sidebar-list a {
+    text-decoration: none;
+    color: var(--ink-light);
+    font-size: 14.5px;
+    display: block;
+    padding: 7px 10px;
+    border-radius: 3px;
+    transition: background .15s, color .15s;
+    line-height: 1.4;
+  }
+  .sidebar-list a:hover { background: var(--paper-warm); color: var(--accent); }
+  .sidebar-list a.active { background: var(--paper-warm); color: var(--accent); font-weight: 500; }
+
+  .content { flex: 1; min-width: 0; padding: 64px 48px 120px; }
 
   /* ── Header ── */
   .header {
-    margin-bottom: 64px;
-    padding-bottom: 40px;
+    margin-bottom: 48px;
+    padding-bottom: 32px;
     border-bottom: 1px solid var(--rule);
   }
   .header-meta {
@@ -71,7 +93,7 @@
     font-weight: 400;
     line-height: 1.35;
     color: var(--ink);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     letter-spacing: -.01em;
   }
   .header-byline {
@@ -80,36 +102,8 @@
     font-style: italic;
   }
 
-  /* ── Nav ── */
-  .nav { margin-bottom: 64px; }
-  .nav-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    margin-bottom: 12px;
-  }
-  .nav-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
-  .nav-list a {
-    text-decoration: none;
-    color: var(--ink-light);
-    font-size: 15px;
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    transition: color .15s;
-  }
-  .nav-list a:hover { color: var(--accent); }
-  .nav-num {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    color: var(--ink-faint);
-    min-width: 14px;
-  }
-
   /* ── Sections ── */
-  .section { margin-bottom: 72px; }
+  .section { margin-bottom: 72px; scroll-margin-top: 32px; }
   .section-marker {
     font-family: 'DM Mono', monospace;
     font-size: 10px;
@@ -141,13 +135,6 @@
 
   .rule { width: 48px; height: 1px; background: var(--rule); margin: 64px 0; }
 
-  .num {
-    font-family: 'DM Mono', monospace;
-    font-size: 14px;
-    color: var(--accent);
-    font-weight: 500;
-  }
-
   .aside {
     border-left: 2px solid var(--accent-light);
     padding: 4px 0 4px 20px;
@@ -157,6 +144,49 @@
     font-size: 17px;
     line-height: 1.7;
   }
+
+  .note {
+    border-left: 2px solid var(--rule);
+    padding: 4px 0 4px 20px;
+    margin: 20px 0;
+    color: var(--ink-faint);
+    font-size: 14.5px;
+    line-height: 1.7;
+  }
+
+  /* ── Blog / latest card ── */
+  .blog-card {
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    padding: 32px;
+    margin-bottom: 16px;
+  }
+  .blog-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .blog-headline {
+    font-family: 'Lora', serif;
+    font-size: 21px;
+    color: var(--ink);
+    margin-bottom: 14px;
+    line-height: 1.4;
+  }
+  .blog-body { font-size: 16px; color: var(--ink-light); margin-bottom: 18px; }
+  .blog-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: .06em;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent-light);
+    padding-bottom: 2px;
+  }
+  .blog-link:hover { color: var(--ink); }
 
   /* ── Stats ── */
   .stats {
@@ -278,22 +308,6 @@
     color: var(--ink-light);
   }
 
-  /* Bar inside leaderboard */
-  .lb-bar-col { padding-right: 4px; }
-  .lb-bar-track {
-    width: 100%;
-    height: 4px;
-    background: var(--rule);
-    border-radius: 2px;
-    overflow: hidden;
-    margin-top: 2px;
-  }
-  .lb-bar-fill {
-    height: 100%;
-    border-radius: 2px;
-    transition: width .6s ease;
-  }
-
   /* ── Findings ── */
   .findings { margin: 20px 0; }
   .finding-item {
@@ -316,9 +330,9 @@
   }
   .finding-text { font-size: 16px; color: var(--ink); line-height: 1.7; }
 
-  /* ── Probe table ── */
-  .probe-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 15px; }
-  .probe-table th {
+  /* ── Data table ── */
+  .data-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 15px; }
+  .data-table th {
     font-family: 'DM Mono', monospace;
     font-size: 10px;
     letter-spacing: .1em;
@@ -329,15 +343,13 @@
     border-bottom: 1px solid var(--rule);
     font-weight: 400;
   }
-  .probe-table td {
+  .data-table td {
     padding: 10px 12px 10px 0;
     border-bottom: 1px solid var(--rule);
     color: var(--ink);
     vertical-align: middle;
   }
-  .probe-table tr.weak td { color: var(--red); }
-  .probe-table tr.weak td:first-child { font-style: italic; }
-  .probe-table td.mono { font-family: 'DM Mono', monospace; font-size: 13px; }
+  .data-table td.mono { font-family: 'DM Mono', monospace; font-size: 13px; }
 
   /* ── Rungs ── */
   .rungs { display: grid; grid-template-columns: repeat(3,1fr); gap: 0; margin: 24px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
@@ -346,20 +358,6 @@
   .rung-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink-faint); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px; }
   .rung-name { font-family: 'Lora', serif; font-size: 16px; color: var(--ink); margin-bottom: 6px; }
   .rung-desc { font-size: 14px; color: var(--ink-light); line-height: 1.6; }
-
-  /* ── Chain ── */
-  .chain { margin: 24px 0; padding: 24px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
-  .chain-step { display: flex; gap: 16px; align-items: baseline; margin-bottom: 10px; }
-  .chain-step:last-child { margin-bottom: 0; }
-  .chain-arrow { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent-light); min-width: 20px; }
-  .chain-text { font-size: 16px; color: var(--ink-light); line-height: 1.6; }
-
-  /* ── Interventions ── */
-  .interventions { margin: 24px 0; }
-  .intervention { padding: 20px 0; border-bottom: 1px solid var(--rule); }
-  .intervention:first-child { border-top: 1px solid var(--rule); }
-  .intervention-name { font-family: 'Lora', serif; font-size: 17px; color: var(--ink); margin-bottom: 8px; }
-  .intervention-desc { font-size: 15px; color: var(--ink-light); line-height: 1.7; }
 
   /* ── Charts ── */
   .chart-wrap {
@@ -401,7 +399,6 @@
     top: -2px;
   }
 
-  /* ── model color dots ── */
   .dot {
     display: inline-block;
     width: 8px; height: 8px;
@@ -427,56 +424,20 @@
     gap: 8px;
   }
 
-  /* ── Query type grid ── */
-  .query-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    margin: 20px 0;
-    border-top: 1px solid var(--rule);
-  }
-  .query-item {
-    padding: 12px 0;
-    border-bottom: 1px solid var(--rule);
-  }
-  .query-item:nth-child(odd) { padding-right: 20px; border-right: 1px solid var(--rule); }
-  .query-item:nth-child(even) { padding-left: 20px; }
-  .query-name {
-    font-family: 'DM Mono', monospace;
-    font-size: 9px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    margin-bottom: 6px;
-  }
-  .query-bars { display: flex; flex-direction: column; gap: 3px; }
-  .query-bar-row { display: flex; align-items: center; gap: 6px; }
-  .query-bar-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 8px;
-    color: var(--ink-faint);
-    width: 18px;
-    text-align: right;
-    flex-shrink: 0;
-  }
-  .query-bar-track {
-    flex: 1;
-    height: 5px;
-    background: var(--rule);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-  .query-bar-fill { height: 100%; border-radius: 2px; }
-  .query-bar-val {
-    font-family: 'DM Mono', monospace;
-    font-size: 8px;
-    color: var(--ink-faint);
-    width: 32px;
-    flex-shrink: 0;
-  }
-
-  @media (max-width: 600px) {
-    .page { padding: 48px 24px 80px; }
+  /* ── Mobile ── */
+  @media (max-width: 860px) {
+    .layout { flex-direction: column; }
+    .sidebar {
+      position: static;
+      width: 100%;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid var(--rule);
+      padding: 20px 24px;
+    }
+    .sidebar-list { flex-direction: row; flex-wrap: wrap; gap: 4px; }
+    .sidebar-list a { padding: 6px 10px; font-size: 13px; }
+    .content { padding: 40px 24px 80px; }
     h1 { font-size: 22px; }
     .rungs { grid-template-columns: 1fr; }
     .rung:not(:last-child) { border-right: none; border-bottom: 1px solid var(--rule); margin-right: 0; }
@@ -488,636 +449,482 @@
     .lb-header .lb-header-cell:nth-child(5),
     .lb-header .lb-header-cell:nth-child(6),
     .lb-row .lb-rung { display: none; }
-    .query-grid { grid-template-columns: 1fr; }
-    .query-item:nth-child(odd) { border-right: none; padding-right: 0; }
-    .query-item:nth-child(even) { padding-left: 0; }
   }
 </style>
 </head>
 <body>
-<div class="page">
 
-  <header class="header">
-    <div class="header-meta">Jinesis Lab &nbsp;&middot;&nbsp; June 2026 &nbsp;&middot;&nbsp; Updated results</div>
-    <h1>LLM causal reasoning: benchmarks, gaps, and a mechanistic account</h1>
-    <div class="header-byline">Shivansh Singh &nbsp;&middot;&nbsp; LUT University &nbsp;&middot;&nbsp; MSc Mechanistic Interpretability</div>
-  </header>
+<div class="layout">
 
-  <nav class="nav">
-    <div class="nav-label">Contents</div>
-    <ul class="nav-list">
-      <li><a href="#leaderboard"><span class="nav-num">00</span> CLadder leaderboard <span class="new-badge">new</span></a></li>
-      <li><a href="#ladder"><span class="nav-num">01</span> Pearl's ladder of causation</a></li>
-      <li><a href="#benchmarks"><span class="nav-num">02</span> Benchmark landscape</a></li>
-      <li><a href="#posttraining"><span class="nav-num">03</span> Post-training methods</a></li>
-      <li><a href="#problems"><span class="nav-num">04</span> Open problems</a></li>
-      <li><a href="#experiments"><span class="nav-num">05</span> Our experiments</a></li>
-      <li><a href="#mechanistic"><span class="nav-num">06</span> Mechanistic account</a></li>
-      <li><a href="#lirefs"><span class="nav-num">07</span> LiReF experiments</a></li>
-      <li><a href="#proposal"><span class="nav-num">08</span> Research proposal</a></li>
-      <li><a href="#replication"><span class="nav-num">09</span> Small-sample replication <span class="new-badge">new</span></a></li>
+  <nav class="sidebar">
+    <div class="sidebar-title">Contents</div>
+    <ul class="sidebar-list">
+      <li><a href="#latest" class="nav-link">Latest</a></li>
+      <li><a href="#causcibench" class="nav-link">CauSciBench: Fable 5</a></li>
+      <li><a href="#leaderboard" class="nav-link">CLadder leaderboard</a></li>
+      <li><a href="#replication" class="nav-link">Synthetic dataset run</a></li>
+      <li><a href="#ladder" class="nav-link">Pearl's ladder</a></li>
+      <li><a href="#benchmarks" class="nav-link">Benchmark landscape</a></li>
+      <li><a href="#posttraining" class="nav-link">Post-training methods</a></li>
+      <li><a href="#problems" class="nav-link">Open problems</a></li>
     </ul>
   </nav>
 
-  <div class="rule"></div>
+  <div class="content">
 
-  <!-- 00 LEADERBOARD -->
-  <section class="section" id="leaderboard">
-    <div class="section-marker">00 &nbsp;&middot;&nbsp; New results</div>
-    <h2>CLadder v1.5 leaderboard</h2>
-    <p>Seven models evaluated on CLadder v1.5 (n&nbsp;=&nbsp;10,112) via the OpenRouter API, with extended thinking enabled wherever a model supports it. GPT-5.5 leads at 95.09% with high reasoning effort, followed closely by Grok 4.20 and Claude Opus 4.8. GPT-5.4 Nano, run without reasoning, trails the field at 54.80%, barely above chance on a binary task.</p>
+    <header class="header">
+      <div class="header-meta">July 2026 &nbsp;&middot;&nbsp; Updated results</div>
+      <h1>LLM causal reasoning: benchmark results and open problems</h1>
+    </header>
 
-    <div class="leaderboard">
-      <div class="lb-header">
-        <div class="lb-header-cell">#</div>
-        <div class="lb-header-cell">Model</div>
-        <div class="lb-header-cell" style="text-align:right">Overall</div>
-        <div class="lb-header-cell">R1 Assoc.</div>
-        <div class="lb-header-cell">R2 Interv.</div>
-        <div class="lb-header-cell">R3 Count.</div>
-      </div>
-
-      <!-- GPT-5.5 -->
-      <div class="lb-row winner">
-        <div class="lb-rank gold">1</div>
-        <div>
-          <div class="lb-model-name">
-            <span class="dot" style="background:#0f2a4a"></span>GPT-5.5
-            <span class="tier-badge tier-frontier">frontier</span>
-          </div>
-          <div class="lb-model-sub">openai/gpt-5.5 &nbsp;&middot;&nbsp; reasoning: high effort</div>
-          <div class="lb-bar-track" style="margin-top:6px; width:90%">
-            <div class="lb-bar-fill" style="width:95.09%; background:#0f2a4a88"></div>
-          </div>
+    <!-- LATEST / BLOG BRIEF -->
+    <section class="section" id="latest">
+      <div class="section-marker">Latest</div>
+      <h2>This update</h2>
+      <div class="blog-card">
+        <div class="blog-date">July 2026</div>
+        <div class="blog-headline">Claude Fable 5 on CauSciBench: method selection is decent, effect estimates are not</div>
+        <div class="blog-body">
+          We ran Claude Fable 5 through our causal agent (CAIS) on all three CauSciBench splits: real research data, QRData-CI, and synthetic data. Across 357 tasks, Fable 5 picks a reasonable statistical method about 64% of the time. But once you check whether the actual numeric estimate is close to the true answer, that score drops to 29%. The gap is biggest on real research data, where messy, high-cardinality variables trip up the estimation step even when the method choice is right.
         </div>
-        <div class="lb-acc best">95.09%</div>
-        <div class="lb-rung">97.78%</div>
-        <div class="lb-rung">96.64%</div>
-        <div class="lb-rung">91.17%</div>
+        <a href="#causcibench" class="blog-link">See the full breakdown &darr;</a>
+      </div>
+    </section>
+
+    <div class="rule"></div>
+
+    <!-- CAUSCIBENCH DETAILED RESULTS -->
+    <section class="section" id="causcibench">
+      <div class="section-marker">New results</div>
+      <h2>CauSciBench: Claude Fable 5 results</h2>
+      <p>CauSciBench gives a model a research question and a real dataset, and asks it to pick a causal inference method, run it, and interpret the result. We ran Claude Fable 5 through our CAIS agent on all three splits: <strong>real</strong> (real published research datasets), <strong>QR</strong> (QRData-CI, quantitative reasoning with causal structure), and <strong>synthetic</strong> (generated data with known ground truth).</p>
+
+      <div class="stats">
+        <div class="stat-item"><div class="stat-val neutral">63.6%</div><div class="stat-desc">Method selection<br>accuracy, overall</div></div>
+        <div class="stat-item"><div class="stat-val down">29.3%</div><div class="stat-desc">Effect estimate<br>accuracy, overall</div></div>
+        <div class="stat-item"><div class="stat-val neutral">51.8%</div><div class="stat-desc">Coverage: rows with<br>a usable numeric answer</div></div>
+        <div class="stat-item"><div class="stat-val neutral">357</div><div class="stat-desc">Total tasks<br>across all splits</div></div>
       </div>
 
-      <!-- Grok 4.20 -->
-      <div class="lb-row">
-        <div class="lb-rank">2</div>
-        <div>
-          <div class="lb-model-name">
-            <span class="dot" style="background:#701a1a"></span>Grok 4.20
-            <span class="tier-badge tier-frontier">frontier</span>
-          </div>
-          <div class="lb-model-sub">xai/grok-4.20 &nbsp;&middot;&nbsp; reasoning: enabled</div>
-          <div class="lb-bar-track" style="margin-top:6px; width:90%">
-            <div class="lb-bar-fill" style="width:93.26%; background:#701a1a88"></div>
-          </div>
+      <h3>Results by split</h3>
+      <table class="data-table">
+        <thead><tr><th>Split</th><th>Tasks</th><th>Method accuracy</th><th>Effect accuracy</th><th>Coverage</th></tr></thead>
+        <tbody>
+          <tr><td>Synthetic</td><td class="mono">143</td><td class="mono">69.2%</td><td class="mono">45.5%</td><td class="mono">64.3%</td></tr>
+          <tr><td>Real</td><td class="mono">175</td><td class="mono">65.1%</td><td class="mono">18.1%</td><td class="mono">44.6%</td></tr>
+          <tr><td>QR (QRData-CI)</td><td class="mono">39</td><td class="mono">35.9%</td><td class="mono">20.1%</td><td class="mono">38.5%</td></tr>
+        </tbody>
+      </table>
+
+      <div class="chart-wrap">
+        <div class="chart-title">Fable 5 on CauSciBench, by split</div>
+        <canvas id="chartCauSciBench" height="200"></canvas>
+        <div class="chart-note">Method accuracy: how often the chosen method matches the reference method. Effect accuracy: a partial-credit score based on how close the numeric estimate is to the true answer, counted only when the method was also correct. Coverage: how often a usable numeric estimate was produced at all.</div>
+      </div>
+
+      <div class="aside">Method selection holds up reasonably well across all three splits, staying above a third even on the hardest split. Effect accuracy is a different story: it falls hardest on real data, where the model has to deal with messy real-world variables instead of clean synthetic ones.</div>
+
+      <h3>What this means</h3>
+      <div class="findings">
+        <div class="finding-item">
+          <div class="finding-label">Method vs. execution</div>
+          <div class="finding-text">Fable 5 is noticeably better at naming the right method than at actually running it and getting a correct number. This gap is largest on real data, where it drops from 65.1% method accuracy to just 18.1% effect accuracy.</div>
         </div>
-        <div class="lb-acc">93.26%</div>
-        <div class="lb-rung">96.77%</div>
-        <div class="lb-rung">94.46%</div>
-        <div class="lb-rung">89.32%</div>
-      </div>
-
-      <!-- Claude Opus 4.8 -->
-      <div class="lb-row">
-        <div class="lb-rank">3</div>
-        <div>
-          <div class="lb-model-name">
-            <span class="dot" style="background:#5c2a0f"></span>Claude Opus 4.8
-            <span class="tier-badge tier-frontier">frontier</span>
-          </div>
-          <div class="lb-model-sub">anthropic/claude-opus-4.8 &nbsp;&middot;&nbsp; reasoning: budget 16k</div>
-          <div class="lb-bar-track" style="margin-top:6px; width:90%">
-            <div class="lb-bar-fill" style="width:91.39%; background:#5c2a0f88"></div>
-          </div>
+        <div class="finding-item">
+          <div class="finding-label">Synthetic is the easy case</div>
+          <div class="finding-text">Synthetic data gives the best results across the board, since the underlying relationships are simpler and the variables are clean. This gap between synthetic and real performance is a known pattern in causal reasoning benchmarks.</div>
         </div>
-        <div class="lb-acc">91.39%</div>
-        <div class="lb-rung">92.88%</div>
-        <div class="lb-rung">94.46%</div>
-        <div class="lb-rung">87.59%</div>
-      </div>
-
-      <!-- Claude Sonnet 4.6 -->
-      <div class="lb-row">
-        <div class="lb-rank">4</div>
-        <div>
-          <div class="lb-model-name">
-            <span class="dot" style="background:#8b4513"></span>Claude Sonnet 4.6
-            <span class="tier-badge tier-mid">mid</span>
-          </div>
-          <div class="lb-model-sub">anthropic/claude-sonnet-4.6 &nbsp;&middot;&nbsp; reasoning: budget 8k</div>
-          <div class="lb-bar-track" style="margin-top:6px; width:90%">
-            <div class="lb-bar-fill" style="width:91.09%; background:#8b451388"></div>
-          </div>
+        <div class="finding-item">
+          <div class="finding-label">QR is hardest for method choice</div>
+          <div class="finding-text">QRData-CI has the lowest method accuracy of the three splits (35.9%), suggesting its quantitative reasoning questions are harder to map onto a standard causal method than the other two splits.</div>
         </div>
-        <div class="lb-acc">91.09%</div>
-        <div class="lb-rung">97.31%</div>
-        <div class="lb-rung">84.78%</div>
-        <div class="lb-rung">91.16%</div>
       </div>
 
-      <!-- DeepSeek V3.2 -->
-      <div class="lb-row">
-        <div class="lb-rank">5</div>
-        <div>
-          <div class="lb-model-name">
-            <span class="dot" style="background:#1a5c52"></span>DeepSeek V3.2
-            <span class="tier-badge" style="color:#1a5c52">open</span>
-          </div>
-          <div class="lb-model-sub">deepseek/deepseek-v3.2 &nbsp;&middot;&nbsp; reasoning: enabled</div>
-          <div class="lb-bar-track" style="margin-top:6px; width:90%">
-            <div class="lb-bar-fill" style="width:90.91%; background:#1a5c5288"></div>
-          </div>
+      <div class="note">Note on evaluation: effect accuracy and coverage are computed only for rows where the model's answer could be automatically matched back to its source question. A portion of rows, especially on the real split, could not be matched this way and are counted as incorrect. Actual performance is likely somewhat higher than shown here.</div>
+    </section>
+
+    <div class="rule"></div>
+
+    <!-- CLADDER LEADERBOARD -->
+    <section class="section" id="leaderboard">
+      <div class="section-marker">Leaderboard</div>
+      <h2>CLadder v1.5 leaderboard</h2>
+      <p>Seven models evaluated on CLadder v1.5 (n = 10,112) through the OpenRouter API, with extended thinking turned on wherever a model supports it. GPT-5.5 leads at 95.09% with high reasoning effort, followed closely by Grok 4.20 and Claude Opus 4.8. GPT-5.4 Nano, run without reasoning, trails the field at 54.80%, barely above chance on a binary task.</p>
+
+      <div class="leaderboard">
+        <div class="lb-header">
+          <div class="lb-header-cell">#</div>
+          <div class="lb-header-cell">Model</div>
+          <div class="lb-header-cell" style="text-align:right">Overall</div>
+          <div class="lb-header-cell">R1 Assoc.</div>
+          <div class="lb-header-cell">R2 Interv.</div>
+          <div class="lb-header-cell">R3 Count.</div>
         </div>
-        <div class="lb-acc">90.91%</div>
-        <div class="lb-rung">97.15%</div>
-        <div class="lb-rung">92.75%</div>
-        <div class="lb-rung">83.99%</div>
-      </div>
 
-      <!-- Gemini 2.5 Flash -->
-      <div class="lb-row">
-        <div class="lb-rank">6</div>
-        <div>
-          <div class="lb-model-name">
-            <span class="dot" style="background:#2a5e2a"></span>Gemini 2.5 Flash
-            <span class="tier-badge tier-mid">mid</span>
+        <div class="lb-row winner">
+          <div class="lb-rank gold">1</div>
+          <div>
+            <div class="lb-model-name">
+              <span class="dot" style="background:#0f2a4a"></span>GPT-5.5
+              <span class="tier-badge tier-frontier">frontier</span>
+            </div>
+            <div class="lb-model-sub">openai/gpt-5.5 &nbsp;&middot;&nbsp; reasoning: high effort</div>
           </div>
-          <div class="lb-model-sub">google/gemini-2.5-flash &nbsp;&middot;&nbsp; reasoning: enabled</div>
-          <div class="lb-bar-track" style="margin-top:6px; width:90%">
-            <div class="lb-bar-fill" style="width:85.43%; background:#2a5e2a88"></div>
-          </div>
+          <div class="lb-acc best">95.09%</div>
+          <div class="lb-rung">97.78%</div>
+          <div class="lb-rung">96.64%</div>
+          <div class="lb-rung">91.17%</div>
         </div>
-        <div class="lb-acc">85.43%</div>
-        <div class="lb-rung">96.70%</div>
-        <div class="lb-rung">83.26%</div>
-        <div class="lb-rung">77.85%</div>
-      </div>
 
-      <!-- GPT-5.4 Nano -->
-      <div class="lb-row">
-        <div class="lb-rank">7</div>
-        <div>
-          <div class="lb-model-name">
-            <span class="dot" style="background:#1a3a5c"></span>GPT-5.4 Nano
-            <span class="tier-badge tier-open">no reasoning</span>
+        <div class="lb-row">
+          <div class="lb-rank">2</div>
+          <div>
+            <div class="lb-model-name">
+              <span class="dot" style="background:#701a1a"></span>Grok 4.20
+              <span class="tier-badge tier-frontier">frontier</span>
+            </div>
+            <div class="lb-model-sub">xai/grok-4.20 &nbsp;&middot;&nbsp; reasoning: enabled</div>
           </div>
-          <div class="lb-model-sub">openai/gpt-5.4-nano &nbsp;&middot;&nbsp; reasoning: none</div>
-          <div class="lb-bar-track" style="margin-top:6px; width:90%">
-            <div class="lb-bar-fill" style="width:54.80%; background:#1a3a5c88"></div>
-          </div>
+          <div class="lb-acc">93.26%</div>
+          <div class="lb-rung">96.77%</div>
+          <div class="lb-rung">94.46%</div>
+          <div class="lb-rung">89.32%</div>
         </div>
-        <div class="lb-acc" style="color:var(--red)">54.80%</div>
-        <div class="lb-rung">54.34%</div>
-        <div class="lb-rung">58.14%</div>
-        <div class="lb-rung">52.40%</div>
-      </div>
-    </div>
 
-    <div class="aside">Reasoning is the main driver here, not raw model tier. GPT-5.4 Nano, run without extended thinking, scores 54.80%: barely above chance on a binary task and roughly 40 points behind every reasoning-enabled model. Claude Sonnet 4.6 posts the strongest Rung 3 (counterfactual) score in the field at 91.16%, ahead of every frontier model including GPT-5.5.</div>
-
-    <h3>Overall accuracy</h3>
-    <div class="chart-wrap">
-      <div class="chart-title">Overall CLadder v1.5 accuracy by model</div>
-      <canvas id="chartOverall" height="160"></canvas>
-      <div class="chart-note">n = 10,112 items per model. Dashed line marks chance (50%) on this binary task. Reasoning-enabled models cluster between 85% and 95%; the non-reasoning baseline sits 30+ points below the next-lowest model.</div>
-    </div>
-
-    <h3>Accuracy by rung</h3>
-    <div class="chart-wrap">
-      <div class="chart-title">Accuracy across Pearl's three rungs</div>
-      <canvas id="chartRungsAll" height="200"></canvas>
-      <div class="chart-note">Rung 3 (counterfactual) is where the field separates most: GPT-5.4 Nano drops to 52.40% while Claude Sonnet 4.6 holds 91.16%, the best Rung 3 score of any model. Sonnet's Rung 2 score (84.78%) is comparatively its weakest rung.</div>
-    </div>
-
-    <h3>Failure pattern analysis</h3>
-    <p>Reasoning traces of wrong answers were checked for three recurring patterns: the final answer contradicting a correct reasoning trace ("answer flip"), a correct causal graph with the wrong sign on the effect ("direction error"), and confusing collider conditioning with confounder adjustment on backdoor items ("backadj confusion"). GPT-5.4 Nano shows none of these patterns simply because it produces no reasoning trace to check.</p>
-
-    <div class="chart-wrap">
-      <div class="chart-title">Failure pattern counts, wrong answers with reasoning traces</div>
-      <canvas id="chartFailurePatterns" height="220"></canvas>
-      <div class="chart-note">Gemini 2.5 Flash flips a correct trace into a wrong final answer in 18.2% of its wrong answers (265 of 1,456); Claude Sonnet 4.6 flips in 12.9% (115 of 892). Sonnet shows more direction errors (163 vs 12); Gemini shows more backadj confusion (178 vs 34).</div>
-    </div>
-
-    <h3>Forced thinking experiment</h3>
-    <p>Claude Opus 4.8 skipped extended thinking on 4,608 of 10,105 items when reasoning was left optional. Rerunning those items with a forced minimum thinking budget of 1,024 tokens raised accuracy on that subset from 88.60% to 90.23%, a gain of 1.63pp. Of the items that changed, 114 flipped from wrong to correct and 39 flipped from correct to wrong, a rescue-to-break ratio of roughly 2.9:1.</p>
-
-    <div class="chart-wrap">
-      <div class="chart-title">Accuracy change from forced thinking, by query type (Opus 4.8)</div>
-      <canvas id="chartForcedThinking" height="240"></canvas>
-      <div class="chart-note">Hardest query types gain the most: correlation +6.1pp, nde +3.4pp, nie +3.0pp. The two easiest query types, marginal and collider_bias, see small regressions from forced thinking, consistent with extra deliberation occasionally talking the model out of an already-correct answer.</div>
-    </div>
-
-    <div class="findings">
-      <div class="finding-item">
-        <div class="finding-label">Reasoning is the gap</div>
-        <div class="finding-text">GPT-5.4 Nano, run without extended thinking, scores 54.80%, about 40 points below every reasoning-enabled model and barely above chance on a binary task. Model tier matters far less than whether reasoning was switched on.</div>
-      </div>
-      <div class="finding-item">
-        <div class="finding-label">GPT-5.5 leads, narrowly</div>
-        <div class="finding-text">GPT-5.5 tops the field at 95.09% with high reasoning effort, 1.83pp ahead of Grok 4.20 and 3.70pp ahead of Claude Opus 4.8. The top three are frontier reasoning models within 4 points of each other.</div>
-      </div>
-      <div class="finding-item">
-        <div class="finding-label">Sonnet's Rung 3 strength</div>
-        <div class="finding-text">Claude Sonnet 4.6 posts 91.16% on Rung 3 (counterfactual), the best counterfactual score of any model in the leaderboard, ahead of GPT-5.5 (91.17% is close, effectively tied) and well ahead of its own Rung 2 score (84.78%), its weakest rung.</div>
-      </div>
-      <div class="finding-item">
-        <div class="finding-label">Answer-flip and S3</div>
-        <div class="finding-text">Gemini 2.5 Flash flips a correct reasoning trace into a wrong final answer 18.2% of the time, versus 12.9% for Claude Sonnet 4.6. This is consistent with the S3 formalization bottleneck: the trace gets the estimand right, but the residual stream fails to hold that structure through to the output token.</div>
-      </div>
-      <div class="finding-item">
-        <div class="finding-label">Forced thinking rescues Opus</div>
-        <div class="finding-text">Forcing a minimum thinking budget on Opus 4.8's null-reasoning items raised accuracy from 88.60% to 90.23% (+1.63pp), rescuing 114 items for every 39 it broke. The hardest query type, correlation, gained the most (+6.1pp).</div>
-      </div>
-    </div>
-  </section>
-
-  <div class="rule"></div>
-
-  <!-- 01 -->
-  <section class="section" id="ladder">
-    <div class="section-marker">01</div>
-    <h2>Pearl's ladder of causation</h2>
-    <p>All causal reasoning sits on one of three rungs. The rung determines what kind of question is being asked and what information is needed to answer it correctly. Each level is harder than the one below it.</p>
-    <div class="rungs">
-      <div class="rung">
-        <div class="rung-num">Rung 1</div>
-        <div class="rung-name">Association</div>
-        <div class="rung-desc">Observing correlations. What is P(Y|X)?</div>
-      </div>
-      <div class="rung">
-        <div class="rung-num">Rung 2</div>
-        <div class="rung-name">Intervention</div>
-        <div class="rung-desc">Do-calculus. What happens if we set X = x?</div>
-      </div>
-      <div class="rung">
-        <div class="rung-num">Rung 3</div>
-        <div class="rung-name">Counterfactual</div>
-        <div class="rung-desc">Abduction, action, and prediction in sequence.</div>
-      </div>
-    </div>
-    <p>A model that cannot reliably execute Rung 2 cannot do Rung 3. The benchmark literature tracks progress across all three, but the distribution of failure is uneven, and the hardest rung remains mostly unsolved.</p>
-  </section>
-
-  <div class="rule"></div>
-
-  <!-- 02 -->
-  <section class="section" id="benchmarks">
-    <div class="section-marker">02</div>
-    <h2>Benchmark landscape</h2>
-
-    <h3>CLadder (NeurIPS 2023)</h3>
-    <p>The primary causal reasoning benchmark. Over 10,000 questions spanning all three rungs, evaluated using CausalCoT: a six-step chain-of-thought protocol mirroring the formal causal inference engine. The six steps are graph extraction, query classification, data collection, symbolic formalization, estimand derivation, and arithmetic.</p>
-    <div class="stats">
-      <div class="stat-item"><div class="stat-val neutral">70.4%</div><div class="stat-desc">GPT-4 + CausalCoT<br>at publication (2023)</div></div>
-      <div class="stat-item"><div class="stat-val up">95.3%</div><div class="stat-desc">CDCR-SFT<br>2025 leaderboard</div></div>
-      <div class="stat-item"><div class="stat-val neutral">94.8%</div><div class="stat-desc">Human ceiling</div></div>
-    </div>
-    <div class="aside">The leaderboard is saturated in-distribution. The benchmark is not solved. Under perturbation, performance collapses by 30 to 62 points across all models. Robustness is now the actual open problem.</div>
-
-    <h3>Corr2Cause (ICLR 2024)</h3>
-    <p>Tests causal discovery from correlations. Given correlational statements about abstract variables, can the model determine valid causal relationships using the PC algorithm?</p>
-    <div class="stats">
-      <div class="stat-item"><div class="stat-val up">94.7 F1</div><div class="stat-desc">RoBERTa-Large fine-tuned<br>in-distribution</div></div>
-      <div class="stat-item"><div class="stat-val down">&minus;62 F1</div><div class="stat-desc">Same model under<br>variable renaming</div></div>
-      <div class="stat-item"><div class="stat-val neutral">37 F1</div><div class="stat-desc">Llama-3-8B axiomatic<br>zero-shot</div></div>
-    </div>
-    <p>A 62-point F1 collapse under variable renaming. The fine-tuned model learned which words correlate with which labels, not the causal rules. Llama-3-8B trained on abstract graph axioms scores 37 zero-shot, beating GPT-4 at 29, without ever seeing the task format. Axiomatic training generalises. Task-specific fine-tuning does not.</p>
-
-    <h3>CauSciBench (2025)</h3>
-    <p>367 tasks from over 100 real research papers across nine scientific disciplines. The model must select a method, implement it in Python, and interpret the result.</p>
-    <div class="stats">
-      <div class="stat-item"><div class="stat-val neutral">77.2%</div><div class="stat-desc">o3 + CoT<br>method selection accuracy</div></div>
-      <div class="stat-item"><div class="stat-val down">49%</div><div class="stat-desc">Mean relative error<br>on actual estimates</div></div>
-    </div>
-    <div class="findings">
-      <div class="finding-item"><div class="finding-label">OLS default bias</div><div class="finding-text">Models reach for ordinary least squares regardless of whether it fits the problem.</div></div>
-      <div class="finding-item"><div class="finding-label">Method vs execution</div><div class="finding-text">Selecting the right method and running it correctly are different skills. A model can name the right approach and still get the numbers wrong.</div></div>
-      <div class="finding-item"><div class="finding-label">Confounder under-selection</div><div class="finding-text">ReAct-based agents optimise each action locally without stepping back to consider the full adjustment set.</div></div>
-    </div>
-  </section>
-
-  <div class="rule"></div>
-
-  <!-- 03 -->
-  <section class="section" id="posttraining">
-    <div class="section-marker">03</div>
-    <h2>Post-training methods</h2>
-    <p>Four post-training approaches have been applied to causal reasoning. Their relative gains differ, and the reason why matters as much as the numbers.</p>
-    <div class="stats">
-      <div class="stat-item"><div class="stat-val down">+1.4%</div><div class="stat-desc">DPO</div></div>
-      <div class="stat-item"><div class="stat-val neutral">+6.4%</div><div class="stat-desc">KTO</div></div>
-      <div class="stat-item"><div class="stat-val neutral">+19.2%</div><div class="stat-desc">SFT</div></div>
-      <div class="stat-item"><div class="stat-val up">+42%</div><div class="stat-desc">GRPO / PPO</div></div>
-    </div>
-    <p>GRPO and PPO dominate because they give the model corrective feedback on its own reasoning in real time. SFT teaches imitation of correct outputs. GRPO teaches how to think. DeepSeek-R1-14B with GRPO on CauGym reaches 93.5% on the CaLM benchmark, compared to OpenAI o3 at 55.4% without causal fine-tuning.</p>
-    <div class="aside">All four methods share the same out-of-distribution failure. In-distribution gains do not transfer to perturbed queries. This is the central unsolved problem and the motivation for the mechanistic work below.</div>
-    <div class="findings">
-      <div class="finding-item"><div class="finding-label">Entropy regularisation</div><div class="finding-text">Removing entropy regularisation from BinaryPPO collapses accuracy from 97% to 29%. The model without it learns to always predict the same label.</div></div>
-      <div class="finding-item"><div class="finding-label">Axiomatic beats task-specific</div><div class="finding-text">Training on abstract causal graph rules with alphanumeric variables generalises to unseen task formats. Training on task examples does not.</div></div>
-      <div class="finding-item"><div class="finding-label">SCM-GRPO</div><div class="finding-text">Standard GRPO lets models learn to generate long plausible-sounding chains that are logically wrong. SCM-GRPO grounds the reward in an actual Structural Causal Model.</div></div>
-      <div class="finding-item"><div class="finding-label">4-bit quantization</div><div class="finding-text">Compressed attention weights cannot fully sever pre-intervention correlations when simulating a do() operation. Injecting the ground-truth causal graph via GraphRAG recovers 1.7%.</div></div>
-    </div>
-  </section>
-
-  <div class="rule"></div>
-
-  <!-- 04 -->
-  <section class="section" id="problems">
-    <div class="section-marker">04</div>
-    <h2>Open problems</h2>
-    <div class="findings">
-      <div class="finding-item"><div class="finding-label">Robustness gap</div><div class="finding-text">Every method that achieves high in-distribution accuracy collapses 30 to 62 points under simple variable renaming or paraphrase. No exception exists.</div></div>
-      <div class="finding-item"><div class="finding-label">Abduction deficit</div><div class="finding-text">Rung 3 requires inferring hidden background variables from observations. Models fail at this first step. CLadder cheats by providing latent variable values directly. Real abduction is harder and largely unaddressed.</div></div>
-      <div class="finding-item"><div class="finding-label">No process supervision</div><div class="finding-text">All current training uses outcome-level reward. No step-level process reward model exists for CausalCoT, despite clear behavioural evidence of which steps fail: S3 formalization sits at F1 42.1%.</div></div>
-      <div class="finding-item"><div class="finding-label">Real-world estimation gap</div><div class="finding-text">Models trained on synthetic data do not transfer to real scientific datasets. Mean relative estimation error remains 49% on CauSciBench even at 77% method selection accuracy.</div></div>
-      <div class="finding-item"><div class="finding-label">S3 encoding bottleneck</div><div class="finding-text">Symbolic formalization is weakly encoded in the residual stream of all tested models. Confirmed at probe F1 0.43 in our experiments. RLHF does not fix it.</div></div>
-    </div>
-  </section>
-
-  <div class="rule"></div>
-
-  <!-- 05 -->
-  <section class="section" id="experiments">
-    <div class="section-marker">05</div>
-    <h2>Our experiments</h2>
-    <p>Four experiments on Qwen2.5-7B-Instruct against CLadder, using an RTX 5080. These experiments probe internal geometry rather than produce a high-accuracy model. Baseline accuracy near chance (53.5% vs 50% random) is intentional.</p>
-
-    <h3>Accuracy by rung</h3>
-    <div class="stats">
-      <div class="stat-item"><div class="stat-val neutral">53.5%</div><div class="stat-desc">Baseline overall</div></div>
-      <div class="stat-item"><div class="stat-val neutral">54.5%</div><div class="stat-desc">SFT overall</div></div>
-      <div class="stat-item"><div class="stat-val up">+4.3pp</div><div class="stat-desc">Rung 1 delta</div></div>
-      <div class="stat-item"><div class="stat-val down">&minus;4.4pp</div><div class="stat-desc">Rung 2 delta</div></div>
-    </div>
-
-    <div class="chart-wrap">
-      <div class="chart-title">Accuracy by rung: baseline vs SFT (Qwen2.5-7B-Instruct)</div>
-      <canvas id="chartRung" height="180"></canvas>
-      <div class="chart-note">ATE (average treatment effect) dropped from 68.8% to 45.8%: a 23-point regression. Random chance = 50%.</div>
-    </div>
-
-    <p>SFT disrupts interventional reasoning, consistent with the RLVR literature showing that SFT gains are rung-specific and unreliable for do() queries.</p>
-
-    <h3>Probing study</h3>
-    <p>For each of the six CausalCoT subskills, residual stream activations were extracted at all 28 layers from both Qwen2.5-7B and Qwen2.5-7B-Instruct, then logistic regression probes were trained to test whether each subskill is linearly readable.</p>
-
-    <div class="chart-wrap">
-      <div class="chart-title">Subskill probe F1: base vs instruct</div>
-      <canvas id="chartProbe" height="200"></canvas>
-      <div class="chart-note">S3 formalization is the outlier across both checkpoints. RLHF adds only +0.015 to S3 F1.</div>
-    </div>
-
-    <table class="probe-table">
-      <thead><tr><th>Subskill</th><th>Base F1</th><th>Instruct F1</th></tr></thead>
-      <tbody>
-        <tr><td>S1 &nbsp; graph extraction</td><td class="mono">0.964</td><td class="mono">0.971</td></tr>
-        <tr><td>S2 &nbsp; query classification</td><td class="mono">0.921</td><td class="mono">0.935</td></tr>
-        <tr class="weak"><td>S3 &nbsp; formalization</td><td class="mono">0.416</td><td class="mono">0.431</td></tr>
-        <tr><td>S4 &nbsp; data collection</td><td class="mono">0.901</td><td class="mono">0.908</td></tr>
-        <tr><td>S5 &nbsp; estimand derivation</td><td class="mono">0.877</td><td class="mono">0.889</td></tr>
-        <tr><td>S6 &nbsp; arithmetic</td><td class="mono">0.944</td><td class="mono">0.951</td></tr>
-      </tbody>
-    </table>
-
-    <h3>CausalCoT prompting on a 2026 model</h3>
-    <p>We replicated the original CLadder prompting comparison on Qwen2.5-7B-Instruct. In 2023, GPT-4 with CausalCoT gained 8 points over vanilla. The 2026 result is a reversal.</p>
-    <div class="stats">
-      <div class="stat-item"><div class="stat-val neutral">53.5%</div><div class="stat-desc">Vanilla baseline</div></div>
-      <div class="stat-item"><div class="stat-val up">+6.7pp</div><div class="stat-desc">Generic CoT</div></div>
-      <div class="stat-item"><div class="stat-val neutral">+5.0pp</div><div class="stat-desc">CausalCoT</div></div>
-      <div class="stat-item"><div class="stat-val down">&minus;7.2pp</div><div class="stat-desc">CausalCoT on Rung 3</div></div>
-    </div>
-    <p>Generic CoT now beats explicit CausalCoT. Qwen2.5-7B-Instruct has already internalised Pearl's reasoning structure through RLHF; the explicit six-step scaffold is redundant. Both CoT conditions hurt Rung 3 relative to vanilla: longer generation gives the model more opportunity to make the abduction error. Correlation queries show the biggest gain from CausalCoT, from 33.3% to 70.6%, the query type where S3 formalization is most load-bearing.</p>
-  </section>
-
-  <div class="rule"></div>
-
-  <!-- 06 -->
-  <section class="section" id="mechanistic">
-    <div class="section-marker">06</div>
-    <h2>Mechanistic account</h2>
-    <p>The following chain explains why the robustness gap persists across all post-training methods, and connects the behavioural evidence to the internal geometry of the model.</p>
-    <div class="chain">
-      <div class="chain-step"><div class="chain-arrow">01</div><div class="chain-text">S3 formalization is weakly encoded in the residual stream (F1 0.43).</div></div>
-      <div class="chain-step"><div class="chain-arrow">02</div><div class="chain-text">RLHF does not fix this. The delta is only +0.015.</div></div>
-      <div class="chain-step"><div class="chain-arrow">03</div><div class="chain-text">When a perturbed query arrives, formalization fails first because it was never robustly encoded.</div></div>
-      <div class="chain-step"><div class="chain-arrow">04</div><div class="chain-text">Downstream steps fail in sequence: classification, estimand derivation, arithmetic.</div></div>
-      <div class="chain-step"><div class="chain-arrow">05</div><div class="chain-text">The robustness gap persists. The Rung 3 abduction deficit persists.</div></div>
-    </div>
-    <p>Previous work documented the robustness gap behaviourally, reporting 30 to 62 point drops across models. The experiments above show where in the network it originates.</p>
-    <p>The connection to prior work: in persona representations, linear probes can read persona information from the residual stream with high F1, but activation steering cannot inject it back. MLP sublayers cancel the injected direction. The same read/write asymmetry appears to hold for skill representations, not just trait representations.</p>
-
-    <h3>The yes-reflex</h3>
-    <p>A separate finding from the commitment layer analysis: 30.9% of all 10,112 CLadder items commit their answer at layers 13 or 14, before the model has fully processed the story. Every single one of these early-committed items answers yes, with no exceptions across the full benchmark.</p>
-    <div class="stats">
-      <div class="stat-item"><div class="stat-val down">30.9%</div><div class="stat-desc">Items answered by<br>layer 13 or 14</div></div>
-      <div class="stat-item"><div class="stat-val down">100%</div><div class="stat-desc">Early-committed items<br>that answer yes</div></div>
-      <div class="stat-item"><div class="stat-val neutral">96.4%</div><div class="stat-desc">Early answers survive<br>cover-story scrambling</div></div>
-      <div class="stat-item"><div class="stat-val neutral">0.887</div><div class="stat-desc">AUC: text classifier<br>predicts early commitment</div></div>
-    </div>
-    <p>The trigger is the phrasing of the question. When CLadder asks whether something increases or positively affects something else, the model answers yes by layer 14 and the story content no longer matters. The base model has no early mode at all. Instruction tuning installs it, at rates from 33% (Qwen) to 74% (Llama).</p>
-  </section>
-
-  <div class="rule"></div>
-
-  <!-- 07 -->
-  <section class="section" id="lirefs">
-    <div class="section-marker">07</div>
-    <h2>LiReF experiments: predicting and rescuing fragile items</h2>
-
-    <p>Hong et al. (ACL 2025) identified a single linear direction in the residual stream that governs whether a model is in reasoning mode versus memorization mode. They call this the LiReF direction, extracted via difference-in-means between reasoning-intensive and memory-intensive questions. Their paper noted applying LiReFs to perturbational robustness as open future work. These experiments close that gap on CLadder.</p>
-
-    <h3>Can LiReF score predict per-item fragility?</h3>
-    <p>For 9,000 CLadder items on Qwen2.5-7B-Instruct: an item is fragile if the model answers it correctly on the original prompt but wrongly after variable renaming. The LiReF score at each layer was computed for each item on the original prompt, then tested as a predictor of fragility.</p>
-
-    <div class="stats">
-      <div class="stat-item"><div class="stat-val down">541</div><div class="stat-desc">Fragile items<br>(correct orig, wrong renamed)</div></div>
-      <div class="stat-item"><div class="stat-val up">4386</div><div class="stat-desc">Robust items<br>(correct on both)</div></div>
-      <div class="stat-item"><div class="stat-val neutral">0.678</div><div class="stat-desc">Best-layer AUC<br>(layer 27)</div></div>
-      <div class="stat-item"><div class="stat-val down">8×10⁻⁴²</div><div class="stat-desc">Mann-Whitney p<br>z = 13.5</div></div>
-    </div>
-
-    <div class="chart-wrap">
-      <div class="chart-title">AUC by network layer: LiReF score predicting fragility</div>
-      <canvas id="chartAUC" height="200"></canvas>
-      <div class="chart-note">AUC rises steadily from layer 21 onward, peaking at layer 27 (AUC = 0.678). Layers 0 to 20 are near chance. The predictive signal is concentrated in the final 25% of the network, consistent with where answers commit.</div>
-    </div>
-
-    <div class="aside">Items where the residual stream sits closer to memorization mode on the LiReF direction are significantly more likely to collapse when variable names are changed. The direction predicts fragility before any renaming occurs.</div>
-
-    <h3>Two failure modes, not one</h3>
-    <p>The commitment layer analysis from Section 06 and the LiReF prediction connect. Early-committed items (the yes-reflex group) have a 5.0% fragility rate. Late-committed items have a 16.9% fragility rate: a 3.4-fold difference.</p>
-
-    <div class="chart-wrap">
-      <div class="chart-title">Fragility rate by commitment group</div>
-      <canvas id="chartCommit" height="160"></canvas>
-      <div class="chart-note">Fisher exact p = 7×10⁻³⁵, n = 4,927 eligible items. Early-committed items answered before reading the variable names, so renaming does not affect them. Late-committed items with low LiReF scores read and pattern-matched the surface, making them fragile.</div>
-    </div>
-
-    <p>Early commitment and LiReF memorization mode are two distinct failure routes. Early commitment means the model did not process the story at all, so variable renaming has no effect. Late commitment with low LiReF means the model processed the story but learned the surface pattern rather than the causal structure, so renaming breaks it. One is immune; the other is vulnerable.</p>
-
-    <h3>Can LiReF steering rescue fragile items?</h3>
-    <p>If the LiReF direction is causally involved in fragility, not just predictive of it, then steering the residual stream toward reasoning mode at inference time should selectively help fragile items. Two versions were tested: injecting the LiReF direction at all 28 layers, and injecting only at layers 22 to 27 where the AUC signal is concentrated.</p>
-
-    <div class="chart-wrap">
-      <div class="chart-title">Rescue rate vs damage rate by steering condition</div>
-      <canvas id="chartRescue" height="200"></canvas>
-      <div class="chart-note">Green bars: fraction of fragile items that answered correctly after steering. Red bars: fraction of robust items that were broken by steering. Targeted injection at layers 22 to 27 gives a higher rescue-to-damage ratio than all-layer injection.</div>
-    </div>
-
-    <div class="stats">
-      <div class="stat-item"><div class="stat-val up">17.9%</div><div class="stat-desc">Fragile items rescued<br>(all layers, alpha=1)</div></div>
-      <div class="stat-item"><div class="stat-val down">4.9%</div><div class="stat-desc">Robust items damaged<br>(all layers, alpha=1)</div></div>
-      <div class="stat-item"><div class="stat-val up">6.7×</div><div class="stat-desc">Rescue-to-damage ratio<br>targeted layers 22-27</div></div>
-      <div class="stat-item"><div class="stat-val neutral">0.0065</div><div class="stat-desc">p (rescue > wrong-orig<br>baseline)</div></div>
-    </div>
-
-    <p>The rescue rates are modest in absolute terms, which reflects the fact that Qwen starts near chance on CLadder, compressing the signal. The rescue-to-damage ratio of 6.7 for the targeted injection shows the effect is selective, not generic. A model that achieves high in-distribution accuracy on CLadder would show a larger absolute rescue effect, since the fragility gap is wider.</p>
-
-    <div class="aside">This is the first demonstration that LiReF steering causally mediates, rather than just predicts, per-item robustness failure on a formal causal reasoning benchmark.</div>
-
-    <h3>What this adds to the mechanistic account</h3>
-    <p>The S3 encoding bottleneck (Section 06) explains why the robustness gap exists. The LiReF experiments explain which items are most at risk: items where the model committed late and sat in memorization mode. The two findings are compatible and reinforce each other. The S3 direction identifies the representational gap; the LiReF direction identifies which items are processing the query through the wrong mode.</p>
-  </section>
-
-  <div class="rule"></div>
-
-  <!-- 08 -->
-  <section class="section" id="proposal">
-    <div class="section-marker">08</div>
-    <h2>Research proposal</h2>
-    <p>The robustness gap is a representational problem, not a data or reward problem. Fixing it requires targeting the geometry of formalization. No existing method does this. The geometry-constrained fine-tuning approach adds an auxiliary loss to QLoRA training that explicitly rewards the residual stream for encoding the formalization subspace as a linearly separable direction.</p>
-    <p>In a pilot, pure SFT degraded S3 probe F1 by 0.049. Training on correct answers makes the internal representation of formalization worse, because SFT teaches output imitation without encoding intermediate structure. The auxiliary separability loss recovered 35% of that degradation, bringing the drop from 0.049 to 0.032. The open question is whether this holds at scale, and whether the geometric improvement transfers to robustness gains on perturbed CLadder and CauSciBench.</p>
-    <p>The LiReF intervention result adds a new angle: if steering at inference time can rescue fragile items at modest rates, then training with a LiReF-based regularisation loss could keep items in reasoning mode during learning, directly targeting the memorization mode that the prediction experiments identified as the fragility signature.</p>
-
-    <div class="interventions">
-      <div class="intervention">
-        <div class="intervention-name">Perturbation-augmented GRPO</div>
-        <div class="intervention-desc">Include variable-renamed and paraphrased CLadder and Corr2Cause examples in the RL training distribution. This forces the reward signal to be sensitive to variable-invariant reasoning rather than surface patterns.</div>
-      </div>
-      <div class="intervention">
-        <div class="intervention-name">Step-level process reward for CausalCoT</div>
-        <div class="intervention-desc">Verifiable steps can be checked automatically: graph extraction against the ground-truth DAG, query classification against the oracle label, arithmetic numerically. Formalization and estimand derivation can be verified using the same symbolic CI engine that generated CLadder's oracle answers.</div>
-      </div>
-      <div class="intervention">
-        <div class="intervention-name">Rung-stratified curriculum RL</div>
-        <div class="intervention-desc">Begin GRPO training on Rung 1, progressively introduce Rung 2 and 3 as accuracy improves, using SCM-GRPO reward to prevent logic violations throughout.</div>
-      </div>
-      <div class="intervention">
-        <div class="intervention-name">Geometry-constrained auxiliary loss</div>
-        <div class="intervention-desc">Add an auxiliary loss during QLoRA training that explicitly rewards the residual stream for encoding the S3 formalization subspace as a linearly separable direction. In a pilot, this recovered 35% of SFT-induced S3 degradation. The next step is combining this with a LiReF-based regularisation term to keep items in reasoning mode during training.</div>
-      </div>
-    </div>
-  </section>
-
-  <div class="rule"></div>
-
-  <!-- 09 -->
-  <section class="section" id="replication">
-    <div class="section-marker">09 &nbsp;&middot;&nbsp; New results</div>
-    <h2>Small-sample replication: GPT-5.5 vs. Claude Opus 4.8</h2>
-    <p>A quick sanity-check run rather than a full leaderboard pass: we take ~10,000 random synthetic CLadder samples across all three rungs and run them through GPT-5.5 (high reasoning effort) and Claude Opus 4.8 (16k thinking budget). No items failed to return an answer for either model, and both models say "yes" at almost identical rates, so the accuracy gap below is not an artefact of one model refusing more or defaulting to a different answer distribution.</p>
-
-    <div class="leaderboard">
-      <div class="lb-header">
-        <div class="lb-header-cell">#</div>
-        <div class="lb-header-cell">Model</div>
-        <div class="lb-header-cell" style="text-align:right">Overall</div>
-        <div class="lb-header-cell">R1 Assoc.</div>
-        <div class="lb-header-cell">R2 Interv.</div>
-        <div class="lb-header-cell">R3 Count.</div>
-      </div>
-
-      <!-- GPT-5.5 -->
-      <div class="lb-row winner">
-        <div class="lb-rank gold">1</div>
-        <div>
-          <div class="lb-model-name">
-            <span class="dot" style="background:#0f2a4a"></span>GPT-5.5
-            <span class="tier-badge tier-frontier">frontier</span>
+        <div class="lb-row">
+          <div class="lb-rank">3</div>
+          <div>
+            <div class="lb-model-name">
+              <span class="dot" style="background:#5c2a0f"></span>Claude Opus 4.8
+              <span class="tier-badge tier-frontier">frontier</span>
+            </div>
+            <div class="lb-model-sub">anthropic/claude-opus-4.8 &nbsp;&middot;&nbsp; reasoning: budget 16k</div>
           </div>
-          <div class="lb-model-sub">openai/gpt-5.5 &nbsp;&middot;&nbsp; reasoning captured: 3,574</div>
-          <div class="lb-bar-track" style="margin-top:6px; width:90%">
-            <div class="lb-bar-fill" style="width:92.87%; background:#0f2a4a88"></div>
-          </div>
+          <div class="lb-acc">91.39%</div>
+          <div class="lb-rung">92.88%</div>
+          <div class="lb-rung">94.46%</div>
+          <div class="lb-rung">87.59%</div>
         </div>
-        <div class="lb-acc best">92.87%</div>
-        <div class="lb-rung">94.06%</div>
-        <div class="lb-rung">92.39%</div>
-        <div class="lb-rung">92.21%</div>
-      </div>
 
-      <!-- Claude Opus 4.8 -->
-      <div class="lb-row">
-        <div class="lb-rank">2</div>
-        <div>
-          <div class="lb-model-name">
-            <span class="dot" style="background:#5c2a0f"></span>Claude Opus 4.8
-            <span class="tier-badge tier-frontier">frontier</span>
+        <div class="lb-row">
+          <div class="lb-rank">4</div>
+          <div>
+            <div class="lb-model-name">
+              <span class="dot" style="background:#8b4513"></span>Claude Sonnet 4.6
+              <span class="tier-badge tier-mid">mid</span>
+            </div>
+            <div class="lb-model-sub">anthropic/claude-sonnet-4.6 &nbsp;&middot;&nbsp; reasoning: budget 8k</div>
           </div>
-          <div class="lb-model-sub">anthropic/claude-opus-4.8 &nbsp;&middot;&nbsp; reasoning captured: 6,428</div>
-          <div class="lb-bar-track" style="margin-top:6px; width:90%">
-            <div class="lb-bar-fill" style="width:90.00%; background:#5c2a0f88"></div>
-          </div>
+          <div class="lb-acc">91.09%</div>
+          <div class="lb-rung">97.31%</div>
+          <div class="lb-rung">84.78%</div>
+          <div class="lb-rung">91.16%</div>
         </div>
-        <div class="lb-acc">90.00%</div>
-        <div class="lb-rung">93.66%</div>
-        <div class="lb-rung">90.17%</div>
-        <div class="lb-rung">86.77%</div>
+
+        <div class="lb-row">
+          <div class="lb-rank">5</div>
+          <div>
+            <div class="lb-model-name">
+              <span class="dot" style="background:#1a5c52"></span>DeepSeek V3.2
+              <span class="tier-badge" style="color:#1a5c52">open</span>
+            </div>
+            <div class="lb-model-sub">deepseek/deepseek-v3.2 &nbsp;&middot;&nbsp; reasoning: enabled</div>
+          </div>
+          <div class="lb-acc">90.91%</div>
+          <div class="lb-rung">97.15%</div>
+          <div class="lb-rung">92.75%</div>
+          <div class="lb-rung">83.99%</div>
+        </div>
+
+        <div class="lb-row">
+          <div class="lb-rank">6</div>
+          <div>
+            <div class="lb-model-name">
+              <span class="dot" style="background:#2a5e2a"></span>Gemini 2.5 Flash
+              <span class="tier-badge tier-mid">mid</span>
+            </div>
+            <div class="lb-model-sub">google/gemini-2.5-flash &nbsp;&middot;&nbsp; reasoning: enabled</div>
+          </div>
+          <div class="lb-acc">85.43%</div>
+          <div class="lb-rung">96.70%</div>
+          <div class="lb-rung">83.26%</div>
+          <div class="lb-rung">77.85%</div>
+        </div>
+
+        <div class="lb-row">
+          <div class="lb-rank">7</div>
+          <div>
+            <div class="lb-model-name">
+              <span class="dot" style="background:#1a3a5c"></span>GPT-5.4 Nano
+              <span class="tier-badge tier-open">no reasoning</span>
+            </div>
+            <div class="lb-model-sub">openai/gpt-5.4-nano &nbsp;&middot;&nbsp; reasoning: none</div>
+          </div>
+          <div class="lb-acc" style="color:var(--red)">54.80%</div>
+          <div class="lb-rung">54.34%</div>
+          <div class="lb-rung">58.14%</div>
+          <div class="lb-rung">52.40%</div>
+        </div>
       </div>
-    </div>
 
-    <div class="stats">
-      <div class="stat-item"><div class="stat-val neutral">0</div><div class="stat-desc">Null responses<br>either model</div></div>
-      <div class="stat-item"><div class="stat-val neutral">47.2%</div><div class="stat-desc">"Yes" rate<br>identical, both models</div></div>
-      <div class="stat-item"><div class="stat-val down">2.87pp</div><div class="stat-desc">GPT-5.5 lead<br>over Opus 4.8</div></div>
-      <div class="stat-item"><div class="stat-val down">5.44pp</div><div class="stat-desc">Opus Rung 3 gap<br>vs GPT-5.5</div></div>
-    </div>
+      <div class="aside">Reasoning is the main driver here, not raw model tier. GPT-5.4 Nano, run without extended thinking, scores 54.80%: barely above chance and roughly 40 points behind every reasoning-enabled model. Claude Sonnet 4.6 posts the strongest Rung 3 (counterfactual) score in the field at 91.16%, ahead of every frontier model including GPT-5.5.</div>
 
-    <div class="aside">The gap widens as the rung gets harder. GPT-5.5 and Opus 4.8 are within half a point on Rung 1 (association), but by Rung 3 (counterfactual) GPT-5.5 holds a 5.44pp lead, 92.21% vs 86.77%. Both models nearly max out on backadj items (100% each) and both stumble hardest on collider_bias and nie, the two query types that require holding a confounding structure in mind rather than reading it off the surface.</div>
-
-    <h3>Accuracy by rung</h3>
-    <div class="chart-wrap">
-      <div class="chart-title">GPT-5.5 vs Claude Opus 4.8, accuracy by rung</div>
-      <canvas id="chartRungReplication" height="180"></canvas>
-      <div class="chart-note">GPT-5.5 leads on all three rungs, but the margin grows from 0.40pp on Rung 1 to 5.44pp on Rung 3. Consistent with the earlier 10,112-item leaderboard run, Rung 3 remains the rung where the field separates most.</div>
-    </div>
-
-    <h3>Accuracy by query type</h3>
-    <div class="chart-wrap">
-      <div class="chart-title">GPT-5.5 vs Claude Opus 4.8, accuracy by CLadder query type</div>
-      <canvas id="chartQueryTypeReplication" height="240"></canvas>
-      <div class="chart-note">Both models hit 100% on backadj and stay above 91% on marginal and ate. The weak points for both are collider_bias (GPT-5.5: 54.21%, Opus 4.8: 58.11%, both barely above chance) and nie (GPT-5.5: 82.62%, Opus 4.8: 75.29%), the biggest single gap between the two models.</div>
-    </div>
-
-    <div class="findings">
-      <div class="finding-item">
-        <div class="finding-label">GPT-5.5 still ahead</div>
-        <div class="finding-text">At this smaller sample size GPT-5.5 leads 92.87% to 90.00%, a 2.87pp margin, directionally consistent with the 3.70pp gap seen on the full 10,112-item run.</div>
+      <h3>Overall accuracy</h3>
+      <div class="chart-wrap">
+        <div class="chart-title">Overall CLadder v1.5 accuracy by model</div>
+        <canvas id="chartOverall" height="160"></canvas>
+        <div class="chart-note">n = 10,112 items per model. Dashed line marks chance (50%) on this binary task. Reasoning-enabled models cluster between 85% and 95%; the non-reasoning baseline sits 30+ points below the next-lowest model.</div>
       </div>
-      <div class="finding-item">
-        <div class="finding-label">Collider_bias is the shared weak point</div>
-        <div class="finding-text">Both models score near chance on collider_bias (54.21% and 58.11%), the only query type where either model dips below 60%. This is the one place Opus 4.8 actually edges out GPT-5.5.</div>
+
+      <h3>Accuracy by rung</h3>
+      <div class="chart-wrap">
+        <div class="chart-title">Accuracy across Pearl's three rungs</div>
+        <canvas id="chartRungsAll" height="200"></canvas>
+        <div class="chart-note">Rung 3 (counterfactual) is where the field separates most: GPT-5.4 Nano drops to 52.40% while Claude Sonnet 4.6 holds 91.16%, the best Rung 3 score of any model. Sonnet's Rung 2 score (84.78%) is comparatively its weakest rung.</div>
       </div>
-      <div class="finding-item">
-        <div class="finding-label">Backadj is fully solved</div>
-        <div class="finding-text">Both models hit a perfect 100% on backdoor-adjustment items in this sample, suggesting the backadj query type is essentially saturated for frontier reasoning models at this scale.</div>
+
+      <h3>Failure pattern analysis</h3>
+      <p>We checked reasoning traces of wrong answers for three recurring patterns: the final answer contradicting a correct reasoning trace ("answer flip"), a correct causal graph with the wrong sign on the effect ("direction error"), and confusing collider conditioning with confounder adjustment on backdoor items ("backadj confusion"). GPT-5.4 Nano shows none of these patterns simply because it produces no reasoning trace to check.</p>
+
+      <div class="chart-wrap">
+        <div class="chart-title">Failure pattern counts, wrong answers with reasoning traces</div>
+        <canvas id="chartFailurePatterns" height="220"></canvas>
+        <div class="chart-note">Gemini 2.5 Flash flips a correct trace into a wrong final answer in 18.2% of its wrong answers (265 of 1,456); Claude Sonnet 4.6 flips in 12.9% (115 of 892). Sonnet shows more direction errors (163 vs 12); Gemini shows more backadj confusion (178 vs 34).</div>
       </div>
-      <div class="finding-item">
-        <div class="finding-label">Rung 3 drives the overall gap</div>
-        <div class="finding-text">Rungs 1 and 2 are close between the models (within ~1pp and ~2.2pp respectively); nearly all of the overall 2.87pp gap traces back to Rung 3, where Opus 4.8 trails by 5.44pp.</div>
+
+      <h3>Forced thinking experiment</h3>
+      <p>Claude Opus 4.8 skipped extended thinking on 4,608 of 10,105 items when reasoning was left optional. Rerunning those items with a forced minimum thinking budget of 1,024 tokens raised accuracy on that subset from 88.60% to 90.23%, a gain of 1.63 points. Of the items that changed, 114 flipped from wrong to correct and 39 flipped from correct to wrong, a rescue-to-break ratio of roughly 2.9 to 1.</p>
+
+      <div class="chart-wrap">
+        <div class="chart-title">Accuracy change from forced thinking, by query type (Opus 4.8)</div>
+        <canvas id="chartForcedThinking" height="240"></canvas>
+        <div class="chart-note">Hardest query types gain the most: correlation +6.1pp, nde +3.4pp, nie +3.0pp. The two easiest query types, marginal and collider_bias, see small regressions from forced thinking, consistent with extra deliberation occasionally talking the model out of an already-correct answer.</div>
       </div>
-    </div>
 
-    <div class="aside">Caveat: this is a 10-sample-per-query-type sanity check, not a full leaderboard run. Reasoning-capture counts (3,574 for GPT-5.5, 6,428 for Opus 4.8) suggest Opus 4.8 produced substantially longer reasoning traces on this batch; treat the point estimates above as directional rather than final until re-run at the full 10,112-item scale.</div>
-  </section>
+      <div class="findings">
+        <div class="finding-item">
+          <div class="finding-label">Reasoning is the gap</div>
+          <div class="finding-text">GPT-5.4 Nano, run without extended thinking, scores 54.80%, about 40 points below every reasoning-enabled model and barely above chance. Model tier matters far less than whether reasoning was switched on.</div>
+        </div>
+        <div class="finding-item">
+          <div class="finding-label">GPT-5.5 leads, narrowly</div>
+          <div class="finding-text">GPT-5.5 tops the field at 95.09% with high reasoning effort, 1.83 points ahead of Grok 4.20 and 3.70 points ahead of Claude Opus 4.8. The top three are frontier reasoning models within 4 points of each other.</div>
+        </div>
+        <div class="finding-item">
+          <div class="finding-label">Sonnet's Rung 3 strength</div>
+          <div class="finding-text">Claude Sonnet 4.6 posts 91.16% on Rung 3 (counterfactual), the best counterfactual score of any model on the leaderboard, and well ahead of its own Rung 2 score (84.78%), its weakest rung.</div>
+        </div>
+        <div class="finding-item">
+          <div class="finding-label">Forced thinking rescues Opus</div>
+          <div class="finding-text">Forcing a minimum thinking budget on Opus 4.8's null-reasoning items raised accuracy from 88.60% to 90.23% (+1.63pp), rescuing 114 items for every 39 it broke. The hardest query type, correlation, gained the most (+6.1pp).</div>
+        </div>
+      </div>
+    </section>
 
-  <div class="rule"></div>
+    <div class="rule"></div>
 
-  <footer class="footer">
-    <span>Shivansh Singh &nbsp;&middot;&nbsp; LUT University</span>
-    <span>Jinesis Lab &nbsp;&middot;&nbsp; June 2026</span>
-  </footer>
+    <!-- SYNTHETIC DATASET RUN -->
+    <section class="section" id="replication">
+      <div class="section-marker">Synthetic dataset run</div>
+      <h2>Synthetic dataset run: GPT-5.5 vs. Claude Opus 4.8</h2>
+      <p>A quick sanity-check run rather than a full leaderboard pass: we take about 10,000 random synthetic CLadder samples across all three rungs and run them through GPT-5.5 (high reasoning effort) and Claude Opus 4.8 (16k thinking budget). No items failed to return an answer for either model, and both models say "yes" at almost identical rates, so the accuracy gap below is not an artefact of one model refusing more or defaulting to a different answer distribution.</p>
 
-</div><!-- .page -->
+      <div class="leaderboard">
+        <div class="lb-header">
+          <div class="lb-header-cell">#</div>
+          <div class="lb-header-cell">Model</div>
+          <div class="lb-header-cell" style="text-align:right">Overall</div>
+          <div class="lb-header-cell">R1 Assoc.</div>
+          <div class="lb-header-cell">R2 Interv.</div>
+          <div class="lb-header-cell">R3 Count.</div>
+        </div>
+
+        <div class="lb-row winner">
+          <div class="lb-rank gold">1</div>
+          <div>
+            <div class="lb-model-name">
+              <span class="dot" style="background:#0f2a4a"></span>GPT-5.5
+              <span class="tier-badge tier-frontier">frontier</span>
+            </div>
+            <div class="lb-model-sub">openai/gpt-5.5 &nbsp;&middot;&nbsp; reasoning captured: 3,574</div>
+          </div>
+          <div class="lb-acc best">92.87%</div>
+          <div class="lb-rung">94.06%</div>
+          <div class="lb-rung">92.39%</div>
+          <div class="lb-rung">92.21%</div>
+        </div>
+
+        <div class="lb-row">
+          <div class="lb-rank">2</div>
+          <div>
+            <div class="lb-model-name">
+              <span class="dot" style="background:#5c2a0f"></span>Claude Opus 4.8
+              <span class="tier-badge tier-frontier">frontier</span>
+            </div>
+            <div class="lb-model-sub">anthropic/claude-opus-4.8 &nbsp;&middot;&nbsp; reasoning captured: 6,428</div>
+          </div>
+          <div class="lb-acc">90.00%</div>
+          <div class="lb-rung">93.66%</div>
+          <div class="lb-rung">90.17%</div>
+          <div class="lb-rung">86.77%</div>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat-item"><div class="stat-val neutral">0</div><div class="stat-desc">Null responses<br>either model</div></div>
+        <div class="stat-item"><div class="stat-val neutral">47.2%</div><div class="stat-desc">"Yes" rate<br>identical, both models</div></div>
+        <div class="stat-item"><div class="stat-val down">2.87pp</div><div class="stat-desc">GPT-5.5 lead<br>over Opus 4.8</div></div>
+        <div class="stat-item"><div class="stat-val down">5.44pp</div><div class="stat-desc">Opus Rung 3 gap<br>vs GPT-5.5</div></div>
+      </div>
+
+      <div class="aside">The gap widens as the rung gets harder. GPT-5.5 and Opus 4.8 are within half a point on Rung 1 (association), but by Rung 3 (counterfactual) GPT-5.5 holds a 5.44 point lead, 92.21% vs 86.77%. Both models nearly max out on backadj items (100% each) and both stumble hardest on collider_bias and nie, the two query types that require holding a confounding structure in mind rather than reading it off the surface.</div>
+
+      <h3>Accuracy by rung</h3>
+      <div class="chart-wrap">
+        <div class="chart-title">GPT-5.5 vs Claude Opus 4.8, accuracy by rung</div>
+        <canvas id="chartRungReplication" height="180"></canvas>
+        <div class="chart-note">GPT-5.5 leads on all three rungs, but the margin grows from 0.40pp on Rung 1 to 5.44pp on Rung 3. Consistent with the earlier 10,112-item leaderboard run, Rung 3 remains the rung where the field separates most.</div>
+      </div>
+
+      <h3>Accuracy by query type</h3>
+      <div class="chart-wrap">
+        <div class="chart-title">GPT-5.5 vs Claude Opus 4.8, accuracy by CLadder query type</div>
+        <canvas id="chartQueryTypeReplication" height="240"></canvas>
+        <div class="chart-note">Both models hit 100% on backadj and stay above 91% on marginal and ate. The weak points for both are collider_bias (GPT-5.5: 54.21%, Opus 4.8: 58.11%, both barely above chance) and nie (GPT-5.5: 82.62%, Opus 4.8: 75.29%), the biggest single gap between the two models.</div>
+      </div>
+
+      <div class="findings">
+        <div class="finding-item">
+          <div class="finding-label">GPT-5.5 still ahead</div>
+          <div class="finding-text">At this smaller sample size GPT-5.5 leads 92.87% to 90.00%, a 2.87 point margin, directionally consistent with the 3.70 point gap seen on the full 10,112-item run.</div>
+        </div>
+        <div class="finding-item">
+          <div class="finding-label">Collider_bias is the shared weak point</div>
+          <div class="finding-text">Both models score near chance on collider_bias (54.21% and 58.11%), the only query type where either model dips below 60%. This is the one place Opus 4.8 actually edges out GPT-5.5.</div>
+        </div>
+        <div class="finding-item">
+          <div class="finding-label">Backadj is fully solved</div>
+          <div class="finding-text">Both models hit a perfect 100% on backdoor-adjustment items in this sample, suggesting this query type is essentially saturated for frontier reasoning models at this scale.</div>
+        </div>
+        <div class="finding-item">
+          <div class="finding-label">Rung 3 drives the overall gap</div>
+          <div class="finding-text">Rungs 1 and 2 are close between the models (within about 1pp and 2.2pp), and nearly all of the overall 2.87 point gap traces back to Rung 3, where Opus 4.8 trails by 5.44 points.</div>
+        </div>
+      </div>
+
+      <div class="note">Caveat: this is a 10-sample-per-query-type sanity check, not a full leaderboard run. Reasoning-capture counts (3,574 for GPT-5.5, 6,428 for Opus 4.8) suggest Opus 4.8 produced substantially longer reasoning traces on this batch. Treat the point estimates above as directional rather than final until re-run at the full 10,112-item scale.</div>
+    </section>
+
+    <div class="rule"></div>
+
+    <!-- PEARL'S LADDER -->
+    <section class="section" id="ladder">
+      <div class="section-marker">Background</div>
+      <h2>Pearl's ladder of causation</h2>
+      <p>All causal reasoning sits on one of three rungs. The rung determines what kind of question is being asked and what information is needed to answer it correctly. Each level is harder than the one below it.</p>
+      <div class="rungs">
+        <div class="rung">
+          <div class="rung-num">Rung 1</div>
+          <div class="rung-name">Association</div>
+          <div class="rung-desc">Observing correlations. What is P(Y|X)?</div>
+        </div>
+        <div class="rung">
+          <div class="rung-num">Rung 2</div>
+          <div class="rung-name">Intervention</div>
+          <div class="rung-desc">Do-calculus. What happens if we set X = x?</div>
+        </div>
+        <div class="rung">
+          <div class="rung-num">Rung 3</div>
+          <div class="rung-name">Counterfactual</div>
+          <div class="rung-desc">Abduction, action, and prediction in sequence.</div>
+        </div>
+      </div>
+      <p>A model that cannot reliably execute Rung 2 cannot do Rung 3. The benchmark literature tracks progress across all three, but the distribution of failure is uneven, and the hardest rung remains mostly unsolved.</p>
+    </section>
+
+    <div class="rule"></div>
+
+    <!-- BENCHMARK LANDSCAPE -->
+    <section class="section" id="benchmarks">
+      <div class="section-marker">Background</div>
+      <h2>Benchmark landscape</h2>
+
+      <h3>CLadder (NeurIPS 2023)</h3>
+      <p>The primary causal reasoning benchmark. Over 10,000 questions spanning all three rungs, evaluated using CausalCoT: a six-step chain-of-thought protocol mirroring the formal causal inference engine. The six steps are graph extraction, query classification, data collection, symbolic formalization, estimand derivation, and arithmetic.</p>
+      <div class="stats">
+        <div class="stat-item"><div class="stat-val neutral">70.4%</div><div class="stat-desc">GPT-4 + CausalCoT<br>at publication (2023)</div></div>
+        <div class="stat-item"><div class="stat-val up">95.3%</div><div class="stat-desc">CDCR-SFT<br>2025 leaderboard</div></div>
+        <div class="stat-item"><div class="stat-val neutral">94.8%</div><div class="stat-desc">Human ceiling</div></div>
+      </div>
+      <div class="aside">The leaderboard is saturated in-distribution. The benchmark is not solved. Under perturbation, performance collapses by 30 to 62 points across all models. Robustness is now the actual open problem.</div>
+
+      <h3>Corr2Cause (ICLR 2024)</h3>
+      <p>Tests causal discovery from correlations. Given correlational statements about abstract variables, can the model determine valid causal relationships using the PC algorithm?</p>
+      <div class="stats">
+        <div class="stat-item"><div class="stat-val up">94.7 F1</div><div class="stat-desc">RoBERTa-Large fine-tuned<br>in-distribution</div></div>
+        <div class="stat-item"><div class="stat-val down">&minus;62 F1</div><div class="stat-desc">Same model under<br>variable renaming</div></div>
+        <div class="stat-item"><div class="stat-val neutral">37 F1</div><div class="stat-desc">Llama-3-8B axiomatic<br>zero-shot</div></div>
+      </div>
+      <p>A 62-point F1 collapse under variable renaming. The fine-tuned model learned which words correlate with which labels, not the causal rules. Llama-3-8B trained on abstract graph axioms scores 37 zero-shot, beating GPT-4 at 29, without ever seeing the task format. Axiomatic training generalises. Task-specific fine-tuning does not.</p>
+
+      <h3>CauSciBench (2025)</h3>
+      <p>367 tasks from over 100 real research papers across nine scientific disciplines. The model must select a method, implement it in Python, and interpret the result. See our own Fable 5 results above.</p>
+      <div class="stats">
+        <div class="stat-item"><div class="stat-val neutral">77.2%</div><div class="stat-desc">o3 + CoT<br>method selection accuracy</div></div>
+        <div class="stat-item"><div class="stat-val down">49%</div><div class="stat-desc">Mean relative error<br>on actual estimates</div></div>
+      </div>
+      <div class="findings">
+        <div class="finding-item"><div class="finding-label">OLS default bias</div><div class="finding-text">Models reach for ordinary least squares regardless of whether it fits the problem.</div></div>
+        <div class="finding-item"><div class="finding-label">Method vs execution</div><div class="finding-text">Selecting the right method and running it correctly are different skills. A model can name the right approach and still get the numbers wrong.</div></div>
+        <div class="finding-item"><div class="finding-label">Confounder under-selection</div><div class="finding-text">ReAct-based agents optimise each action locally without stepping back to consider the full adjustment set.</div></div>
+      </div>
+    </section>
+
+    <div class="rule"></div>
+
+    <!-- POST-TRAINING METHODS -->
+    <section class="section" id="posttraining">
+      <div class="section-marker">Background</div>
+      <h2>Post-training methods</h2>
+      <p>Four post-training approaches have been applied to causal reasoning. Their relative gains differ, and the reason why matters as much as the numbers.</p>
+      <div class="stats">
+        <div class="stat-item"><div class="stat-val down">+1.4%</div><div class="stat-desc">DPO</div></div>
+        <div class="stat-item"><div class="stat-val neutral">+6.4%</div><div class="stat-desc">KTO</div></div>
+        <div class="stat-item"><div class="stat-val neutral">+19.2%</div><div class="stat-desc">SFT</div></div>
+        <div class="stat-item"><div class="stat-val up">+42%</div><div class="stat-desc">GRPO / PPO</div></div>
+      </div>
+      <p>GRPO and PPO dominate because they give the model corrective feedback on its own reasoning in real time. SFT teaches imitation of correct outputs. GRPO teaches how to think. DeepSeek-R1-14B with GRPO on CauGym reaches 93.5% on the CaLM benchmark, compared to OpenAI o3 at 55.4% without causal fine-tuning.</p>
+      <div class="aside">All four methods share the same out-of-distribution failure. In-distribution gains do not transfer to perturbed queries. This remains the central unsolved problem in the field.</div>
+      <div class="findings">
+        <div class="finding-item"><div class="finding-label">Entropy regularisation</div><div class="finding-text">Removing entropy regularisation from BinaryPPO collapses accuracy from 97% to 29%. The model without it learns to always predict the same label.</div></div>
+        <div class="finding-item"><div class="finding-label">Axiomatic beats task-specific</div><div class="finding-text">Training on abstract causal graph rules with alphanumeric variables generalises to unseen task formats. Training on task examples does not.</div></div>
+        <div class="finding-item"><div class="finding-label">SCM-GRPO</div><div class="finding-text">Standard GRPO lets models learn to generate long plausible-sounding chains that are logically wrong. SCM-GRPO grounds the reward in an actual structural causal model.</div></div>
+        <div class="finding-item"><div class="finding-label">4-bit quantization</div><div class="finding-text">Compressed attention weights cannot fully sever pre-intervention correlations when simulating a do() operation. Injecting the ground-truth causal graph via GraphRAG recovers 1.7%.</div></div>
+      </div>
+    </section>
+
+    <div class="rule"></div>
+
+    <!-- OPEN PROBLEMS -->
+    <section class="section" id="problems">
+      <div class="section-marker">Background</div>
+      <h2>Open problems</h2>
+      <div class="findings">
+        <div class="finding-item"><div class="finding-label">Robustness gap</div><div class="finding-text">Every method that achieves high in-distribution accuracy collapses 30 to 62 points under simple variable renaming or paraphrase. No exception exists.</div></div>
+        <div class="finding-item"><div class="finding-label">Abduction deficit</div><div class="finding-text">Rung 3 requires inferring hidden background variables from observations. Models fail at this first step. CLadder provides latent variable values directly rather than requiring real abduction, which is harder and largely unaddressed.</div></div>
+        <div class="finding-item"><div class="finding-label">No process supervision</div><div class="finding-text">All current training uses outcome-level reward. No step-level process reward model exists for CausalCoT, despite clear behavioural evidence of which steps fail most often.</div></div>
+        <div class="finding-item"><div class="finding-label">Real-world estimation gap</div><div class="finding-text">Models trained on synthetic data do not transfer well to real scientific datasets. Mean relative estimation error remains around 49% on CauSciBench even at high method selection accuracy, a pattern our own Fable 5 results reproduce.</div></div>
+      </div>
+    </section>
+
+    <div class="rule"></div>
+
+    <footer class="footer">
+      <span>July 2026</span>
+    </footer>
+
+  </div><!-- .content -->
+</div><!-- .layout -->
 
 <script>
 const INK       = '#1a1816';
@@ -1128,16 +935,13 @@ const ACCENT    = '#8b4513';
 const ACCENT_L  = '#c4803a';
 const GREEN     = '#2a5e2a';
 const RED       = '#8b1a1a';
-const PAPER_W   = '#efe9e0';
 const MONO      = "'DM Mono', monospace";
 
-// Model colors
 const C_GEMINI = '#2a5e2a';
 const C_CLAUDE = '#8b4513';
 const C_OPUS   = '#5c2a0f';
 const C_GPT    = '#1a3a5c';
 const C_GPT55  = '#0f2a4a';
-const C_LLAMA  = '#5c1a4a';
 const C_DS     = '#1a5c52';
 const C_GROK   = '#701a1a';
 
@@ -1179,7 +983,37 @@ function baseOpts(extras) {
   }, extras || {});
 }
 
-// Chart 0: Overall accuracy
+// CauSciBench: Fable 5 by split
+new Chart(document.getElementById('chartCauSciBench'), {
+  type: 'bar',
+  data: {
+    labels: ['Synthetic', 'Real', 'QR'],
+    datasets: [
+      { label: 'Method accuracy', data: [69.2, 65.1, 35.9], backgroundColor: ACCENT+'77', borderColor: ACCENT, borderWidth: 1.5 },
+      { label: 'Effect accuracy', data: [45.5, 18.1, 20.1], backgroundColor: GREEN+'77', borderColor: GREEN, borderWidth: 1.5 },
+      { label: 'Coverage', data: [64.3, 44.6, 38.5], backgroundColor: INK_FAINT+'55', borderColor: INK_FAINT, borderWidth: 1.5 },
+    ]
+  },
+  options: baseOpts({
+    plugins: {
+      legend: { labels:{font:{family:MONO,size:10},color:INK_FAINT,boxWidth:10} },
+      tooltip: {
+        backgroundColor:'#fff', borderColor:RULE, borderWidth:1,
+        titleColor:INK, bodyColor:INK_LIGHT,
+        titleFont:{family:MONO,size:10}, bodyFont:{family:MONO,size:10},
+        callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(1) + '%' }
+      }
+    },
+    scales: {
+      x: { ticks:{font:{family:MONO,size:10},color:INK_FAINT}, grid:{color:RULE}, border:{dash:[4,4],color:RULE} },
+      y: { min:0, max:80,
+           ticks:{font:{family:MONO,size:10},color:INK_FAINT, callback:v=>v+'%'},
+           grid:{color:RULE}, border:{dash:[4,4],color:RULE} }
+    }
+  })
+});
+
+// Chart: Overall accuracy
 new Chart(document.getElementById('chartOverall'), {
   type: 'bar',
   data: {
@@ -1217,11 +1051,11 @@ new Chart(document.getElementById('chartOverall'), {
   })
 });
 
-// Chart 1: Rungs across all models
+// Chart: Rungs across all models
 new Chart(document.getElementById('chartRungsAll'), {
   type: 'bar',
   data: {
-    labels: ['Rung 1 — Association', 'Rung 2 — Intervention', 'Rung 3 — Counterfactual'],
+    labels: ['Rung 1: Association', 'Rung 2: Intervention', 'Rung 3: Counterfactual'],
     datasets: [
       { label: 'GPT-5.5',          data: [97.78, 96.64, 91.17], backgroundColor: C_GPT55+'77',  borderColor: C_GPT55,  borderWidth:1.5 },
       { label: 'Grok 4.20',        data: [96.77, 94.46, 89.32], backgroundColor: C_GROK+'77',   borderColor: C_GROK,   borderWidth:1.5 },
@@ -1251,7 +1085,7 @@ new Chart(document.getElementById('chartRungsAll'), {
   })
 });
 
-// Chart 2: Failure pattern counts
+// Chart: Failure pattern counts
 const failureLabels = ['Final answer flip', 'Direction error', 'Backadj confusion'];
 new Chart(document.getElementById('chartFailurePatterns'), {
   type: 'bar',
@@ -1282,7 +1116,7 @@ new Chart(document.getElementById('chartFailurePatterns'), {
   })
 });
 
-// Chart 3: Forced thinking delta by query type (Opus 4.8)
+// Chart: Forced thinking delta by query type (Opus 4.8)
 const ftLabels = ['correlation','nde','nie','det-CF','backadj','ett','ate','marginal','collider_bias'];
 const ftDeltas  = [6.1, 3.4, 3.0, 2.8, 1.7, 1.6, 0.1, -0.5, -0.6];
 new Chart(document.getElementById('chartForcedThinking'), {
@@ -1316,134 +1150,11 @@ new Chart(document.getElementById('chartForcedThinking'), {
   })
 });
 
-// Chart: Rung accuracy Qwen SFT
-new Chart(document.getElementById('chartRung'), {
-  type: 'bar',
-  data: {
-    labels: ['Rung 1\nAssociation', 'Rung 2\nIntervention', 'Rung 3\nCounterfactual'],
-    datasets: [
-      { label: 'Baseline', data: [43.6, 59.8, 58.1], backgroundColor: INK_FAINT+'55', borderColor: INK_FAINT, borderWidth: 1 },
-      { label: 'SFT fine-tuned', data: [47.9, 55.4, 60.1],
-        backgroundColor: [GREEN+'55', RED+'55', GREEN+'55'],
-        borderColor: [GREEN, RED, GREEN], borderWidth: 1 }
-    ]
-  },
-  options: baseOpts({
-    plugins: {
-      legend: { labels:{font:{family:MONO,size:10},color:INK_FAINT,boxWidth:10} },
-      tooltip: { backgroundColor:'#fff', borderColor:RULE, borderWidth:1, titleColor:INK, bodyColor:INK_LIGHT, titleFont:{family:MONO,size:10}, bodyFont:{family:MONO,size:10} }
-    },
-    scales: {
-      x: { ticks:{font:{family:MONO,size:10},color:INK_FAINT}, grid:{color:RULE}, border:{dash:[4,4],color:RULE} },
-      y: { min:30, max:75, ticks:{font:{family:MONO,size:10},color:INK_FAINT, callback:v=>v+'%'}, grid:{color:RULE}, border:{dash:[4,4],color:RULE} }
-    }
-  })
-});
-
-// Chart: Probe F1
-new Chart(document.getElementById('chartProbe'), {
-  type: 'bar',
-  data: {
-    labels: ['S1\nGraph', 'S2\nQuery', 'S3\nForm.', 'S4\nData', 'S5\nEstimand', 'S6\nArith.'],
-    datasets: [
-      { label: 'Base model',    data: [0.964,0.921,0.416,0.901,0.877,0.944], backgroundColor: INK_FAINT+'44', borderColor:INK_FAINT, borderWidth:1 },
-      { label: 'Instruct model',data: [0.971,0.935,0.431,0.908,0.889,0.951],
-        backgroundColor: ['','',(RED+'55'),'','',''].map((v,i)=>i===2?RED+'55':ACCENT_L+'55'),
-        borderColor: ['','','','','',''].map((_,i)=>i===2?RED:ACCENT_L), borderWidth:1 }
-    ]
-  },
-  options: baseOpts({
-    plugins: {
-      legend:{labels:{font:{family:MONO,size:10},color:INK_FAINT,boxWidth:10}},
-      tooltip:{backgroundColor:'#fff',borderColor:RULE,borderWidth:1,titleColor:INK,bodyColor:INK_LIGHT,titleFont:{family:MONO,size:10},bodyFont:{family:MONO,size:10}}
-    },
-    scales: {
-      x:{ticks:{font:{family:MONO,size:9},color:INK_FAINT},grid:{color:RULE},border:{dash:[4,4],color:RULE}},
-      y:{min:0.3,max:1.05,ticks:{font:{family:MONO,size:10},color:INK_FAINT,callback:v=>v.toFixed(2)},grid:{color:RULE},border:{dash:[4,4],color:RULE}}
-    }
-  })
-});
-
-// Chart: AUC per layer
-const aucData=[0.489,0.502,0.501,0.527,0.541,0.542,0.542,0.527,0.512,0.506,0.534,0.516,0.493,0.458,0.442,0.435,0.479,0.493,0.517,0.521,0.504,0.491,0.557,0.551,0.577,0.557,0.567,0.678];
-new Chart(document.getElementById('chartAUC'), {
-  type: 'line',
-  data: {
-    labels: aucData.map((_,i)=>i),
-    datasets: [
-      { label:'AUC', data:aucData, borderColor:ACCENT, backgroundColor:ACCENT+'15', borderWidth:2,
-        pointRadius:aucData.map((_,i)=>i===27?6:0), pointBackgroundColor:aucData.map((_,i)=>i===27?ACCENT:'transparent'),
-        tension:0.3, fill:true },
-      { label:'Chance (0.5)', data:aucData.map(()=>0.5), borderColor:RULE, borderWidth:1, borderDash:[6,4], pointRadius:0, fill:false }
-    ]
-  },
-  options: baseOpts({
-    plugins: {
-      legend:{labels:{font:{family:MONO,size:10},color:INK_FAINT,boxWidth:10}},
-      tooltip:{backgroundColor:'#fff',borderColor:RULE,borderWidth:1,titleColor:INK,bodyColor:INK_LIGHT,titleFont:{family:MONO,size:10},bodyFont:{family:MONO,size:10},
-        callbacks:{title:ctx=>'Layer '+ctx[0].label, label:ctx=>'AUC = '+ctx.parsed.y.toFixed(3)}}
-    },
-    scales: {
-      x:{title:{display:true,text:'Layer',font:{family:MONO,size:9},color:INK_FAINT},
-         ticks:{font:{family:MONO,size:9},color:INK_FAINT,callback:(_,i)=>i%4===0||i===27?i:''},
-         grid:{color:RULE},border:{dash:[4,4],color:RULE}},
-      y:{min:0.38,max:0.72,ticks:{font:{family:MONO,size:10},color:INK_FAINT,callback:v=>v.toFixed(2)},grid:{color:RULE},border:{dash:[4,4],color:RULE}}
-    }
-  })
-});
-
-// Chart: Commitment groups
-new Chart(document.getElementById('chartCommit'), {
-  type: 'bar',
-  data: {
-    labels: ['Early committed (yes-reflex, layers 13-14)', 'Late committed (layers 22-28)'],
-    datasets: [{ label:'Fragility rate', data:[5.0,16.9],
-      backgroundColor:[GREEN+'55',RED+'55'], borderColor:[GREEN,RED], borderWidth:1.5, barThickness:60 }]
-  },
-  options: baseOpts({
-    indexAxis:'y',
-    plugins: {
-      legend:{display:false},
-      tooltip:{backgroundColor:'#fff',borderColor:RULE,borderWidth:1,titleColor:INK,bodyColor:INK_LIGHT,
-        titleFont:{family:MONO,size:10},bodyFont:{family:MONO,size:10},
-        callbacks:{label:ctx=>ctx.parsed.x.toFixed(1)+'% fragile'}}
-    },
-    scales: {
-      x:{min:0,max:22,ticks:{font:{family:MONO,size:10},color:INK_FAINT,callback:v=>v+'%'},grid:{color:RULE},border:{dash:[4,4],color:RULE}},
-      y:{ticks:{font:{family:MONO,size:10},color:INK_LIGHT},grid:{display:false},border:{display:false}}
-    }
-  })
-});
-
-// Chart: Rescue vs damage
-new Chart(document.getElementById('chartRescue'), {
-  type: 'bar',
-  data: {
-    labels: ['All layers\nalpha = 1', 'Layers 22-27\nalpha = 16'],
-    datasets: [
-      { label:'Fragile items rescued', data:[17.9,14.4], backgroundColor:GREEN+'66', borderColor:GREEN, borderWidth:1.5 },
-      { label:'Robust items damaged',  data:[4.9,2.1],   backgroundColor:RED+'55',   borderColor:RED,   borderWidth:1.5 }
-    ]
-  },
-  options: baseOpts({
-    plugins: {
-      legend:{labels:{font:{family:MONO,size:10},color:INK_FAINT,boxWidth:10}},
-      tooltip:{backgroundColor:'#fff',borderColor:RULE,borderWidth:1,titleColor:INK,bodyColor:INK_LIGHT,
-        titleFont:{family:MONO,size:10},bodyFont:{family:MONO,size:10},
-        callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toFixed(1)+'%'}}
-    },
-    scales: {
-      x:{ticks:{font:{family:MONO,size:10},color:INK_LIGHT},grid:{display:false},border:{display:false}},
-      y:{min:0,max:25,ticks:{font:{family:MONO,size:10},color:INK_FAINT,callback:v=>v+'%'},grid:{color:RULE},border:{dash:[4,4],color:RULE}}
-    }
-  })
-});
-
-// Chart: Replication run — accuracy by rung, GPT-5.5 vs Opus 4.8
+// Chart: Replication: accuracy by rung, GPT-5.5 vs Opus 4.8
 new Chart(document.getElementById('chartRungReplication'), {
   type: 'bar',
   data: {
-    labels: ['Rung 1 — Association', 'Rung 2 — Intervention', 'Rung 3 — Counterfactual'],
+    labels: ['Rung 1: Association', 'Rung 2: Intervention', 'Rung 3: Counterfactual'],
     datasets: [
       { label: 'GPT-5.5',         data: [94.06, 92.39, 92.21], backgroundColor: C_GPT55+'77', borderColor: C_GPT55, borderWidth:1.5 },
       { label: 'Claude Opus 4.8', data: [93.66, 90.17, 86.77], backgroundColor: C_OPUS+'77',  borderColor: C_OPUS,  borderWidth:1.5 },
@@ -1468,7 +1179,7 @@ new Chart(document.getElementById('chartRungReplication'), {
   })
 });
 
-// Chart: Replication run — accuracy by query type, GPT-5.5 vs Opus 4.8
+// Chart: Replication: accuracy by query type
 const qtLabels = ['ate','backadj','collider_bias','correlation','det-CF','ett','exp_away','marginal','nde','nie'];
 new Chart(document.getElementById('chartQueryTypeReplication'), {
   type: 'bar',
@@ -1497,6 +1208,21 @@ new Chart(document.getElementById('chartQueryTypeReplication'), {
     }
   })
 });
+
+// Sidebar scroll-spy: highlight active section
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('.nav-link');
+const spy = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute('id');
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => spy.observe(s));
 </script>
 </body>
 </html>
