@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LLM Causal Reasoning Benchmarks</title>
+<title>How do the latest LLMs perform on causal reasoning?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
@@ -463,9 +463,7 @@
       <li><a href="#causcibench" class="nav-link">CauSciBench: Fable 5</a></li>
       <li><a href="#leaderboard" class="nav-link">CLadder leaderboard</a></li>
       <li><a href="#replication" class="nav-link">Synthetic dataset run</a></li>
-      <li><a href="#ladder" class="nav-link">Pearl's ladder</a></li>
-      <li><a href="#benchmarks" class="nav-link">Benchmark landscape</a></li>
-      <li><a href="#posttraining" class="nav-link">Post-training methods</a></li>
+      <li><a href="#benchmarks" class="nav-link">How the benchmarks work</a></li>
       <li><a href="#problems" class="nav-link">Open problems</a></li>
     </ul>
   </nav>
@@ -474,7 +472,7 @@
 
     <header class="header">
       <div class="header-meta">July 2026 &nbsp;&middot;&nbsp; Updated results</div>
-      <h1>LLM causal reasoning: benchmark results and open problems</h1>
+      <h1>How do the latest LLMs perform on causal reasoning?</h1>
     </header>
 
     <!-- LATEST / BLOG BRIEF -->
@@ -483,9 +481,9 @@
       <h2>This update</h2>
       <div class="blog-card">
         <div class="blog-date">July 2026</div>
-        <div class="blog-headline">Claude Fable 5 on CauSciBench: method selection is decent, effect estimates are not</div>
+        <div class="blog-headline">Claude Fable 5 trails o3 on CauSciBench method selection, and falls further behind on effect accuracy</div>
         <div class="blog-body">
-          We ran Claude Fable 5 through our causal agent (CAIS) on all three CauSciBench splits: real research data, QRData-CI, and synthetic data. Across 357 tasks, Fable 5 picks a reasonable statistical method about 64% of the time. But once you check whether the actual numeric estimate is close to the true answer, that score drops to 29%. The gap is biggest on real research data, where messy, high-cardinality variables trip up the estimation step even when the method choice is right.
+          We ran Claude Fable 5 through our <a href="#" class="blog-link" style="border-bottom:1px solid var(--accent-light); font-family:inherit; font-size:inherit; letter-spacing:normal; text-transform:none;">Causal AI Scientist</a> on all three CauSciBench splits: real research data, QRData-CI, and synthetic data. Across 357 tasks, Fable 5 picks the correct method 63.6% of the time, below the 77.2% that o3 with chain-of-thought reaches on the same benchmark. The bigger drop shows up next: once we check whether the numeric estimate itself is close to the true answer, Fable 5's score falls to 29.3%. This gap is widest on real research data, where messy, high-cardinality variables make estimation hard even when the method choice is right.
         </div>
         <a href="#causcibench" class="blog-link">See the full breakdown &darr;</a>
       </div>
@@ -497,18 +495,18 @@
     <section class="section" id="causcibench">
       <div class="section-marker">New results</div>
       <h2>CauSciBench: Claude Fable 5 results</h2>
-      <p>CauSciBench gives a model a research question and a real dataset, and asks it to pick a causal inference method, run it, and interpret the result. We ran Claude Fable 5 through our CAIS agent on all three splits: <strong>real</strong> (real published research datasets), <strong>QR</strong> (QRData-CI, quantitative reasoning with causal structure), and <strong>synthetic</strong> (generated data with known ground truth).</p>
+      <p>CauSciBench gives a model a research question and a real dataset, and asks it to pick a causal inference method, run it, and interpret the result. We ran Claude Fable 5 through our <a href="#" class="blog-link" style="border-bottom:1px solid var(--accent-light);">Causal AI Scientist</a> on all three splits: <strong>real</strong> (real published research datasets), <strong>QR</strong> (QRData-CI, quantitative reasoning with causal structure), and <strong>synthetic</strong> (generated data with known ground truth).</p>
 
       <div class="stats">
-        <div class="stat-item"><div class="stat-val neutral">63.6%</div><div class="stat-desc">Method selection<br>accuracy, overall</div></div>
-        <div class="stat-item"><div class="stat-val down">29.3%</div><div class="stat-desc">Effect estimate<br>accuracy, overall</div></div>
+        <div class="stat-item"><div class="stat-val neutral">63.6%</div><div class="stat-desc">Method selection<br>accuracy, overall <span style="color:var(--green)">&uarr; higher is better</span></div></div>
+        <div class="stat-item"><div class="stat-val down">29.3%</div><div class="stat-desc">Effect estimate<br>accuracy, overall <span style="color:var(--green)">&uarr; higher is better</span></div></div>
         <div class="stat-item"><div class="stat-val neutral">51.8%</div><div class="stat-desc">Coverage: rows with<br>a usable numeric answer</div></div>
         <div class="stat-item"><div class="stat-val neutral">357</div><div class="stat-desc">Total tasks<br>across all splits</div></div>
       </div>
 
       <h3>Results by split</h3>
       <table class="data-table">
-        <thead><tr><th>Split</th><th>Tasks</th><th>Method accuracy</th><th>Effect accuracy</th><th>Coverage</th></tr></thead>
+        <thead><tr><th>Split</th><th>Tasks</th><th>Method accuracy <span style="color:var(--green)">&uarr;</span></th><th>Effect accuracy <span style="color:var(--green)">&uarr;</span></th><th>Coverage</th></tr></thead>
         <tbody>
           <tr><td>Synthetic</td><td class="mono">143</td><td class="mono">69.2%</td><td class="mono">45.5%</td><td class="mono">64.3%</td></tr>
           <tr><td>Real</td><td class="mono">175</td><td class="mono">65.1%</td><td class="mono">18.1%</td><td class="mono">44.6%</td></tr>
@@ -817,90 +815,34 @@
 
     <div class="rule"></div>
 
-    <!-- PEARL'S LADDER -->
-    <section class="section" id="ladder">
+    <!-- HOW THE BENCHMARKS WORK -->
+    <section class="section" id="benchmarks">
       <div class="section-marker">Background</div>
-      <h2>Pearl's ladder of causation</h2>
-      <p>All causal reasoning sits on one of three rungs. The rung determines what kind of question is being asked and what information is needed to answer it correctly. Each level is harder than the one below it.</p>
+      <h2>How CLadder and CauSciBench work</h2>
+      <p>Causal reasoning is usually split into three levels, known as Judea Pearl's ladder of causation. Each level is harder than the one below it, and a model that struggles with intervention will also struggle with counterfactuals.</p>
       <div class="rungs">
         <div class="rung">
           <div class="rung-num">Rung 1</div>
           <div class="rung-name">Association</div>
-          <div class="rung-desc">Observing correlations. What is P(Y|X)?</div>
+          <div class="rung-desc">Reading correlations. What is P(Y|X)?</div>
         </div>
         <div class="rung">
           <div class="rung-num">Rung 2</div>
           <div class="rung-name">Intervention</div>
-          <div class="rung-desc">Do-calculus. What happens if we set X = x?</div>
+          <div class="rung-desc">Predicting an action's effect. What happens if we set X = x?</div>
         </div>
         <div class="rung">
           <div class="rung-num">Rung 3</div>
           <div class="rung-name">Counterfactual</div>
-          <div class="rung-desc">Abduction, action, and prediction in sequence.</div>
+          <div class="rung-desc">Reasoning about what would have happened otherwise.</div>
         </div>
       </div>
-      <p>A model that cannot reliably execute Rung 2 cannot do Rung 3. The benchmark literature tracks progress across all three, but the distribution of failure is uneven, and the hardest rung remains mostly unsolved.</p>
-    </section>
 
-    <div class="rule"></div>
+      <h3>CLadder</h3>
+      <p>CLadder tests all three rungs directly, with over 10,000 questions. We evaluate it using CausalCoT, a six-step process that mirrors a formal causal inference engine: extract the causal graph, classify the query, gather the data, formalize it symbolically, derive the estimand, then do the arithmetic.</p>
 
-    <!-- BENCHMARK LANDSCAPE -->
-    <section class="section" id="benchmarks">
-      <div class="section-marker">Background</div>
-      <h2>Benchmark landscape</h2>
-
-      <h3>CLadder (NeurIPS 2023)</h3>
-      <p>The primary causal reasoning benchmark. Over 10,000 questions spanning all three rungs, evaluated using CausalCoT: a six-step chain-of-thought protocol mirroring the formal causal inference engine. The six steps are graph extraction, query classification, data collection, symbolic formalization, estimand derivation, and arithmetic.</p>
-      <div class="stats">
-        <div class="stat-item"><div class="stat-val neutral">70.4%</div><div class="stat-desc">GPT-4 + CausalCoT<br>at publication (2023)</div></div>
-        <div class="stat-item"><div class="stat-val up">95.3%</div><div class="stat-desc">CDCR-SFT<br>2025 leaderboard</div></div>
-        <div class="stat-item"><div class="stat-val neutral">94.8%</div><div class="stat-desc">Human ceiling</div></div>
-      </div>
-      <div class="aside">The leaderboard is saturated in-distribution. The benchmark is not solved. Under perturbation, performance collapses by 30 to 62 points across all models. Robustness is now the actual open problem.</div>
-
-      <h3>Corr2Cause (ICLR 2024)</h3>
-      <p>Tests causal discovery from correlations. Given correlational statements about abstract variables, can the model determine valid causal relationships using the PC algorithm?</p>
-      <div class="stats">
-        <div class="stat-item"><div class="stat-val up">94.7 F1</div><div class="stat-desc">RoBERTa-Large fine-tuned<br>in-distribution</div></div>
-        <div class="stat-item"><div class="stat-val down">&minus;62 F1</div><div class="stat-desc">Same model under<br>variable renaming</div></div>
-        <div class="stat-item"><div class="stat-val neutral">37 F1</div><div class="stat-desc">Llama-3-8B axiomatic<br>zero-shot</div></div>
-      </div>
-      <p>A 62-point F1 collapse under variable renaming. The fine-tuned model learned which words correlate with which labels, not the causal rules. Llama-3-8B trained on abstract graph axioms scores 37 zero-shot, beating GPT-4 at 29, without ever seeing the task format. Axiomatic training generalises. Task-specific fine-tuning does not.</p>
-
-      <h3>CauSciBench (2025)</h3>
-      <p>367 tasks from over 100 real research papers across nine scientific disciplines. The model must select a method, implement it in Python, and interpret the result. See our own Fable 5 results above.</p>
-      <div class="stats">
-        <div class="stat-item"><div class="stat-val neutral">77.2%</div><div class="stat-desc">o3 + CoT<br>method selection accuracy</div></div>
-        <div class="stat-item"><div class="stat-val down">49%</div><div class="stat-desc">Mean relative error<br>on actual estimates</div></div>
-      </div>
-      <div class="findings">
-        <div class="finding-item"><div class="finding-label">OLS default bias</div><div class="finding-text">Models reach for ordinary least squares regardless of whether it fits the problem.</div></div>
-        <div class="finding-item"><div class="finding-label">Method vs execution</div><div class="finding-text">Selecting the right method and running it correctly are different skills. A model can name the right approach and still get the numbers wrong.</div></div>
-        <div class="finding-item"><div class="finding-label">Confounder under-selection</div><div class="finding-text">ReAct-based agents optimise each action locally without stepping back to consider the full adjustment set.</div></div>
-      </div>
-    </section>
-
-    <div class="rule"></div>
-
-    <!-- POST-TRAINING METHODS -->
-    <section class="section" id="posttraining">
-      <div class="section-marker">Background</div>
-      <h2>Post-training methods</h2>
-      <p>Four post-training approaches have been applied to causal reasoning. Their relative gains differ, and the reason why matters as much as the numbers.</p>
-      <div class="stats">
-        <div class="stat-item"><div class="stat-val down">+1.4%</div><div class="stat-desc">DPO</div></div>
-        <div class="stat-item"><div class="stat-val neutral">+6.4%</div><div class="stat-desc">KTO</div></div>
-        <div class="stat-item"><div class="stat-val neutral">+19.2%</div><div class="stat-desc">SFT</div></div>
-        <div class="stat-item"><div class="stat-val up">+42%</div><div class="stat-desc">GRPO / PPO</div></div>
-      </div>
-      <p>GRPO and PPO dominate because they give the model corrective feedback on its own reasoning in real time. SFT teaches imitation of correct outputs. GRPO teaches how to think. DeepSeek-R1-14B with GRPO on CauGym reaches 93.5% on the CaLM benchmark, compared to OpenAI o3 at 55.4% without causal fine-tuning.</p>
-      <div class="aside">All four methods share the same out-of-distribution failure. In-distribution gains do not transfer to perturbed queries. This remains the central unsolved problem in the field.</div>
-      <div class="findings">
-        <div class="finding-item"><div class="finding-label">Entropy regularisation</div><div class="finding-text">Removing entropy regularisation from BinaryPPO collapses accuracy from 97% to 29%. The model without it learns to always predict the same label.</div></div>
-        <div class="finding-item"><div class="finding-label">Axiomatic beats task-specific</div><div class="finding-text">Training on abstract causal graph rules with alphanumeric variables generalises to unseen task formats. Training on task examples does not.</div></div>
-        <div class="finding-item"><div class="finding-label">SCM-GRPO</div><div class="finding-text">Standard GRPO lets models learn to generate long plausible-sounding chains that are logically wrong. SCM-GRPO grounds the reward in an actual structural causal model.</div></div>
-        <div class="finding-item"><div class="finding-label">4-bit quantization</div><div class="finding-text">Compressed attention weights cannot fully sever pre-intervention correlations when simulating a do() operation. Injecting the ground-truth causal graph via GraphRAG recovers 1.7%.</div></div>
-      </div>
+      <h3>CauSciBench</h3>
+      <p>CauSciBench works differently. It gives the model a real research question and a real dataset drawn from a published paper, across 357 tasks, and asks the model to choose a causal inference method, implement it in code, and interpret the result. On this benchmark, o3 with chain-of-thought reaches 77.2% method selection accuracy, but its numeric estimates still carry a mean relative error of about 49%. Picking the right method and correctly executing it are different skills, and that gap shows up across models, including Claude Fable 5 above.</p>
     </section>
 
     <div class="rule"></div>
