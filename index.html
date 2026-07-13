@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
 <style>
   :root {
     --ink: #1a1816;
@@ -89,17 +90,24 @@
   }
   h1 {
     font-family: 'Lora', serif;
-    font-size: 28px;
-    font-weight: 400;
-    line-height: 1.35;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1.3;
     color: var(--ink);
     margin-bottom: 16px;
-    letter-spacing: -.01em;
+    letter-spacing: -.015em;
   }
   .header-byline {
     font-size: 15px;
     color: var(--ink-light);
     font-style: italic;
+  }
+  .header-dek {
+    font-size: 18px;
+    color: var(--ink-light);
+    font-weight: 300;
+    line-height: 1.6;
+    max-width: 640px;
   }
 
   /* ── Sections ── */
@@ -459,7 +467,6 @@
   <nav class="sidebar">
     <div class="sidebar-title">Contents</div>
     <ul class="sidebar-list">
-      <li><a href="#latest" class="nav-link">Latest</a></li>
       <li><a href="#causcibench" class="nav-link">CauSciBench: Fable 5</a></li>
       <li><a href="#leaderboard" class="nav-link">CLadder leaderboard</a></li>
       <li><a href="#replication" class="nav-link">Synthetic dataset run</a></li>
@@ -473,23 +480,8 @@
     <header class="header">
       <div class="header-meta">July 2026 &nbsp;&middot;&nbsp; Updated results</div>
       <h1>How do the latest LLMs perform on causal reasoning?</h1>
+      <p class="header-dek">A running record of how frontier and mid-tier models handle causal reasoning, from clean synthetic puzzles to messy real-world data. This update leads with Claude Fable 5's first CauSciBench results, then places them against the wider CLadder field.</p>
     </header>
-
-    <!-- LATEST / BLOG BRIEF -->
-    <section class="section" id="latest">
-      <div class="section-marker">Latest</div>
-      <h2>This update</h2>
-      <div class="blog-card">
-        <div class="blog-date">July 2026</div>
-        <div class="blog-headline">Claude Fable 5 trails o3 on CauSciBench method selection, and falls further behind on effect accuracy</div>
-        <div class="blog-body">
-          We ran Claude Fable 5 through our <a href="https://github.com/causalNLP/CauSciBench" target="_blank" rel="noopener" class="blog-link" style="border-bottom:1px solid var(--accent-light); font-family:inherit; font-size:inherit; letter-spacing:normal; text-transform:none;">Causal AI Scientist</a> on all three CauSciBench splits: real research data, QRData-CI, and synthetic data. Across 357 tasks, Fable 5 picks the correct method 63.6% of the time, below the 77.2% that o3 with chain-of-thought reaches on the same benchmark. The bigger drop shows up next: once we check whether the numeric estimate itself is close to the true answer, Fable 5's score falls to 29.3%. This gap is widest on real research data, where messy, high-cardinality variables make estimation hard even when the method choice is right.
-        </div>
-        <a href="#causcibench" class="blog-link">See the full breakdown &darr;</a>
-      </div>
-    </section>
-
-    <div class="rule"></div>
 
     <!-- CAUSCIBENCH DETAILED RESULTS -->
     <section class="section" id="causcibench">
@@ -522,6 +514,15 @@
 
       <div class="aside">Method selection holds up reasonably well across all three splits, staying above a third even on the hardest split. Effect accuracy is a different story: it falls hardest on real data, where the model has to deal with messy real-world variables instead of clean synthetic ones.</div>
 
+      <h3>Fable 5 against a published baseline</h3>
+      <p>The only other model with a directly comparable, same-metric CauSciBench number on hand right now is o3 with chain-of-thought, reported in the benchmark's own paper. On method selection accuracy overall, Fable 5 trails it by 13.6 points.</p>
+
+      <div class="chart-wrap">
+        <div class="chart-title">Method selection accuracy: Fable 5 vs. o3 (CoT)</div>
+        <canvas id="chartFableVsO3" height="140"></canvas>
+        <div class="chart-note">o3 figure is the published chain-of-thought result from the CauSciBench paper, overall across all splits. We have not yet run GPT-5.5, Grok 4.20, or Claude Opus 4.8 through the same Causal AI Scientist harness, so they aren't on this chart — see the note at the end of this report.</div>
+      </div>
+
       <h3>What this means</h3>
       <div class="findings">
         <div class="finding-item">
@@ -547,7 +548,7 @@
     <section class="section" id="leaderboard">
       <div class="section-marker">Leaderboard</div>
       <h2>CLadder v1.5 leaderboard</h2>
-      <p>Seven models evaluated on CLadder v1.5 (n = 10,112) through the OpenRouter API, with extended thinking turned on wherever a model supports it. GPT-5.5 leads at 95.09% with high reasoning effort, followed closely by Grok 4.20 and Claude Opus 4.8. GPT-5.4 Nano, run without reasoning, trails the field at 54.80%, barely above chance on a binary task.</p>
+      <p>Fable 5's CauSciBench numbers above are one data point on one benchmark. To place them against the wider field, here is where seven models land on CLadder v1.5 (n = 10,112), the more structured of our two benchmarks, evaluated through the OpenRouter API with extended thinking turned on wherever a model supports it. GPT-5.5 leads at 95.09% with high reasoning effort, followed closely by Grok 4.20 and Claude Opus 4.8. GPT-5.4 Nano, run without reasoning, trails the field at 54.80%, barely above chance on a binary task.</p>
 
       <div class="leaderboard">
         <div class="lb-header">
@@ -725,7 +726,7 @@
     <section class="section" id="replication">
       <div class="section-marker">Synthetic dataset run</div>
       <h2>Synthetic dataset run: GPT-5.5 vs. Claude Opus 4.8</h2>
-      <p>A quick sanity-check run rather than a full leaderboard pass: we take about 10,000 random synthetic CLadder samples across all three rungs and run them through GPT-5.5 (high reasoning effort) and Claude Opus 4.8 (16k thinking budget). No items failed to return an answer for either model, and both models say "yes" at almost identical rates, so the accuracy gap below is not an artefact of one model refusing more or defaulting to a different answer distribution.</p>
+      <p>The leaderboard above draws on a fixed CLadder file, so it's worth checking whether the ranking holds on data neither model could have seen in training. This is a quick sanity-check run rather than a full leaderboard pass: we generated a fresh batch of about 10,000 synthetic CLadder samples from scratch, after this benchmark's public release, so none of these specific items could have appeared in either model's training data, and ran them through GPT-5.5 (high reasoning effort) and Claude Opus 4.8 (16k thinking budget) across all three rungs. No items failed to return an answer for either model, and both models say "yes" at almost identical rates, so the accuracy gap below is not an artefact of one model refusing more or defaulting to a different answer distribution.</p>
 
       <div class="leaderboard">
         <div class="lb-header">
@@ -819,7 +820,7 @@
     <section class="section" id="benchmarks">
       <div class="section-marker">Background</div>
       <h2>How CLadder and CauSciBench work</h2>
-      <p>Causal reasoning is usually split into three levels, known as Judea Pearl's ladder of causation. Each level is harder than the one below it, and a model that struggles with intervention will also struggle with counterfactuals.</p>
+      <p>The results above lean on two benchmarks that test different things. Before the open problems below, here's what each one actually measures. Causal reasoning is usually split into three levels, known as Judea Pearl's ladder of causation. Each level is harder than the one below it, and a model that struggles with intervention will also struggle with counterfactuals.</p>
       <div class="rungs">
         <div class="rung">
           <div class="rung-num">Rung 1</div>
@@ -851,6 +852,7 @@
     <section class="section" id="problems">
       <div class="section-marker">Background</div>
       <h2>Open problems</h2>
+      <p>Taken together, the results above point to the same handful of unsolved issues, regardless of which model or benchmark surfaces them.</p>
       <div class="findings">
         <div class="finding-item"><div class="finding-label">Robustness gap</div><div class="finding-text">Every method that achieves high in-distribution accuracy collapses 30 to 62 points under simple variable renaming or paraphrase. No exception exists.</div></div>
         <div class="finding-item"><div class="finding-label">Abduction deficit</div><div class="finding-text">Rung 3 requires inferring hidden background variables from observations. Models fail at this first step. CLadder provides latent variable values directly rather than requiring real abduction, which is harder and largely unaddressed.</div></div>
@@ -886,6 +888,14 @@ const C_GPT    = '#1a3a5c';
 const C_GPT55  = '#0f2a4a';
 const C_DS     = '#1a5c52';
 const C_GROK   = '#701a1a';
+
+Chart.register(ChartDataLabels);
+// Shared defaults so every chart shows its exact numbers without hovering.
+Chart.defaults.set('plugins.datalabels', {
+  color: INK,
+  font: { family: MONO, size: 9, weight: '500' },
+  clamp: true,
+});
 
 function baseOpts(extras) {
   return Object.assign({
@@ -944,13 +954,56 @@ new Chart(document.getElementById('chartCauSciBench'), {
         titleColor:INK, bodyColor:INK_LIGHT,
         titleFont:{family:MONO,size:10}, bodyFont:{family:MONO,size:10},
         callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(1) + '%' }
+      },
+      datalabels: {
+        anchor: 'end', align: 'end', offset: 2,
+        formatter: v => v.toFixed(1) + '%'
       }
     },
     scales: {
       x: { ticks:{font:{family:MONO,size:10},color:INK_FAINT}, grid:{color:RULE}, border:{dash:[4,4],color:RULE} },
-      y: { min:0, max:80,
+      y: { min:0, max:86,
            ticks:{font:{family:MONO,size:10},color:INK_FAINT, callback:v=>v+'%'},
            grid:{color:RULE}, border:{dash:[4,4],color:RULE} }
+    }
+  })
+});
+
+// Chart: Fable 5 vs o3 on CauSciBench method selection
+new Chart(document.getElementById('chartFableVsO3'), {
+  type: 'bar',
+  data: {
+    labels: ['Claude Fable 5', 'o3 (CoT)'],
+    datasets: [{
+      label: 'Method selection accuracy',
+      data: [63.6, 77.2],
+      backgroundColor: [C_CLAUDE+'88', INK_FAINT+'55'],
+      borderColor:     [C_CLAUDE, INK_FAINT],
+      borderWidth: 1.5,
+    }]
+  },
+  options: baseOpts({
+    indexAxis: 'y',
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor:'#fff', borderColor:RULE, borderWidth:1,
+        titleColor:INK, bodyColor:INK_LIGHT,
+        titleFont:{family:MONO,size:10}, bodyFont:{family:MONO,size:10},
+        callbacks: { label: ctx => ctx.parsed.x.toFixed(1) + '%' }
+      },
+      datalabels: {
+        anchor: 'end', align: 'end', offset: 4,
+        font: { family: MONO, size: 11, weight: '500' },
+        formatter: v => v.toFixed(1) + '%'
+      }
+    },
+    scales: {
+      x: { min:0, max:90,
+           ticks: { font:{family:MONO,size:10}, color:INK_FAINT, callback: v => v+'%' },
+           grid: { color:RULE }, border:{dash:[4,4],color:RULE} },
+      y: { ticks: { font:{family:MONO,size:11}, color:INK_LIGHT },
+           grid: { display:false }, border:{display:false} }
     }
   })
 });
@@ -977,11 +1030,16 @@ new Chart(document.getElementById('chartOverall'), {
         titleColor:INK, bodyColor:INK_LIGHT,
         titleFont:{family:MONO,size:10}, bodyFont:{family:MONO,size:10},
         callbacks: { label: ctx => ctx.parsed.x.toFixed(2) + '%' }
+      },
+      datalabels: {
+        anchor: 'end', align: 'end', offset: 4,
+        font: { family: MONO, size: 10, weight: '500' },
+        formatter: v => v.toFixed(2) + '%'
       }
     },
     scales: {
       x: {
-        min: 45, max: 100,
+        min: 45, max: 106,
         ticks: { font:{family:MONO,size:10}, color:INK_FAINT, callback: v => v+'%' },
         grid: { color:RULE }, border:{dash:[4,4],color:RULE}
       },
@@ -1016,11 +1074,16 @@ new Chart(document.getElementById('chartRungsAll'), {
         titleColor:INK, bodyColor:INK_LIGHT,
         titleFont:{family:MONO,size:10}, bodyFont:{family:MONO,size:10},
         callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(2) + '%' }
+      },
+      datalabels: {
+        anchor: 'end', align: 'end', offset: 1, rotation: -90,
+        font: { family: MONO, size: 7, weight: '500' },
+        formatter: v => v.toFixed(1) + '%'
       }
     },
     scales: {
       x: { ticks:{font:{family:MONO,size:10},color:INK_FAINT}, grid:{color:RULE}, border:{dash:[4,4],color:RULE} },
-      y: { min:45, max:100,
+      y: { min:45, max:106,
            ticks:{font:{family:MONO,size:10},color:INK_FAINT, callback:v=>v+'%'},
            grid:{color:RULE}, border:{dash:[4,4],color:RULE} }
     }
@@ -1047,11 +1110,15 @@ new Chart(document.getElementById('chartFailurePatterns'), {
         titleColor:INK, bodyColor:INK_LIGHT,
         titleFont:{family:MONO,size:10}, bodyFont:{family:MONO,size:10},
         callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y + ' items' }
+      },
+      datalabels: {
+        anchor: 'end', align: 'end', offset: 2,
+        formatter: v => v
       }
     },
     scales: {
       x: { ticks:{font:{family:MONO,size:10},color:INK_FAINT}, grid:{color:RULE}, border:{dash:[4,4],color:RULE} },
-      y: { min:0, max:280,
+      y: { min:0, max:300,
            ticks:{font:{family:MONO,size:10},color:INK_FAINT},
            grid:{color:RULE}, border:{dash:[4,4],color:RULE} }
     }
@@ -1081,11 +1148,17 @@ new Chart(document.getElementById('chartForcedThinking'), {
         titleColor:INK, bodyColor:INK_LIGHT,
         titleFont:{family:MONO,size:10}, bodyFont:{family:MONO,size:10},
         callbacks: { label: ctx => (ctx.parsed.y >= 0 ? '+' : '') + ctx.parsed.y.toFixed(1) + 'pp' }
+      },
+      datalabels: {
+        anchor: ctx => ctx.dataset.data[ctx.dataIndex] >= 0 ? 'end' : 'start',
+        align: ctx => ctx.dataset.data[ctx.dataIndex] >= 0 ? 'end' : 'bottom',
+        offset: 2,
+        formatter: v => (v >= 0 ? '+' : '') + v.toFixed(1) + 'pp'
       }
     },
     scales: {
       x: { ticks:{font:{family:MONO,size:9},color:INK_FAINT, maxRotation:35, minRotation:25}, grid:{color:RULE}, border:{dash:[4,4],color:RULE} },
-      y: { min:-2, max:7,
+      y: { min:-2.5, max:7.5,
            ticks:{font:{family:MONO,size:10},color:INK_FAINT, callback:v=>(v>=0?'+':'')+v+'pp'},
            grid:{color:RULE}, border:{dash:[4,4],color:RULE} }
     }
@@ -1110,11 +1183,15 @@ new Chart(document.getElementById('chartRungReplication'), {
         titleColor:INK, bodyColor:INK_LIGHT,
         titleFont:{family:MONO,size:10}, bodyFont:{family:MONO,size:10},
         callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(2) + '%' }
+      },
+      datalabels: {
+        anchor: 'end', align: 'end', offset: 2,
+        formatter: v => v.toFixed(2) + '%'
       }
     },
     scales: {
       x: { ticks:{font:{family:MONO,size:10},color:INK_FAINT}, grid:{color:RULE}, border:{dash:[4,4],color:RULE} },
-      y: { min:80, max:100,
+      y: { min:80, max:104,
            ticks:{font:{family:MONO,size:10},color:INK_FAINT, callback:v=>v+'%'},
            grid:{color:RULE}, border:{dash:[4,4],color:RULE} }
     }
@@ -1140,11 +1217,16 @@ new Chart(document.getElementById('chartQueryTypeReplication'), {
         titleColor:INK, bodyColor:INK_LIGHT,
         titleFont:{family:MONO,size:10}, bodyFont:{family:MONO,size:10},
         callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(2) + '%' }
+      },
+      datalabels: {
+        anchor: 'end', align: 'end', offset: 1, rotation: -90,
+        font: { family: MONO, size: 8, weight: '500' },
+        formatter: v => v.toFixed(1) + '%'
       }
     },
     scales: {
       x: { ticks:{font:{family:MONO,size:9},color:INK_FAINT, maxRotation:35, minRotation:25}, grid:{color:RULE}, border:{dash:[4,4],color:RULE} },
-      y: { min:40, max:100,
+      y: { min:40, max:106,
            ticks:{font:{family:MONO,size:10},color:INK_FAINT, callback:v=>v+'%'},
            grid:{color:RULE}, border:{dash:[4,4],color:RULE} }
     }
