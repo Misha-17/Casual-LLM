@@ -483,7 +483,7 @@
         <div class="blog-date">July 2026</div>
         <div class="blog-headline">Claude Fable 5 trails o3 on CauSciBench method selection, and falls further behind on effect accuracy</div>
         <div class="blog-body">
-          We ran Claude Fable 5 through our <a href="#" class="blog-link" style="border-bottom:1px solid var(--accent-light); font-family:inherit; font-size:inherit; letter-spacing:normal; text-transform:none;">Causal AI Scientist</a> on all three CauSciBench splits: real research data, QRData-CI, and synthetic data. Across 357 tasks, Fable 5 picks the correct method 63.6% of the time, below the 77.2% that o3 with chain-of-thought reaches on the same benchmark. The bigger drop shows up next: once we check whether the numeric estimate itself is close to the true answer, Fable 5's score falls to 29.3%. This gap is widest on real research data, where messy, high-cardinality variables make estimation hard even when the method choice is right.
+          We ran Claude Fable 5 through our <a href="https://github.com/causalNLP/CauSciBench" target="_blank" rel="noopener" class="blog-link" style="border-bottom:1px solid var(--accent-light); font-family:inherit; font-size:inherit; letter-spacing:normal; text-transform:none;">Causal AI Scientist</a> on all three CauSciBench splits: real research data, QRData-CI, and synthetic data. Across 357 tasks, Fable 5 picks the correct method 63.6% of the time, below the 77.2% that o3 with chain-of-thought reaches on the same benchmark. The bigger drop shows up next: once we check whether the numeric estimate itself is close to the true answer, Fable 5's score falls to 29.3%. This gap is widest on real research data, where messy, high-cardinality variables make estimation hard even when the method choice is right.
         </div>
         <a href="#causcibench" class="blog-link">See the full breakdown &darr;</a>
       </div>
@@ -495,7 +495,7 @@
     <section class="section" id="causcibench">
       <div class="section-marker">New results</div>
       <h2>CauSciBench: Claude Fable 5 results</h2>
-      <p>CauSciBench gives a model a research question and a real dataset, and asks it to pick a causal inference method, run it, and interpret the result. We ran Claude Fable 5 through our <a href="#" class="blog-link" style="border-bottom:1px solid var(--accent-light);">Causal AI Scientist</a> on all three splits: <strong>real</strong> (real published research datasets), <strong>QR</strong> (QRData-CI, quantitative reasoning with causal structure), and <strong>synthetic</strong> (generated data with known ground truth).</p>
+      <p>CauSciBench gives a model a research question and a real dataset, and asks it to pick a causal inference method, run it, and interpret the result. We ran Claude Fable 5 through our <a href="https://github.com/causalNLP/CauSciBench" target="_blank" rel="noopener" class="blog-link" style="border-bottom:1px solid var(--accent-light);">Causal AI Scientist</a> on all three splits: <strong>real</strong> (real published research datasets), <strong>QR</strong> (QRData-CI, quantitative reasoning with causal structure), and <strong>synthetic</strong> (generated data with known ground truth).</p>
 
       <div class="stats">
         <div class="stat-item"><div class="stat-val neutral">63.6%</div><div class="stat-desc">Method selection<br>accuracy, overall <span style="color:var(--green)">&uarr; higher is better</span></div></div>
